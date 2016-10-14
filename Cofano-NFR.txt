@@ -1,0 +1,7 @@
+Andrew Cofano
+
+NON FUNCTIONAL REQUIREMENTS:
+1. The system shall run on the Android platform version 4.5 or above.
+2. The system shall keep a user’s calendar private.
+3. The system shall allow a maximum of seven users to be in one group.
+

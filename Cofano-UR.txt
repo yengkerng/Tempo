@@ -1,0 +1,6 @@
+Andrew Cofano
+
+USER STORIES:
+1. As a user, I want to add the events of my Google contacts to a calendar, so that all of our calendar events can be organized on one calendar.
+2. As a user, I want to make the application to add an event to my Google calendar, so that I do not have to manually add the event through the Google interface.
+3. As a user, I want to vote on a common meeting time with my group members, so that all my group members’ time constraints are taken to into account.
