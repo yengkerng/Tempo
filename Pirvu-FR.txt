@@ -1,0 +1,9 @@
+The system shall combine the events of each user’s calendars into one common calendar to show common free time.
+
+The system shall send a survey out to each user within 5 minutes of when it has calculated the common free times allowing each user to vote on their ideal meeting time. 
+
+The system shall determine the meeting times in which each user is available based on the results of the survey sent out.
+
+The system shall allow a user to add an event onto a team-member’s calendar.
+
+The system shall send a email to remind each user of a meeting before the meeting time, allowing a user to specify the notification time.
