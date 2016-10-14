@@ -1,0 +1,12 @@
+1. The system shall add a user to a group upon a group member’s input.
+2. The system shall merge a user’s group’s calendars together into the group’s master calendar.
+3. The system shall display the master calendar on user input.
+4. The system shall display a list of times that are free in all users’ group member’s calendars on user input.
+5. The system shall edit each group member’s calendar after the group votes on a common meeting time.
+6. The system shall update the master calendar within 10 minutes after a group member’s calendar has changed.
+
+Definitions:
+Group: A collection of users whose calendars are used to calculate results
+Group Member: A user who belongs to a group
+Master Calendar: Every group contains a master calendar that is the composite of every member’s calendar contained in one common location for the group to access
+Free: A time and date in a user’s calendar that does not contain any scheduled events
