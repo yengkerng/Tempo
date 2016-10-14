@@ -10,6 +10,3 @@ Group: A collection of users whose calendars are used to calculate results
 Group Member: A user who belongs to a group
 Master Calendar: Every group contains a master calendar that is the composite of every member’s calendar contained in one common location for the group to access
 Free: A time and date in a user’s calendar that does not contain any scheduled events
-
-
-FUCK YOUR FILES :)
