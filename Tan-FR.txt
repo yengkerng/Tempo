@@ -1,6 +1,6 @@
 1) The system shall prevent users from creating conflicting schedules.
 2) The system shall produce a new schedule within 30 seconds.
-3) The system shall identify different user’s calendar to merge them together.
-4) The system shall integrate Microsoft’s API to pull scheduling data from the internal calendar
+3) The system shall identify different user's calendar to merge them together.
+4) The system shall integrate Microsoft's API to pull scheduling data from the internal calendar
 used by Microsoft.
 5) The system shall provide event updates at regular intervals every week.
