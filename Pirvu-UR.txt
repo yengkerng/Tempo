@@ -1,5 +1,0 @@
-As a team leader, I want to find a common meeting time for my team, so that I can communicate requirements for a product.
-
-As a team leader, I want to be able to add events on my teammates’ calendars, so that they can know when events will be held.
-
-As a team member, I want to be able to vote on a common meeting time, so that I can make sure I am available.

@@ -1,3 +1,0 @@
-1) As a student, I want to be able to connect my calendar with my professor’s with the option to schedule an event, so that I can go to his/her office and get help.
-2) As a professor, I want to be able to see the availability of all of my students without having to scroll through more than 5 screens, so that I will be able to reschedule the final and look cool by using technology even though I am old and don’t like the hassle of scrolling through screens.
-3) As a student, I want to be able to sync my schedule with people I just met in under a minute, so that I can go to my next class and contact them later when it is convenient for both of us.

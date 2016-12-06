@@ -1,5 +1,0 @@
-The system shall update a calendar event within 2 seconds of a user’s input.
-
-The system shall run on an IOS 8 or above.
-
-The system shall allow access between two or more user’s calendar if all users are in the same group.

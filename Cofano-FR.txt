@@ -1,9 +1,0 @@
-Andrew Cofano
-
-FUNCTIONAL REQUIREMENTS:
-1. The system shall import a user’s existing calendar on Google to the user’s system calendar.
-2. The system shall combine two or more calendars from a Google account into one calendar at the user’s request.
-3. The system shall add and save an event to the user’s Google calendar when the user creates an event on the system.
-4. The system shall prompt a group of users to vote on a common meeting time when an available time is computed.
-5. The system shall give a user access to add calendar events on other group members’ calendars.
-

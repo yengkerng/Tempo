@@ -1,3 +1,0 @@
-1. The system shall reserve a maximum of 50 MB of memory.
-2. The system shall have a mean time between crashing of greater than 1 month.
-3. The system shall support English and Spanish.

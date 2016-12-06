@@ -1,4 +1,0 @@
-1) The system shall run, without any modification, on any website platform.
-2) The system shall adapt to changes in any input calendar format without the need to recompile
-any code.
-3) The system shall switch between different styles of dates without rebuilding the program.

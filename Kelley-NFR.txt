@@ -1,3 +1,0 @@
-1) The system shall be compatible with all Android operating systems at or above API level 14.
-2) The system shall depend on calendar service APIs to import calendars.
-3) The system shall manage a user’s calendar service credentials only through the use of that service’s API session support.  
