@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_login"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.tempo.LoginActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:orientation="vertical">
+
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"/>
+        
+        <TextView
+            android:id="@+id/loginActivity_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Tempo"
+            android:gravity="center"
+            android:textSize="30sp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="Sign in with Google"
+            android:gravity="center_vertical"/>
+
+        <TextView
+            android:id="@+id/output_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/loginActivity_buttons"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:gravity="center_horizontal">
+
+        <LinearLayout
+            android:id="@+id/loginActivity_googleButton"
+            android:layout_width="wrap_content"
+            android:layout_height="80dp"
+            android:orientation="horizontal"
+            android:padding="20dp"
+            android:background="#ddd"
+            android:gravity="center_horizontal|center_vertical">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:src="@drawable/google_icon"
+                android:scaleType="fitXY"
+                android:adjustViewBounds="true"/>
+
+            <Space
+                android:layout_width="15dp"
+                android:layout_height="0dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="Sign in with Google"
+                android:gravity="center_vertical"/>
+
+        </LinearLayout>
+
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="20dp" />
+
+        <LinearLayout
+            android:id="@+id/loginActivity_outlookButton"
+            android:layout_width="wrap_content"
+            android:layout_height="80dp"
+            android:orientation="horizontal"
+            android:padding="20dp"
+            android:background="#ddd"
+            android:gravity="center_horizontal|center_vertical">
+
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:src="@drawable/outlook_icon"
+                android:padding="3dp"
+                android:scaleType="fitXY"
+                android:adjustViewBounds="true"/>
+
+            <Space
+                android:layout_width="15dp"
+                android:layout_height="0dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="Sign in with Outlook"
+                android:gravity="center_vertical"/>
+
+        </LinearLayout>
+
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="60dp" />
+
+    </LinearLayout>
+
+
+
+</RelativeLayout>

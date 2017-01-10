@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="AADAuthority">https://login.microsoftonline.com/common</string>
+    <string name="AADResourceId">https://outlook.office.com</string>
+    <string name="AADClientId">fd77df50-0801-4dc5-bae5-99867e937f34</string>
+    <string name="AADRedirectUrl">http://www.brandonmkelley.com</string>
+
+</resources>
