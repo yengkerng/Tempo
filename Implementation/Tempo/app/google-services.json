@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "759612061162",
+    "firebase_url": "https://neural-clock-147800.firebaseio.com",
+    "project_id": "neural-clock-147800",
+    "storage_bucket": "neural-clock-147800.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:759612061162:android:915d1fce6780696b",
+        "android_client_info": {
+          "package_name": "com.tempo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "759612061162-ia80btk9jn7fv7rk8j36fil2sdd6hk53.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBE1zE26wnJVUkxWPFsH44RhoivqzyMVjk"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "759612061162-ia80btk9jn7fv7rk8j36fil2sdd6hk53.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
