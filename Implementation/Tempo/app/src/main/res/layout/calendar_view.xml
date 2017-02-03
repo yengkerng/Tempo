@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:weightSum="1">
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="457dp">
+
+        <TableRow
+            android:background="@color/tempoBlue"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:orientation="vertical">
+
+            <Button
+                android:text="My Calendar"
+                android:layout_width="124dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/button6"
+                style="@android:style/Widget.Material.Light.Button.Toggle" />
+
+            <Button
+                android:text="My Groups"
+                android:layout_width="124dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/button5"
+                style="@android:style/Widget.Material.Light.Button.Borderless" />
+
+            <Button
+                android:text="My Settings"
+                android:layout_width="124dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/button3"
+                style="@android:style/Widget.Material.Light.Button.Borderless" />
+
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </TableRow>
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+
+            <CalendarView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:id="@+id/calendarView2" />
+        </>
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <TableRow
+            android:background="@color/tempoBlue"
+            android:layout_width="match_parent"
+            android:layout_height="74dp" >
+
+        <Button
+                android:text="Day"
+                android:layout_width="126dp"
+                android:layout_height="fill_parent"
+                android:id="@+id/button9"
+                style="@android:style/Widget.DeviceDefault.Light.Button.Borderless" />
+
+            <Button
+                android:text="Week"
+                android:layout_width="126dp"
+                android:layout_height="fill_parent"
+                android:id="@+id/button8"
+                style="@android:style/Widget.DeviceDefault.Button.Borderless" />
+
+            <Button
+                android:text="Month"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:id="@+id/button7"
+                style="@android:style/Widget.DeviceDefault.Button.Toggle" />
+        </TableRow>
+</TableLayout>
+
+
+
+
+
+</LinearLayout>
