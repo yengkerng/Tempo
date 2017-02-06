@@ -1,8 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+
 <!--Created by Jessie
 Last Edit: 2/4/17
 -->
 
-<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -62,46 +63,40 @@ Last Edit: 2/4/17
         </TableRow>-->
         <CalendarView
             android:layout_width="0dp"
-            android:layout_height="424dp"
+            android:layout_height="match_parent"
             android:id="@+id/calendarView2"
-            android:minHeight="250dp" />
+            android:minHeight="0dp" />
 
-    </>
-
-    <TableRow
-            android:background="@color/tempoBlue"
-            android:layout_width="match_parent"
-            android:layout_height="100dp"
-        android:translationY="0dp">
-
-        <Button
-                android:text="Day"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:id="@+id/button9"
-                android:layout_weight="3"
-                style="@android:style/Widget.DeviceDefault.Light.Button.Borderless" />
+        <TableRow
+                android:background="@color/tempoBlue"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+            android:baselineAligned="false"
+            android:minHeight="57dp">
 
             <Button
-                android:text="Week"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:id="@+id/button8"
-                android:layout_weight="3"
-                style="@android:style/Widget.DeviceDefault.Button.Borderless" />
+                    android:text="Day"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:id="@+id/button9"
+                    android:layout_weight="3"
+                    style="@android:style/Widget.DeviceDefault.Light.Button.Borderless" />
 
-            <Button
-                android:text="Month"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:id="@+id/button7"
-                android:layout_weight="3"
-                style="@android:style/Widget.DeviceDefault.Button.Toggle" />
-        </TableRow>
-</TableLayout>
+                <Button
+                    android:text="Week"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:id="@+id/button8"
+                    android:layout_weight="3"
+                    style="@android:style/Widget.DeviceDefault.Button.Borderless" />
 
-
-
-
-
+                <Button
+                    android:text="Month"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:id="@+id/button7"
+                    android:layout_weight="3"
+                    style="@android:style/Widget.DeviceDefault.Button.Toggle" />
+            </TableRow>
+    </TableLayout>
 </LinearLayout>
