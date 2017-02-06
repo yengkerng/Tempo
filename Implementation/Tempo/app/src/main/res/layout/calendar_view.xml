@@ -12,82 +12,90 @@ Last Edit: 2/4/17
 
     <TableLayout
         android:layout_width="match_parent"
-        android:layout_height="457dp">
+        android:layout_height="475dp">
 
         <TableRow
             android:background="@color/tempoBlue"
-            android:layout_width="match_parent"
             android:layout_height="100dp"
-            android:orientation="vertical">
+
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:clipToPadding="false"
+            android:clipChildren="false"
+            android:baselineAligned="false"
+            android:minHeight="97dp">
 
             <Button
                 android:text="My Calendar"
-                android:layout_width="124dp"
-                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
                 android:id="@+id/button6"
+                android:layout_weight="3"
                 style="@android:style/Widget.Material.Light.Button.Toggle" />
 
             <Button
                 android:text="My Groups"
-                android:layout_width="124dp"
-                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
                 android:id="@+id/button5"
+                android:layout_weight="3"
                 style="@android:style/Widget.Material.Light.Button.Borderless" />
 
             <Button
                 android:text="My Settings"
-                android:layout_width="124dp"
-                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
                 android:id="@+id/button3"
+                android:layout_weight="3"
                 style="@android:style/Widget.Material.Light.Button.Borderless" />
 
-            <Space
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
         </TableRow>
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+
+        <!--<TableRow
+            android:layout_width="100dp"
+            android:layout_height="100dp"
             android:orientation="vertical"
+            android:laygout_weight="3"
+            android:minHeight="227dp" >
 
-            <CalendarView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:id="@+id/calendarView2" />
-        </>
 
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        </TableRow>-->
+        <CalendarView
+            android:layout_width="0dp"
+            android:layout_height="424dp"
+            android:id="@+id/calendarView2"
+            android:minHeight="250dp" />
 
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+    </>
 
     <TableRow
             android:background="@color/tempoBlue"
             android:layout_width="match_parent"
-            android:layout_height="74dp" >
+            android:layout_height="100dp"
+        android:translationY="0dp">
 
         <Button
                 android:text="Day"
-                android:layout_width="126dp"
-                android:layout_height="fill_parent"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
                 android:id="@+id/button9"
+                android:layout_weight="3"
                 style="@android:style/Widget.DeviceDefault.Light.Button.Borderless" />
 
             <Button
                 android:text="Week"
-                android:layout_width="126dp"
-                android:layout_height="fill_parent"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
                 android:id="@+id/button8"
+                android:layout_weight="3"
                 style="@android:style/Widget.DeviceDefault.Button.Borderless" />
 
             <Button
                 android:text="Month"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
                 android:id="@+id/button7"
+                android:layout_weight="3"
                 style="@android:style/Widget.DeviceDefault.Button.Toggle" />
         </TableRow>
 </TableLayout>
