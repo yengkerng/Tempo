@@ -1,4 +1,4 @@
-package com.tempo;
+package com.tempo.Model;
 
 import android.provider.ContactsContract;
 
