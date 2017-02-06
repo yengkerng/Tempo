@@ -7,9 +7,9 @@ import android.provider.ContactsContract;
  */
 
 public class User {
-    private ContactsContract.CommonDataKinds.Email email;
+    private String email;
 
-    private void lookUpUser(ContactsContract.CommonDataKinds.Email email) {
+    private void lookUpUser(String email) {
 
     }
 
