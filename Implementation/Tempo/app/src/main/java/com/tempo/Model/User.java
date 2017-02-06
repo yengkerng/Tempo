@@ -1,7 +1,5 @@
 package com.tempo.Model;
 
-import android.provider.ContactsContract;
-
 /**
  * Created by Jessie on 2/4/17.
  */
@@ -14,7 +12,7 @@ public class User {
     }
 
     private Group createNewGroup(String groupName) {
-
+        return null;
     }
 
     private void deleteGroup(String groupName) {
