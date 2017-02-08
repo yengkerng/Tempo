@@ -1,4 +1,4 @@
-package com.tempo;
+package com.tempo.Presenter;
 
 import android.Manifest;
 import android.accounts.AccountManager;
@@ -14,7 +14,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -32,29 +31,11 @@ import com.google.api.client.util.ExponentialBackOff;
 import com.google.api.services.calendar.CalendarScopes;
 import com.google.api.services.calendar.model.Event;
 import com.google.api.services.calendar.model.Events;
-import com.google.common.util.concurrent.FutureCallback;
-import com.google.common.util.concurrent.Futures;
-import com.google.common.util.concurrent.SettableFuture;
-import com.microsoft.aad.adal.AuthenticationCallback;
-import com.microsoft.aad.adal.AuthenticationContext;
-import com.microsoft.aad.adal.AuthenticationResult;
-import com.microsoft.aad.adal.PromptBehavior;
-import com.microsoft.services.orc.auth.AuthenticationCredentials;
-import com.microsoft.services.orc.core.DependencyResolver;
-import com.microsoft.services.orc.http.Credentials;
-import com.microsoft.services.orc.http.impl.OAuthCredentials;
-import com.microsoft.services.orc.http.impl.OkHttpTransport;
-import com.microsoft.services.orc.serialization.impl.GsonSerializer;
-import com.microsoft.services.outlook.Message;
-import com.microsoft.services.outlook.fetchers.OutlookClient;
 
 import java.io.IOException;
-import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
-import javax.crypto.NoSuchPaddingException;
 
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;

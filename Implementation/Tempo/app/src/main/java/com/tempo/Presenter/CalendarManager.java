@@ -1,4 +1,6 @@
-package com.tempo;
+package com.tempo.Presenter;
+
+import com.tempo.Model.User;
 
 /**
  * Created by Alex on 2/3/2017.
