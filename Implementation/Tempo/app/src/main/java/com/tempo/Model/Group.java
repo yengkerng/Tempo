@@ -1,5 +1,7 @@
 package com.tempo.Model;
 
+import com.tempo.Presenter.CalendarManager;
+
 import java.util.ArrayList;
 
 /**
