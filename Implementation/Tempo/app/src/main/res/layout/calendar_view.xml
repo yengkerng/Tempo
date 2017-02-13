@@ -5,6 +5,7 @@ Last Edit: 2/4/17
 -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -26,30 +27,38 @@ Last Edit: 2/4/17
             android:baselineAligned="false"
             android:minHeight="97dp">
 
-            <Button
-                android:text="My Calendar"
+
+
+
+
+            <ImageButton
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:id="@+id/button6"
+                android:id="@+id/home"
+                style="@android:style/Widget.Material.Light.ImageButton"
                 android:layout_weight="3"
-                style="@android:style/Widget.Material.Light.Button.Toggle" />
+                android:src="@drawable/home"
+                android:scaleType="fitCenter" />
 
-            <Button
-                android:text="My Groups"
+            <ImageButton
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:id="@+id/button5"
+                app:srcCompat="@drawable/groups"
+                android:id="@+id/groups"
+                android:src="@drawable/groups"
                 android:layout_weight="3"
-                style="@android:style/Widget.Material.Light.Button.Borderless" />
+                android:scaleType="fitCenter"
+                android:backgroundTint="@color/tempoBlue" />
 
-            <Button
-                android:text="My Settings"
+            <ImageButton
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:id="@+id/button3"
+                app:srcCompat="@drawable/settings"
+                android:id="@+id/imageButton3"
                 android:layout_weight="3"
-                style="@android:style/Widget.Material.Light.Button.Borderless" />
-
+                android:scaleType="fitCenter"
+                android:backgroundTint="@color/tempoBlue"
+                />
         </TableRow>
 
         <!--<TableRow
@@ -68,17 +77,20 @@ Last Edit: 2/4/17
             android:minHeight="0dp" />
 
         <TableRow
-                android:background="@color/tempoBlue"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+            android:background="@color/tempoBlue"
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:clipToPadding="false"
+            android:layout_height="100dp"
             android:baselineAligned="false"
-            android:minHeight="57dp">
+            android:clipChildren="false"
+            android:minHeight="97dp">
 
             <Button
                     android:text="Day"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:id="@+id/button9"
+                    android:id="@+id/dayView"
                     android:layout_weight="3"
                     style="@android:style/Widget.DeviceDefault.Light.Button.Borderless" />
 
@@ -86,7 +98,7 @@ Last Edit: 2/4/17
                     android:text="Week"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:id="@+id/button8"
+                    android:id="@+id/weekView"
                     android:layout_weight="3"
                     style="@android:style/Widget.DeviceDefault.Button.Borderless" />
 
@@ -94,7 +106,7 @@ Last Edit: 2/4/17
                     android:text="Month"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:id="@+id/button7"
+                    android:id="@+id/monthView"
                     android:layout_weight="3"
                     style="@android:style/Widget.DeviceDefault.Button.Toggle" />
             </TableRow>
