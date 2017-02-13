@@ -35,7 +35,6 @@ Last Edit: 2/4/17
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:id="@+id/home"
-                style="@android:style/Widget.Material.Light.ImageButton"
                 android:layout_weight="3"
                 android:src="@drawable/home"
                 android:scaleType="fitCenter" />
@@ -43,7 +42,6 @@ Last Edit: 2/4/17
             <ImageButton
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                app:srcCompat="@drawable/groups"
                 android:id="@+id/groups"
                 android:src="@drawable/groups"
                 android:layout_weight="3"
@@ -53,7 +51,6 @@ Last Edit: 2/4/17
             <ImageButton
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                app:srcCompat="@drawable/settings"
                 android:id="@+id/imageButton3"
                 android:layout_weight="3"
                 android:scaleType="fitCenter"
@@ -91,8 +88,7 @@ Last Edit: 2/4/17
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:id="@+id/dayView"
-                    android:layout_weight="3"
-                    style="@android:style/Widget.DeviceDefault.Light.Button.Borderless" />
+                    android:layout_weight="3" />
 
                 <Button
                     android:text="Week"

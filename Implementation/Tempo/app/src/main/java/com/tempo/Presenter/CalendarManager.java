@@ -3,6 +3,7 @@ package com.tempo.Presenter;
 import com.google.api.client.util.DateTime;
 import com.google.api.services.calendar.model.Event;
 import com.google.api.services.calendar.model.Events;
+import com.tempo.Model.CalendarEvent;
 import com.tempo.Model.User;
 import com.tempo.Model.Group;
 
@@ -34,12 +35,12 @@ public class CalendarManager {
     private List<CalendarEvent> getUserEventsFromApi() throws IOException {
         // List the next 10 events from the primary calendar.
         DateTime now = new DateTime(System.currentTimeMillis());
-        List<CalendarEvent> eventStrings = new ArrayList<String>();
-        Events events = mService.events().list("primary")
+        List<String> eventStrings = new ArrayList<String>();
+        Events events = null; /*mService.events().list("primary")
                 .setTimeMin(now)
                 .setOrderBy("startTime")
                 .setSingleEvents(true)
-                .execute();
+                .execute();*/
         List<Event> items = events.getItems();
 
         for (Event event : items) {
@@ -53,11 +54,11 @@ public class CalendarManager {
            // eventStrings.add(
                    // String.format("%s (%s)", event.getSummary(), start));
         }
-        return eventStrings;
+        return null;
     }
 
     public CalendarEvent addEvent(String name) {
-        return new CalendarEvent();
+        return null;
     }
 
     public void deleteEvent(String name) {
@@ -65,6 +66,6 @@ public class CalendarManager {
     }
 
     public List<CalendarEvent> getUserEvents(String email) {
-        return new List<CalendarEvent>();
+        return null;
     }
 }

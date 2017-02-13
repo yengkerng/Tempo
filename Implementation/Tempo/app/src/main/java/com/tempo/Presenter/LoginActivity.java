@@ -31,6 +31,7 @@ import com.google.api.client.util.ExponentialBackOff;
 import com.google.api.services.calendar.CalendarScopes;
 import com.google.api.services.calendar.model.Event;
 import com.google.api.services.calendar.model.Events;
+import com.tempo.R;
 
 import java.io.IOException;
 import java.util.ArrayList;
