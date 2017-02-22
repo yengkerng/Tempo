@@ -51,11 +51,12 @@ Last Edit: 2/4/17
             <ImageButton
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:id="@+id/imageButton3"
+                app:srcCompat="@drawable/settings"
+                android:id="@+id/imageButton"
                 android:layout_weight="3"
                 android:scaleType="fitCenter"
-                android:backgroundTint="@color/tempoBlue"
-                />
+                android:backgroundTint="@color/tempoBlue"/>
+
         </TableRow>
 
         <!--<TableRow
