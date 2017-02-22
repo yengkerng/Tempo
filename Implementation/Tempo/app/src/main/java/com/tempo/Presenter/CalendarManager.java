@@ -1,5 +1,6 @@
 package com.tempo.Presenter;
 
+import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
 import com.google.api.client.util.DateTime;
 import com.google.api.services.calendar.model.Event;
 import com.google.api.services.calendar.model.Events;
@@ -18,6 +19,7 @@ import java.util.List;
  */
 
 public class CalendarManager {
+
     private CalendarView view;
     private User userOwner;
     private Group groupOwner;
@@ -33,6 +35,7 @@ public class CalendarManager {
     }
 
     private List<CalendarEvent> getUserEventsFromApi() throws IOException {
+        /*
         // List all user events from the primary calendar starting one month in past and going until one month in advance.
         Calendar cal = Calendar.getInstance();
         cal.add(Calendar.MONTH, -1);
@@ -69,6 +72,8 @@ public class CalendarManager {
             userEvents.add(currentEvent);
         }
         return userEvents;
+        */
+        return null;
     }
 
     public CalendarEvent addEvent(String name) {
@@ -82,4 +87,5 @@ public class CalendarManager {
     public List<CalendarEvent> getUserEvents(String email) {
         return null;
     }
+
 }

@@ -10,31 +10,18 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.text.TextUtils;
 import android.view.View;
-import android.widget.TextView;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
-import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
-import com.google.api.client.googleapis.extensions.android.gms.auth.GooglePlayServicesAvailabilityIOException;
-import com.google.api.client.googleapis.extensions.android.gms.auth.UserRecoverableAuthIOException;
-import com.google.api.client.http.HttpTransport;
-import com.google.api.client.json.JsonFactory;
-import com.google.api.client.json.jackson2.JacksonFactory;
-import com.google.api.client.util.DateTime;
 import com.google.api.client.util.ExponentialBackOff;
 import com.google.api.services.calendar.CalendarScopes;
-import com.google.api.services.calendar.model.Event;
-import com.google.api.services.calendar.model.Events;
 import com.tempo.R;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -46,19 +33,17 @@ public class LoginActivity extends Activity implements EasyPermissions.Permissio
     /*
      * Google API fields
      */
-    GoogleAccountCredential mCredential;
-    private TextView mOutputText;
-    private View mCallApiButton;
-    ProgressDialog mProgress;
+    private static final int REQUEST_ACCOUNT_PICKER = 1000;
+    private static final int REQUEST_AUTHORIZATION = 1001;
+    private static final int REQUEST_GOOGLE_PLAY_SERVICES = 1002;
+    private static final int REQUEST_PERMISSION_GET_ACCOUNTS = 1003;
 
-    static final int REQUEST_ACCOUNT_PICKER = 1000;
-    static final int REQUEST_AUTHORIZATION = 1001;
-    static final int REQUEST_GOOGLE_PLAY_SERVICES = 1002;
-    static final int REQUEST_PERMISSION_GET_ACCOUNTS = 1003;
-
-    private static final String BUTTON_TEXT = "Call Google Calendar API";
     private static final String PREF_ACCOUNT_NAME = "accountName";
     private static final String[] SCOPES = { CalendarScopes.CALENDAR_READONLY };
+
+    private GoogleAccountCredential account;
+    private View loginButton;
+    private ProgressDialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,27 +51,22 @@ public class LoginActivity extends Activity implements EasyPermissions.Permissio
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        mOutputText = (TextView) findViewById(R.id.output_message);
-        mOutputText.setText(
-                "Click the \'" + BUTTON_TEXT +"\' button to test the API.");
+        account = GoogleAccountCredential.usingOAuth2(
+                getApplicationContext(), Arrays.asList(SCOPES))
+                .setBackOff(new ExponentialBackOff());
 
-        mCallApiButton = findViewById(R.id.loginActivity_googleButton);
-        mCallApiButton.setOnClickListener(new View.OnClickListener() {
+        loginButton = findViewById(R.id.loginActivity_googleButton);
+
+        loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mCallApiButton.setEnabled(false);
-                mOutputText.setText("");
-                getResultsFromApi();
-                mCallApiButton.setEnabled(true);
+                loginButton.setEnabled(false);
+                completeAuthentication();
+                loginButton.setEnabled(true);
             }
         });
 
-        mProgress = new ProgressDialog(this);
-
-        // Initialize credentials and service object.
-        mCredential = GoogleAccountCredential.usingOAuth2(
-                getApplicationContext(), Arrays.asList(SCOPES))
-                .setBackOff(new ExponentialBackOff());
+        dialog = new ProgressDialog(this);
 
     }
 
@@ -97,15 +77,18 @@ public class LoginActivity extends Activity implements EasyPermissions.Permissio
      * of the preconditions are not satisfied, the app will prompt the user as
      * appropriate.
      */
-    private void getResultsFromApi() {
+    private void completeAuthentication() {
         if (! isGooglePlayServicesAvailable()) {
             acquireGooglePlayServices();
-        } else if (mCredential.getSelectedAccountName() == null) {
+        } else if (account.getSelectedAccountName() == null) {
             chooseAccount();
         } else if (! isDeviceOnline()) {
-            mOutputText.setText("No network connection available.");
+            /* mOutputText.setText("No network connection available."); */
         } else {
-            new MakeRequestTask(mCredential).execute();
+            Account newAccount = Account.getInstance();
+            newAccount.googleCred = account;
+            Intent intent = new Intent(this, MyCalendarActivity.class);
+            startActivity(intent);
         }
     }
 
@@ -126,12 +109,12 @@ public class LoginActivity extends Activity implements EasyPermissions.Permissio
             String accountName = getPreferences(Context.MODE_PRIVATE)
                     .getString(PREF_ACCOUNT_NAME, null);
             if (accountName != null) {
-                mCredential.setSelectedAccountName(accountName);
-                getResultsFromApi();
+                account.setSelectedAccountName(accountName);
+                completeAuthentication();
             } else {
                 // Start a dialog from which the user can choose an account
                 startActivityForResult(
-                        mCredential.newChooseAccountIntent(),
+                        account.newChooseAccountIntent(),
                         REQUEST_ACCOUNT_PICKER);
             }
         } else {
@@ -161,10 +144,12 @@ public class LoginActivity extends Activity implements EasyPermissions.Permissio
         switch(requestCode) {
             case REQUEST_GOOGLE_PLAY_SERVICES:
                 if (resultCode != RESULT_OK) {
+                    /*
                     mOutputText.setText("This app requires Google Play Services. Please install " +
                                     "Google Play Services on your device and relaunch this app.");
+                                    */
                 } else {
-                    getResultsFromApi();
+                    completeAuthentication();
                 }
                 break;
             case REQUEST_ACCOUNT_PICKER:
@@ -178,14 +163,14 @@ public class LoginActivity extends Activity implements EasyPermissions.Permissio
                         SharedPreferences.Editor editor = settings.edit();
                         editor.putString(PREF_ACCOUNT_NAME, accountName);
                         editor.apply();
-                        mCredential.setSelectedAccountName(accountName);
-                        getResultsFromApi();
+                        account.setSelectedAccountName(accountName);
+                        completeAuthentication();
                     }
                 }
                 break;
             case REQUEST_AUTHORIZATION:
                 if (resultCode == RESULT_OK) {
-                    getResultsFromApi();
+                    completeAuthentication();
                 }
                 break;
         }
@@ -291,6 +276,7 @@ public class LoginActivity extends Activity implements EasyPermissions.Permissio
      * An asynchronous task that handles the Google Calendar API call.
      * Placing the API calls in their own task ensures the UI stays responsive.
      */
+    /*
     private class MakeRequestTask extends AsyncTask<Void, Void, List<String>> {
         private com.google.api.services.calendar.Calendar mService = null;
         private Exception mLastError = null;
@@ -303,11 +289,12 @@ public class LoginActivity extends Activity implements EasyPermissions.Permissio
                     .setApplicationName("Google Calendar API Android Quickstart")
                     .build();
         }
-
+*/
         /**
          * Background task to call Google Calendar API.
          * @param params no parameters needed for this task.
          */
+        /*
         @Override
         protected List<String> doInBackground(Void... params) {
             try {
@@ -318,12 +305,12 @@ public class LoginActivity extends Activity implements EasyPermissions.Permissio
                 return null;
             }
         }
-
+*/
         /**
          * Fetch a list of the next 10 events from the primary calendar.
          * @return List of Strings describing returned events.
          * @throws IOException
-         */
+         *//*
         private List<String> getDataFromApi() throws IOException {
             // List the next 10 events from the primary calendar.
             DateTime now = new DateTime(System.currentTimeMillis());
@@ -388,5 +375,6 @@ public class LoginActivity extends Activity implements EasyPermissions.Permissio
             }
         }
     }
+    */
 
 }
