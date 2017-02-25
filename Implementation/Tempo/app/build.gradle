@@ -36,9 +36,8 @@ dependencies {
     compile('com.google.apis:google-api-services-calendar:v3-rev220-1.22.0') {
         exclude group: 'org.apache.httpcomponents'
     }
-    compile('com.microsoft.services:outlook-services:2.0.0'){
-        transitive = true
-    }
+    compile 'com.google.firebase:firebase-core:9.0.0'
+    compile 'com.google.firebase:firebase-auth:9.0.0'
     compile 'com.github.alamkanak:android-week-view:1.2.6'
     testCompile 'junit:junit:4.12'
 }

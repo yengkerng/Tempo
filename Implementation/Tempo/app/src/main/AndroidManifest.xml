@@ -20,7 +20,9 @@
             </intent-filter>
         </activity>
         <activity android:name=".LoginActivity" />
-        <activity android:name=".MyCalendarActivity"></activity>
+        <activity android:name=".MyCalendarActivity" />
+        <activity android:name=".GoogleAPILoginActivity" />
+        <activity android:name=".FirebaseLoginActivity"></activity>
     </application>
 
 </manifest>

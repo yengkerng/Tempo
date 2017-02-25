@@ -10,7 +10,7 @@ public class Account {
 
     private static Account data;
 
-    public GoogleAccountCredential googleCred;
+    GoogleAccountCredential googleCred;
 
     public static synchronized Account getInstance() {
         if (data != null) {

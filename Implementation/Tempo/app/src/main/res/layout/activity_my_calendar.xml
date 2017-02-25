@@ -64,8 +64,13 @@
         <CalendarView
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:id="@+id/calendarRoot"
             android:minHeight="0dp" />
+
+        <LinearLayout
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:id="@+id/calendarRoot"
+            android:orientation="vertical"/>
 
         <TableRow
             android:background="@color/tempoBlue"

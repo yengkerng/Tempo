@@ -34,13 +34,13 @@ public class MyCalendarActivity extends Activity {
         LayoutInflater inflater = getLayoutInflater();
 
         rootView  = (ViewGroup) findViewById(R.id.calendarRoot);
-        monthView = inflater.inflate(R.layout.calendar_view, rootView);
-        weekView  = inflater.inflate(R.layout.calendar_view, rootView);
-        dayView   = inflater.inflate(R.layout.calendar_view, rootView);
 
-        rootView.addView(monthView);
+        monthView = inflater.inflate(R.layout.calendar_view, rootView);
         currentView = monthView;
         currentCalendar = CalendarType.MONTH;
+
+        weekView  = inflater.inflate(R.layout.calendar_view, null);
+        dayView   = inflater.inflate(R.layout.calendar_view, null);
 
     }
 
