@@ -1,5 +1,7 @@
 package com.tempo.Model;
 import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by Jessie on 2/4/17.
  */
@@ -16,11 +18,10 @@ public class User {
         this.email = email;
     }
 
-    private void lookUpUser(String email) {
-
+    public void lookUpUser(String email) {
     }
 
-    private Group createNewGroup(String groupName, User admin) {
+    public Group createNewGroup(String groupName, User admin) {
         ArrayList<User> members = new ArrayList<User>();
         members.add(admin);
         Group newGroup = new Group(groupName, admin, members, null);
@@ -33,7 +34,7 @@ public class User {
         return this.userName;
     }
 
-    private boolean deleteGroup(String groupName) {
+    public boolean deleteGroup(String groupName) {
         for(int i = 0; i < this.groups.size(); i++) {
             if(this.groups.get(i).name.equals(groupName)) {
                 this.groups.remove(i);
@@ -44,7 +45,7 @@ public class User {
         return false;
     }
 
-    private boolean leaveGroup(String groupName) {
+    public boolean leaveGroup(String groupName) {
         for(int i = 0; i < this.groups.size(); i++) {
             if(this.groups.get(i).name.equals(groupName)) {
                 this.groups.remove(i);
@@ -56,8 +57,11 @@ public class User {
 
     }
 
-    private void changeLanguage(String Language) {
+    public ArrayList<Group> getGroups () {
+        return groups;
+    }
 
+    public void changeLanguage(String Language) {
     }
 
 }

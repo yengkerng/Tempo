@@ -12,10 +12,10 @@ public class Group {
     protected String name;
     private User admin;
 
-    private List<User> members;
+    private ArrayList<User> members;
     private CalendarManager calendar;
 
-    public Group(String name, User admin, List<User> members, CalendarManager calendar) {
+    public Group(String name, User admin, ArrayList<User> members, CalendarManager calendar) {
         this.name = name;
         this.admin = admin;
         this.members = members;
@@ -38,6 +38,10 @@ public class Group {
             }
         }
         return returnVal;
+    }
+
+    public ArrayList<User> getMembers() {
+        return members;
     }
 
     public String[] getMeetingTimes() {
