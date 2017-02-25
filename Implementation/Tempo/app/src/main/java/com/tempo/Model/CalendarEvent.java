@@ -1,7 +1,10 @@
 package com.tempo.Model;
 
+import com.google.api.services.calendar.model.EventDateTime;
+
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by andrewcofano on 2/13/17.
@@ -15,16 +18,16 @@ public class CalendarEvent {
      * The location of the event in the form of a standard address
      */
     private String location;
-    private Date startTime;
-    private Date endTime;
+    private EventDateTime startTime;
+    private EventDateTime endTime;
 
     private Group group;
     private ArrayList<User> attendees;
-    private Date eventNotification;
+    private EventDateTime eventNotification;
 
 
     public CalendarEvent(String eventName, String eventDescription, String location,
-                         Date startTime, Date endTime, ArrayList<User> attendees, Date eventNotification) {
+                         EventDateTime startTime, EventDateTime endTime, ArrayList<User> attendees, EventDateTime eventNotification) {
         this.eventName = eventName;
         this.eventDescription = eventDescription;
         this.location = location;
@@ -47,11 +50,11 @@ public class CalendarEvent {
         return location;
     }
 
-    public Date getStartTime() {
+    public EventDateTime getStartTime() {
         return startTime;
     }
 
-    public Date getEndTime() {
+    public EventDateTime getEndTime() {
         return endTime;
     }
 
@@ -59,19 +62,8 @@ public class CalendarEvent {
         return attendees;
     }
 
-    public Date getEventNotification() {
+    public EventDateTime getEventNotification() {
         return eventNotification;
-    }
-
-
-    public boolean isValidEventTime() {
-        int comparison = this.endTime.compareTo(this.getStartTime());
-        if (comparison > 0) {
-            return true;
-        }
-        else {
-            return false;
-        }
     }
 
     public void addUserToEvent(User user) {

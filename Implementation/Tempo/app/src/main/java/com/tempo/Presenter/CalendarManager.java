@@ -1,9 +1,16 @@
 package com.tempo.Presenter;
 
+import android.os.AsyncTask;
+
+import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
+import com.google.api.client.http.HttpTransport;
+import com.google.api.client.json.JsonFactory;
+import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.client.util.DateTime;
 import com.google.api.services.calendar.model.Event;
 import com.google.api.services.calendar.model.Events;
+import com.google.api.services.calendar.model.EventDateTime;
 import com.tempo.Model.CalendarEvent;
 import com.tempo.Model.User;
 import com.tempo.Model.Group;
@@ -11,7 +18,8 @@ import com.tempo.Model.Group;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
+import java.util.Calendar;
+import java.util.Date;
 
 /**
  * Created by Alex on 2/3/2017.
@@ -34,46 +42,99 @@ public class CalendarManager {
         this.groupOwner = groupOwner;
     }
 
-    private List<CalendarEvent> getUserEventsFromApi() throws IOException {
-        /*
-        // List all user events from the primary calendar starting one month in past and going until one month in advance.
-        Calendar cal = Calendar.getInstance();
-        cal.add(Calendar.MONTH, -1);
-        DateTime oneMonthInPast = cal.getTime();
-        cal.add(Calendar.MONTH, 1);
-        String eventName;
-        String eventDescription;
-        String location;
-        Date startTime;
-        Date endTime;
-        DateTime oneMonthInFuture = cal.getTime();
-        List<CalendarEvent> userEvents = new ArrayList<CalendarEvent>();
-        Events events = mService.events().list("primary")
-                .setTimeMin(oneMonthInPast)
-                .setTimeMax(oneMonthInFuture)
-                .setOrderBy("startTime")
-                .setSingleEvents(true)
-                .execute();
-        List<Event> items = events.getItems();
-
-        for (Event event : items) {
-            DateTime start = event.getStart().getDateTime();
-            if (start == null) {
-                // All-day events don't have start times, so just use
-                // the start date.
-                start = event.getStart().getDate();
-            }
-            eventName = event.getName();
-            eventDescription = event.getDescription();
-            location = event.getLocation();
-            startTime = event.getStartTime();
-            endTime = event.getEndTime();
-            CalendarEvent currentEvent = new CalendarEvent(eventName, eventDescription, location, startTime, endTime, null, null);
-            userEvents.add(currentEvent);
+    public List<String> CalendarEventListToString(List<CalendarEvent> eventList) {
+        String currentEvent = "";
+        List<String> returnList = null;
+        for(int i = 0; i < eventList.size(); i++) {
+            currentEvent += eventList.get(i).getEventName() + eventList.get(i).getEventDescription() + eventList.get(i).getLocation();
+            returnList.add(currentEvent);
+            currentEvent = "";
         }
-        return userEvents;
-        */
-        return null;
+        return returnList;
+    }
+
+    /**
+     * An asynchronous task that handles the Google Calendar API call.
+     * Placing the API calls in their own task ensures the UI stays responsive.
+     */
+    class MakeRequestTask extends AsyncTask<Void, Void, List<String>> {
+        private com.google.api.services.calendar.Calendar mService = null;
+        private Exception mLastError = null;
+
+        public MakeRequestTask(GoogleAccountCredential credential) {
+            HttpTransport transport = AndroidHttp.newCompatibleTransport();
+            JsonFactory jsonFactory = JacksonFactory.getDefaultInstance();
+            mService = new com.google.api.services.calendar.Calendar.Builder(
+                    transport, jsonFactory, credential)
+                    .setApplicationName("Google Calendar API Android Quickstart")
+                    .build();
+        }
+
+        /**
+         * Background task to call Google Calendar API.
+         *
+         * @param params no parameters needed for this task.
+         */
+        @Override
+        protected List<String> doInBackground(Void... params) {
+            try {
+                return CalendarEventListToString(getUserEventsFromApi());
+            } catch (Exception e) {
+                mLastError = e;
+                cancel(true);
+                return null;
+            }
+        }
+
+
+        // List all user events from the primary calendar starting one month in past and going until one month in advance.
+        private List<CalendarEvent> getUserEventsFromApi() throws IOException {
+           //Get calendar DateTimes for one month in past and one month in future
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(new Date());
+            cal.add(Calendar.MONTH, -1);
+            Date oneMonthInPastDate = cal.getTime();
+            DateTime oneMonthInPast = new DateTime(oneMonthInPastDate);
+            Calendar cal2 = Calendar.getInstance();
+            cal2.setTime(new Date());
+            cal2.add(Calendar.MONTH, 1);
+            Date oneMonthInFutureDate = cal2.getTime();
+            DateTime oneMonthInFuture = new DateTime(oneMonthInFutureDate);
+            //Instantiate all other CalendarEvent attributes
+            String eventName;
+            String eventDescription;
+            String location;
+            EventDateTime startTime;
+            EventDateTime endTime;
+            //Create Calendar Event list array
+            List<CalendarEvent> userEvents = new ArrayList<CalendarEvent>();
+            Events events = mService.events().list("primary")
+                    .setTimeMin(oneMonthInPast)
+                    .setTimeMax(oneMonthInFuture)
+                    .setOrderBy("startTime")
+                    .setSingleEvents(true)
+                    .execute();
+            List<Event> items = events.getItems();
+
+            for (Event event : items) {
+                DateTime start = event.getStart().getDateTime();
+                if (start == null) {
+                    // All-day events don't have start times, so just use
+                    // the start date.
+                    start = event.getStart().getDate();
+                }
+                //Get event information from user's google calendar and save as calendar event object
+                eventName = event.getId();
+                eventDescription = event.getDescription();
+                location = event.getLocation();
+                startTime = event.getStart();
+                endTime = event.getEnd();
+                CalendarEvent currentEvent = new CalendarEvent(eventName, eventDescription, location, startTime, endTime, null, null);
+                //Add current user event to the user's Calendar Event array list
+                userEvents.add(currentEvent);
+            }
+            return userEvents;
+        }
     }
 
     public CalendarEvent addEvent(String name) {
