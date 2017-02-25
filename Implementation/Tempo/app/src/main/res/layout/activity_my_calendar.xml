@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:weightSum="1">
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="475dp">
+
+        <TableRow
+            android:background="@color/tempoBlue"
+            android:layout_height="100dp"
+
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:clipToPadding="false"
+            android:clipChildren="false"
+            android:baselineAligned="false"
+            android:minHeight="97dp">
+
+
+            <ImageButton
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:id="@+id/home"
+                android:layout_weight="3"
+                android:src="@drawable/home"
+                android:scaleType="fitCenter" />
+
+            <ImageButton
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:id="@+id/groups"
+                android:src="@drawable/groups"
+                android:layout_weight="3"
+                android:scaleType="fitCenter"
+                android:backgroundTint="@color/tempoBlue" />
+
+            <ImageButton
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:src="@drawable/settings"
+                android:id="@+id/imageButton"
+                android:layout_weight="3"
+                android:scaleType="fitCenter"
+                android:backgroundTint="@color/tempoBlue"/>
+
+        </TableRow>
+
+        <!--<TableRow
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:orientation="vertical"
+            android:laygout_weight="3"
+            android:minHeight="227dp" >
+
+
+        </TableRow>-->
+        <CalendarView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:id="@+id/calendarRoot"
+            android:minHeight="0dp" />
+
+        <TableRow
+            android:background="@color/tempoBlue"
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:clipToPadding="false"
+            android:layout_height="100dp"
+            android:baselineAligned="false"
+            android:clipChildren="false"
+            android:minHeight="97dp">
+
+            <Button
+                android:text="Day"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:id="@+id/dayView"
+                android:layout_weight="3" />
+
+            <Button
+                android:text="Week"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:id="@+id/weekView"
+                android:layout_weight="3"
+                style="@android:style/Widget.DeviceDefault.Button.Borderless" />
+
+            <Button
+                android:text="Month"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:id="@+id/monthView"
+                android:layout_weight="3"
+                style="@android:style/Widget.DeviceDefault.Button.Toggle" />
+        </TableRow>
+    </TableLayout>
+</LinearLayout>

@@ -6,13 +6,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.tempo.R;
-
 public class MyCalendarActivity extends Activity {
 
+    public enum CalendarType {
+        MONTH, WEEK, DAY
+    }
+
     private CalendarManager manager;
-    private ViewGroup root;
-    private View month, week, day;
+    private ViewGroup rootView;
+    private View monthView, weekView, dayView, currentView;
+    private CalendarType currentCalendar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,19 +25,85 @@ public class MyCalendarActivity extends Activity {
 
         renderCalendar();
         displayEvents();
+        setCalendarTransitions();
 
     }
 
     private void renderCalendar() {
+
         LayoutInflater inflater = getLayoutInflater();
-        root  = (ViewGroup) findViewById(R.id.root);
-        month = inflater.inflate(R.layout.calendar_view, null);
-        week  = inflater.inflate(R.layout.calendar_view, null);
-        day   = inflater.inflate(R.layout.calendar_view, null);
-        root.addView(month);
+
+        rootView  = (ViewGroup) findViewById(R.id.calendarRoot);
+        monthView = inflater.inflate(R.layout.calendar_view, rootView);
+        weekView  = inflater.inflate(R.layout.calendar_view, rootView);
+        dayView   = inflater.inflate(R.layout.calendar_view, rootView);
+
+        rootView.addView(monthView);
+        currentView = monthView;
+        currentCalendar = CalendarType.MONTH;
+
     }
 
     private void displayEvents() {
+
+    }
+
+    private void setCalendarTransitions() {
+
+        // Set listener for switching to month view
+        findViewById(R.id.monthView).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                MyCalendarActivity.this.setCurrentCalendar(CalendarType.MONTH);
+            }
+        });
+
+        // Set listener for switching to week view
+        findViewById(R.id.weekView).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                MyCalendarActivity.this.setCurrentCalendar(CalendarType.WEEK);
+            }
+        });
+
+        // Set listener for switching to day view
+        findViewById(R.id.dayView).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                MyCalendarActivity.this.setCurrentCalendar(CalendarType.DAY);
+            }
+        });
+
+    }
+
+    public void setCurrentCalendar(CalendarType calendar) {
+
+        if (calendar == currentCalendar) {
+            return;
+        }
+
+        rootView.removeView(currentView);
+
+        switch (calendar) {
+
+            case MONTH:
+                rootView.addView(monthView);
+                currentView = monthView;
+                currentCalendar = CalendarType.MONTH;
+                break;
+
+            case WEEK:
+                rootView.addView(weekView);
+                currentView = weekView;
+                currentCalendar = CalendarType.WEEK;
+                break;
+
+            case DAY:
+                rootView.addView(dayView);
+                currentView = dayView;
+                currentCalendar = CalendarType.DAY;
+
+        }
 
     }
 
