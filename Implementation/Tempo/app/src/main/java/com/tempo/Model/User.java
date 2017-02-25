@@ -26,6 +26,10 @@ public class User {
         return newGroup;
     }
 
+    protected String getUserName() {
+        return this.userName;
+    }
+
     private boolean deleteGroup(String groupName) {
         for(int i = 0; i < this.groups.size(); i++) {
             if(this.groups.get(i).name.equals(groupName)) {

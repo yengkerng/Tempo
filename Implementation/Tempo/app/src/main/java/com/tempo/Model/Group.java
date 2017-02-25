@@ -26,7 +26,18 @@ public class Group {
         members.add(userName);
     }
 
-    public void deleteUserFromGroup(String userName) {
+    public boolean deleteUserFromGroup(User thisUser) {
+        boolean returnVal = false;
+        for(int i = 0; i < members.size(); i++) {
+            System.out.println("Size of members array: " + members.size());
+            System.out.println("This userName" + thisUser.getUserName());
+            System.out.println("Members current username at " + i + members.get(i).getUserName());
+            if(members.get(i).getUserName().equals(thisUser.getUserName())) {
+                members.remove(i);
+                returnVal = true;
+            }
+        }
+        return returnVal;
     }
 
     public String[] getMeetingTimes() {
