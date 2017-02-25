@@ -8,6 +8,9 @@ public class User {
     private String userName;
     private String email;
     private ArrayList<Group> groups;
+
+    public User() {}
+
     public User(String userName, String email) {
         this.userName = userName;
         this.email = email;
@@ -26,7 +29,7 @@ public class User {
         return newGroup;
     }
 
-    protected String getUserName() {
+    public String getUserName() {
         return this.userName;
     }
 

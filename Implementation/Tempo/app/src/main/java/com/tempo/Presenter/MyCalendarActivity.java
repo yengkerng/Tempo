@@ -1,10 +1,19 @@
 package com.tempo.Presenter;
 
 import android.app.Activity;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.tempo.Model.User;
 
 public class MyCalendarActivity extends Activity {
 
@@ -26,6 +35,8 @@ public class MyCalendarActivity extends Activity {
         renderCalendar();
         displayEvents();
         setCalendarTransitions();
+
+        new PutItemTask(FirebaseDatabase.getInstance().getReference()).execute();
 
     }
 
@@ -103,6 +114,51 @@ public class MyCalendarActivity extends Activity {
                 currentView = dayView;
                 currentCalendar = CalendarType.DAY;
 
+        }
+
+    }
+
+    private class PutItemTask extends AsyncTask<Void, Void, Void> {
+
+        private DatabaseReference db;
+
+        PutItemTask(DatabaseReference db) {
+            this.db = db;
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+
+            User user = new User("Brandon", "14bmkelley@gmail.com");
+
+            try {
+                db.child("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(user);
+            }
+            catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            try {
+                db.child("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                        .addValueEventListener(new ValueEventListener() {
+
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                System.out.println(dataSnapshot.getValue(User.class).getUserName());
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+
+                            }
+
+                        });
+            }
+            catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            return null;
         }
 
     }
