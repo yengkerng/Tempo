@@ -58,7 +58,7 @@ public class CalendarEvent {
         return endTime;
     }
 
-    public ArrayList<User> getAttendees() {
+    public List<User> getAttendees() {
         return attendees;
     }
 
@@ -66,6 +66,7 @@ public class CalendarEvent {
         return eventNotification;
     }
 
+    public void addUserToEvent(User user) {
     public void addUserToEvent(User user) {
         this.attendees.add(user);
     }
