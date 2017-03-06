@@ -67,7 +67,6 @@ public class CalendarEvent {
     }
 
     public void addUserToEvent(User user) {
-    public void addUserToEvent(User user) {
         this.attendees.add(user);
     }
 

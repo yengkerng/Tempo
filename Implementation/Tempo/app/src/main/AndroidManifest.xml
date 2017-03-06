@@ -22,7 +22,7 @@
         <activity android:name=".LoginActivity" />
         <activity android:name=".MyCalendarActivity" />
         <activity android:name=".GoogleAPILoginActivity" />
-        <activity android:name=".FirebaseLoginActivity"></activity>
+        <activity android:name=".FirebaseLoginActivity" />
     </application>
 
 </manifest>

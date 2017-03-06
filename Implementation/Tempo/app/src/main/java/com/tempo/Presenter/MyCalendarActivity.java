@@ -36,7 +36,7 @@ public class MyCalendarActivity extends Activity {
         displayEvents();
         setCalendarTransitions();
 
-        new PutItemTask(FirebaseDatabase.getInstance().getReference()).execute();
+        //new PutItemTask(FirebaseDatabase.getInstance().getReference()).execute();
 
     }
 
@@ -46,12 +46,13 @@ public class MyCalendarActivity extends Activity {
 
         rootView  = (ViewGroup) findViewById(R.id.calendarRoot);
 
-        monthView = inflater.inflate(R.layout.calendar_view, rootView);
+        monthView = inflater.inflate(R.layout.calendar_month, null);
         currentView = monthView;
         currentCalendar = CalendarType.MONTH;
+        rootView.addView(currentView);
 
-        weekView  = inflater.inflate(R.layout.calendar_view, null);
-        dayView   = inflater.inflate(R.layout.calendar_view, null);
+        weekView  = inflater.inflate(R.layout.calendar_week, null);
+        dayView   = inflater.inflate(R.layout.calendar_day, null);
 
     }
 
