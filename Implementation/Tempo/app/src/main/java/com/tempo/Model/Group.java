@@ -44,6 +44,10 @@ public class Group {
         return members;
     }
 
+    public String getName() {
+        return name;
+    }
+
     public String[] getMeetingTimes() {
         return null;
     }
