@@ -1,0 +1,94 @@
+Below is the psuedo code for the common meeting time algorithm.
+
+Input:
+ - A list of different users' events 
+ - A start time for the beginning search range
+ - An end time for the ending search range
+ - A resolution of smallest increment of time to consider
+ - Amount of time needed to be communally free
+
+Output:
+ - A list of pairings of start times for a common meeting and the amount of people that can attend
+
+public class AttendancePair implements Comparable<AttendancePair> 
+{
+    int attendance;
+    time meetingTime;
+
+    public AttendancePair(int att, time t)
+    {
+	this.attendance = att;
+	this.meetingTime = t;
+    }
+
+    public int compareTo(AttendancePair other)
+    {
+        if (this.attendance == other.attendance)
+	{
+	    if (this.meetingTime < other.meetingTime)
+	    {
+		return -1;
+	    }
+
+	    return 1;
+	}
+
+	return this.attendance - other.attendance;
+    }
+}
+
+list<AttendancePair> commonMeetingTime(list<list<event>> usersCalendars,
+                                        time startTime,
+					time endTime,
+					time resolution,
+					time meetingSpan)
+{
+    int amountUsers = length(usersCalendars);
+    int slotsToConsider = ((endTime - startTime) / resolution) + 1;
+    Hashtable<time, int> usersFree = new Hashtable<>();
+    
+    // initialize the amount of users free for all times that we are considering
+    for (time t = startTime; t <= endTime; t += resolution)
+    {
+        usersFree.put(t, amountUsers);
+    }
+
+    // iterate through all calendars and decrement a position in the table if a user has an event already at that time
+    for (list<event> user : usersCalendars)
+    {
+    	// iterate through every event for a user
+        for (event userEvent : user)
+	{
+	    Hashset<time> uniqueTimeForUser = new Hashset<>();
+	    // iterate through all time slots that the event  
+	    time offset = (startTime - event.startTime) % resolution;
+            for (time t = event.startTime - offset; t <= event.endTime; t += resolution)
+	    {
+	    	if (!uniqueTimeForUser.contains(t) 
+		{
+		    uniqueTimeForUser.put(t);
+	    	    usersFree.put(t, usersFree.get(t) - 1);
+	        }
+	    }
+	}
+    }
+
+    // Set the possible amount of people for each time frame spanning the timeline of a meeting
+    // Store result in a list of pairings for future sorting later
+    List<AttendancePair> availableTimes = new ArrayList<>();
+    for (time t = startTime; t <= endTime; t += resolution)
+    {
+        int minAttendance = amountUsers;
+	for (time spanT = t; spanT <= t + meetingSpan; spanT += resolution)
+	{
+	    int tempAttendance = uniqueTimeForUser.get(spanT);
+	    if (tempAttendance < minAttendance)
+	    {
+		minAttendance = tempAttendance;
+	    }
+	}
+	availableTimes.append(new AttendancePair(spanT, minAttendance));
+    }
+
+    return Collections.sort(availableTimes);
+}
