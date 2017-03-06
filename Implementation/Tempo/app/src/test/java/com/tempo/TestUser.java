@@ -17,7 +17,9 @@ public class TestUser {
     public void TestCreateNewGroup() {
         User admin = new User("Falessi", null);
         Group testGroup = new Group("This Group", admin, null, null);
-        assertEquals(true, testGroup.equals(admin.createNewGroup("This Group", admin)));
+        System.out.println("Testgroup: " + testGroup);
+        System.out.println("Create new group: " + admin.createNewGroup("This Group"));
+        assertEquals(true, testGroup.getName().equals(admin.createNewGroup("This Group").getName()));
     }
 
     @Test
@@ -33,7 +35,7 @@ public class TestUser {
         ArrayList<User> members = new ArrayList<User>();
         Group testGroup = new Group("Test Group", admin, members, null);
         Group testGroup2 = new Group("Test Group 2", admin, members, null);
-        admin.deleteGroup("Test Group 2");
+        admin.leaveGroup("Test Group 2");
         assertEquals(false, admin.getGroups().contains("Test Group 2"));
     }
 

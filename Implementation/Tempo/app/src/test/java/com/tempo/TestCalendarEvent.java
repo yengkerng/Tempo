@@ -140,14 +140,14 @@ public class TestCalendarEvent {
     public void TestAddUserToEvent() {String name = "Running a Test";
         String description = "We are trying to run a JUnit Test";
         String location = "On the Computer";
-        User randomUser = new User("Falessi", null);
+        User randomUser = new User("Falessi", "dfalessi@calpoly.edu");
         EventDateTime start = new EventDateTime();
         EventDateTime end = new EventDateTime();
         EventDateTime notificationTime = new EventDateTime();
         DateTime startDate = new DateTime(5);
         DateTime endDate = new DateTime(30);
         DateTime notTime = new DateTime(1);
-        ArrayList<User> attendees = null;
+        ArrayList<User> attendees = new ArrayList<>();
         start.setDate(startDate);
         end.setDate(endDate);
         notificationTime.setDate(notTime);
