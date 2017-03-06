@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 import static org.junit.Assert.*;
 /**
- * Created by Someone on 2/25/17.
+ * Created by Andrew on 2/25/17.
  */
 
 public class TestUser {

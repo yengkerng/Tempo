@@ -9,10 +9,10 @@ import java.util.ArrayList;
 
 import static org.junit.Assert.*;
 /**
- * Created by Someone on 2/25/17.
+ * Created by Brandon on 2/25/17.
  */
 
-public class TestGroup {
+public class TestGroupOne {
 
     @Test
     public void TestDeleteUserFromGroupAdmin() {
@@ -26,6 +26,17 @@ public class TestGroup {
     }
 
     @Test
+    public void TestDeleteUserFromGroupMember() {
+        User admin = new User("Jessie", null);
+        User member1 = new User("Falessi", null);
+        ArrayList<User> members = new ArrayList<User>();
+        Group testGroup = new Group("Test Group", admin, members, null);
+        testGroup.addUserToGroup(admin);
+        testGroup.addUserToGroup(member1);
+        assertEquals(true, testGroup.deleteUserFromGroup(member1));
+    }
+
+    @Test
     public void TestDeleteUserFromGroupNonExistent() {
         User admin = new User("Jessie", null);
         User member1 = new User("Falessi", null);
@@ -35,28 +46,5 @@ public class TestGroup {
         testGroup.addUserToGroup(admin);
         testGroup.addUserToGroup(member1);
         assertEquals(false, testGroup.deleteUserFromGroup(randomUser));
-    }
-
-    @Test
-    public void TestgetMembersNonExistent() {
-        User admin = new User("Jessie", null);
-        User member1 = new User("Falessi", null);
-        User randomUser = new User("Rebecca", null);
-        ArrayList<User> members = new ArrayList<User>();
-        Group testGroup = new Group("Test Group", admin, members, null);
-        testGroup.addUserToGroup(admin);
-        assertEquals(false, testGroup.getMembers().contains(member1));
-    }
-
-    @Test
-    public void TestAddUserToGroup() {
-        User admin = new User("Jessie", null);
-        User member1 = new User("Falessi", null);
-        User randomUser = new User("Rebecca", null);
-        ArrayList<User> members = new ArrayList<User>();
-        Group testGroup = new Group("Test Group", admin, members, null);
-        testGroup.addUserToGroup(admin);
-        testGroup.addUserToGroup(member1);
-        assertEquals(true, testGroup.getMembers().contains(member1));
     }
 }
