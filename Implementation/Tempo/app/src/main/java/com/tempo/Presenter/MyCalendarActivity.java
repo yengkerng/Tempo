@@ -6,14 +6,29 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CalendarView;
+import android.widget.ListView;
+import android.widget.Toast;
 
+import com.alamkanak.weekview.MonthLoader;
+import com.alamkanak.weekview.WeekView;
+
+import com.alamkanak.weekview.WeekViewEvent;
+import com.google.api.services.calendar.Calendar;
+import com.google.api.services.calendar.model.EventDateTime;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.tempo.Model.CalendarEvent;
 import com.tempo.Model.User;
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 public class MyCalendarActivity extends Activity {
 
@@ -21,10 +36,34 @@ public class MyCalendarActivity extends Activity {
         MONTH, WEEK, DAY
     }
 
+    public class MyDate {
+        public int year;
+        public int month;
+        public int day;
+
+        public MyDate(int year, int month, int day) {
+            this.year = year;
+            this.month = month;
+            this.day = day;
+        }
+    }
+
     private CalendarManager manager;
     private ViewGroup rootView;
     private View monthView, weekView, dayView, currentView;
+    private ListView dayEventsList;
+    private EventListAdapter eventListAdapter;
     private CalendarType currentCalendar;
+    private CalendarView monthlyCalendar;
+    private WeekView weeklyCalendar;
+
+    private EventDateTime currentDate = null;
+    private long dateInMillis;
+    private String dateString;
+
+    private ArrayList<CalendarEvent> currentDayEventList;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,15 +84,35 @@ public class MyCalendarActivity extends Activity {
         LayoutInflater inflater = getLayoutInflater();
 
         rootView  = (ViewGroup) findViewById(R.id.calendarRoot);
-
         monthView = inflater.inflate(R.layout.calendar_month, null);
         currentView = monthView;
         currentCalendar = CalendarType.MONTH;
-        rootView.addView(currentView);
+        rootView.addView(monthView);
 
-        weekView  = inflater.inflate(R.layout.calendar_week, null);
+        monthlyCalendar = (CalendarView) findViewById(R.id.monthlyCalendar);
+        dateInMillis = monthlyCalendar.getDate();
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+        dateString = formatter.format(new Date(dateInMillis));
+        monthlyCalendar.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
+            @Override
+            public void onSelectedDayChange(CalendarView calendarView, int year, int month, int day) {
+                Toast.makeText(getApplicationContext(), day + "/" + month + "/" + year, Toast.LENGTH_LONG).show();
+                setDateString(day + "/" + month + "/" + year);
+            }
+        });
+
         dayView   = inflater.inflate(R.layout.calendar_day, null);
 
+    }
+
+    private void setDateString(String newDate) {
+        dateString = newDate;
+    }
+
+    private List<WeekViewEvent> getEvents(int newYear, int newMonth) {
+        List<WeekViewEvent> list = new ArrayList<>();
+        list.add(new WeekViewEvent());
+        return list;
     }
 
     private void displayEvents() {
@@ -104,15 +163,27 @@ public class MyCalendarActivity extends Activity {
                 currentCalendar = CalendarType.MONTH;
                 break;
 
-            case WEEK:
-                rootView.addView(weekView);
+           // case WEEK:
+                /*rootView.addView(weekView);
                 currentView = weekView;
                 currentCalendar = CalendarType.WEEK;
-                break;
+                break;*/
 
             case DAY:
                 rootView.addView(dayView);
                 currentView = dayView;
+                dayEventsList = (ListView) findViewById(R.id.eventList);
+                currentDayEventList = new ArrayList<>();
+                currentDayEventList.add(new CalendarEvent("Test 1", "Testing", "The Den", new EventDateTime(), new EventDateTime(), new ArrayList<User>(), new EventDateTime()));
+                currentDayEventList.add(new CalendarEvent("Test 2", "Testing", "The Den", new EventDateTime(), new EventDateTime(), new ArrayList<User>(), new EventDateTime()));
+                currentDayEventList.add(new CalendarEvent("Test 3", "Testing", "The Den", new EventDateTime(), new EventDateTime(), new ArrayList<User>(), new EventDateTime()));
+                currentDayEventList.add(new CalendarEvent("Test 4", "Testing", "The Den", new EventDateTime(), new EventDateTime(), new ArrayList<User>(), new EventDateTime()));
+
+                eventListAdapter = new EventListAdapter(this, currentDayEventList);
+                if (dayEventsList != null) {
+                    dayEventsList.setAdapter(eventListAdapter);
+
+                }
                 currentCalendar = CalendarType.DAY;
 
         }
