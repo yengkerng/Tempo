@@ -69,44 +69,46 @@
             android:minHeight="0dp" />
         -->
 
-        <LinearLayout
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
+        <FrameLayout
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"
             android:id="@+id/calendarRoot"
             android:orientation="vertical"/>
 
-        <TableRow
-            android:background="@color/tempoBlue"
-            android:layout_width="match_parent"
-            android:orientation="vertical"
-            android:clipToPadding="false"
-            android:layout_height="100dp"
-            android:baselineAligned="false"
-            android:clipChildren="false"
-            android:minHeight="97dp">
-
-            <Button
-                android:text="Day"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:id="@+id/dayView"
-                android:layout_weight="3" />
-
-            <Button
-                android:text="Week"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:id="@+id/weekView"
-                android:layout_weight="3"
-                style="@android:style/Widget.DeviceDefault.Button.Borderless" />
-
-            <Button
-                android:text="Month"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:id="@+id/monthView"
-                android:layout_weight="3"
-                style="@android:style/Widget.DeviceDefault.Button.Toggle" />
-        </TableRow>
     </TableLayout>
+
+    <TableRow
+        android:background="@color/tempoBlue"
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:clipToPadding="false"
+        android:layout_height="match_parent"
+        android:clipChildren="false"
+        android:layout_alignParentBottom="true"
+        android:minHeight="97dp"
+        android:baselineAligned="false">
+
+        <Button
+            android:text="Day"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:id="@+id/dayView"
+            android:layout_weight="3" />
+
+        <Button
+            android:text="Week"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:id="@+id/weekView"
+            android:layout_weight="3"
+            style="@android:style/Widget.DeviceDefault.Button.Borderless" />
+
+        <Button
+            android:text="Month"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:id="@+id/monthView"
+            android:layout_weight="3"
+            style="@android:style/Widget.DeviceDefault.Button.Toggle" />
+    </TableRow>
 </LinearLayout>
