@@ -2,5 +2,4 @@
     <string name="app_name">Tempo</string>
     <string name="DayView">View current day</string>
     <string name="dayView">Day</string>
-    <color name="tempoBlue">#66b2ff</color>
 </resources>
