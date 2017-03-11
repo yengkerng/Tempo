@@ -45,7 +45,6 @@ public class User {
         }
         //Throw an exception here or somehow display to user that they aren't in a group with that name
         return false;
-
     }
 
     public List<Group> getGroups () {

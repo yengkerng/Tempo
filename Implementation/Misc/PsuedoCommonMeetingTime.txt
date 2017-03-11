@@ -37,22 +37,19 @@ public class AttendancePair implements Comparable<AttendancePair>
     }
 }
 
-list<AttendancePair> commonMeetingTime(list<list<event>> usersCalendars,
-                                        time startTime,
-					time endTime,
-					time resolution,
-					time meetingSpan)
-{
-    int amountUsers = length(usersCalendars);
-    int slotsToConsider = ((endTime - startTime) / resolution) + 1;
+Hashtable<time, int> initializeUserFreeTable(time startTime, time endTime, time resolution, int amountUsers) {
     Hashtable<time, int> usersFree = new Hashtable<>();
-    
+
     // initialize the amount of users free for all times that we are considering
     for (time t = startTime; t <= endTime; t += resolution)
     {
         usersFree.put(t, amountUsers);
     }
+    
+    return usersFree;
+}
 
+void calculateFreeTimes(list<list<event>> userCalendars, time startTime, time resolution, Hashtable<time, int> usersFree) {
     // iterate through all calendars and decrement a position in the table if a user has an event already at that time
     for (list<event> user : usersCalendars)
     {
@@ -72,7 +69,14 @@ list<AttendancePair> commonMeetingTime(list<list<event>> usersCalendars,
 	    }
 	}
     }
+}
 
+List<AttendancePair> calculateAvailableTimes(time startTime, 
+					     time endTime, 
+					     time resolution,
+					     time meetingSpan, 
+					     int amountUsers,
+					     Hashtable<time, int> usersFree) {
     // Set the possible amount of people for each time frame spanning the timeline of a meeting
     // Store result in a list of pairings for future sorting later
     List<AttendancePair> availableTimes = new ArrayList<>();
@@ -81,7 +85,7 @@ list<AttendancePair> commonMeetingTime(list<list<event>> usersCalendars,
         int minAttendance = amountUsers;
 	for (time spanT = t; spanT <= t + meetingSpan; spanT += resolution)
 	{
-	    int tempAttendance = uniqueTimeForUser.get(spanT);
+	    int tempAttendance = usersFree.get(spanT);
 	    if (tempAttendance < minAttendance)
 	    {
 		minAttendance = tempAttendance;
@@ -90,5 +94,23 @@ list<AttendancePair> commonMeetingTime(list<list<event>> usersCalendars,
 	availableTimes.append(new AttendancePair(spanT, minAttendance));
     }
 
+    return availableTimes;
+}
+
+list<AttendancePair> commonMeetingTime(list<list<event>> usersCalendars,
+                                        time startTime,
+					time endTime,
+					time resolution,
+					time meetingSpan)
+{
+    int amountUsers = length(usersCalendars);
+    int slotsToConsider = ((endTime - startTime) / resolution) + 1;
+
+    Hashtable<time, int> usersFree = initiliazeUserFreeTable(startTime, endTime, resolution, amountUsers);    
+
+    calculateFreeTimes(userCalendars, startTime, resolution, usersFree);
+
+    List<AttendancePair> availableTimes = calculateAvailableTimes(startTime, endTime, resolution, meetingSpan, amountUsers, usersFree);
+    
     return Collections.sort(availableTimes);
 }
