@@ -23,6 +23,14 @@ public class Group {
         this.calendar = calendar;
     }
 
+    public Group(String name, User admin, ArrayList<User> members) {
+        this.name = name;
+        this.admin = admin;
+        this.members = members;
+        this.calendar = calendar;
+    }
+
+
     public void addUserToGroup(User userName) {
         members.add(userName);
     }
@@ -58,5 +66,9 @@ public class Group {
 
     public int getMemberCount() {
         return members.size();
+    }
+
+    public User getAdmin() {
+        return admin;
     }
 }
