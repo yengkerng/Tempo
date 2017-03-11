@@ -14,8 +14,16 @@ import com.alamkanak.weekview.MonthLoader;
 import com.alamkanak.weekview.WeekView;
 
 import com.alamkanak.weekview.WeekViewEvent;
+import com.google.api.client.extensions.android.http.AndroidHttp;
+import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
+import com.google.api.client.http.HttpTransport;
+import com.google.api.client.json.JsonFactory;
+import com.google.api.client.json.jackson2.JacksonFactory;
+import com.google.api.client.util.DateTime;
 import com.google.api.services.calendar.Calendar;
+import com.google.api.services.calendar.model.Event;
 import com.google.api.services.calendar.model.EventDateTime;
+import com.google.api.services.calendar.model.Events;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -75,7 +83,7 @@ public class MyCalendarActivity extends Activity {
         displayEvents();
         setCalendarTransitions();
 
-        //new PutItemTask(FirebaseDatabase.getInstance().getReference()).execute();
+        new SyncCalendarTask(Account.getInstance().googleCred).execute();
 
     }
 
@@ -190,47 +198,54 @@ public class MyCalendarActivity extends Activity {
 
     }
 
-    private class PutItemTask extends AsyncTask<Void, Void, Void> {
+    private class SyncCalendarTask extends AsyncTask<Void, Void, Void> {
 
-        private DatabaseReference db;
+        private GoogleAccountCredential credential;
 
-        PutItemTask(DatabaseReference db) {
-            this.db = db;
+        SyncCalendarTask(GoogleAccountCredential credential) {
+            this.credential = credential;
         }
 
         @Override
-        protected Void doInBackground(Void... voids) {
-
-            User user = new User("Brandon", "14bmkelley@gmail.com");
-
+        protected Void doInBackground(Void... params) {
+            HttpTransport transport = AndroidHttp.newCompatibleTransport();
+            JsonFactory jsonFactory = JacksonFactory.getDefaultInstance();
+            Calendar calendar = new Calendar.Builder(
+                    transport, jsonFactory, credential)
+                    .setApplicationName("Tempo")
+                    .build();
             try {
-                db.child("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(user);
+                java.util.Calendar cal = java.util.Calendar.getInstance();
+                cal.setTime(new Date());
+                cal.add(java.util.Calendar.MONTH, -1);
+                Date oneMonthInPastDate = cal.getTime();
+                DateTime oneMonthInPast = new DateTime(oneMonthInPastDate);
+                java.util.Calendar cal2 = java.util.Calendar.getInstance();
+                cal2.setTime(new Date());
+                cal2.add(java.util.Calendar.MONTH, 1);
+                Date oneMonthInFutureDate = cal2.getTime();
+                DateTime oneMonthInFuture = new DateTime(oneMonthInFutureDate);
+                Events events = calendar.events().list("primary")
+                        .setTimeMin(oneMonthInPast)
+                        .setTimeMax(oneMonthInFuture)
+                        .setOrderBy("startTime")
+                        .setSingleEvents(true)
+                        .execute();
+                List<Event> items = events.getItems();
+                FirebaseDatabase.getInstance().getReference().child("users")
+                        .child(parseAccountName(credential.getSelectedAccountName()))
+                        .child("events").setValue(items);
             }
             catch (Exception e) {
                 e.printStackTrace();
             }
-
-            try {
-                db.child("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                        .addValueEventListener(new ValueEventListener() {
-
-                            @Override
-                            public void onDataChange(DataSnapshot dataSnapshot) {
-                                System.out.println(dataSnapshot.getValue(User.class).getUserName());
-                            }
-
-                            @Override
-                            public void onCancelled(DatabaseError databaseError) {
-
-                            }
-
-                        });
-            }
-            catch (Exception e) {
-                e.printStackTrace();
-            }
-
             return null;
+        }
+
+        private String parseAccountName(String accountNameString) {
+            int atIndex = accountNameString.indexOf('@');
+            return accountNameString.substring(0, atIndex)
+                    .replace("[\\.\\[\\]]", "-");
         }
 
     }
