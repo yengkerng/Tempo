@@ -3,6 +3,7 @@ package com.tempo.Model;
 import com.tempo.Presenter.CalendarManager;
 
 import java.util.ArrayList;
+import com.tempo.Model.User;
 
 /**
  * Created by andrewcofano on 2/2/17.

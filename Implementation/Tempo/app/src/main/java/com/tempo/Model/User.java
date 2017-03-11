@@ -32,6 +32,11 @@ public class User {
         return newGroup;
     }
 
+    public Group createNewGroup(Group newGroup) {
+        groups.add(newGroup);
+        return newGroup;
+    }
+
     public String getUserName() {
         return this.userName;
     }

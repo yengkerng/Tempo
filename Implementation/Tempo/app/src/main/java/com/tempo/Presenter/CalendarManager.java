@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Calendar;
 import java.util.Date;
 
+
 /**
  * Created by Alex on 2/3/2017.
  * Last edit: Jessie 2/20/2017.
@@ -146,7 +147,8 @@ public class CalendarManager {
     }
 
     public List<CalendarEvent> getUserEvents(String email) {
-        return null;
+        ArrayList<CalendarEvent> events = new ArrayList<CalendarEvent>();
+        return events;
     }
 
 }
