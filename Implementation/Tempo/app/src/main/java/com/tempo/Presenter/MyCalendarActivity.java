@@ -35,6 +35,7 @@ import com.tempo.Model.User;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -83,7 +84,8 @@ public class MyCalendarActivity extends Activity {
         displayEvents();
         setCalendarTransitions();
 
-        new SyncCalendarTask(Account.getInstance().googleCred).execute();
+        //new SyncCalendarTask(Account.getInstance().googleCred).execute();
+        DatabaseAccess.createGroup("MyGroupppp", Arrays.asList(new String[] { "14bmkelley", "bitsbots3812" }));
 
     }
 
@@ -233,19 +235,13 @@ public class MyCalendarActivity extends Activity {
                         .execute();
                 List<Event> items = events.getItems();
                 FirebaseDatabase.getInstance().getReference().child("users")
-                        .child(parseAccountName(credential.getSelectedAccountName()))
+                        .child(DatabaseAccess.parseAccountName(credential.getSelectedAccountName()))
                         .child("events").setValue(items);
             }
             catch (Exception e) {
                 e.printStackTrace();
             }
             return null;
-        }
-
-        private String parseAccountName(String accountNameString) {
-            int atIndex = accountNameString.indexOf('@');
-            return accountNameString.substring(0, atIndex)
-                    .replace("[\\.\\[\\]]", "-");
         }
 
     }
