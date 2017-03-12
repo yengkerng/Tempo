@@ -24,6 +24,12 @@ import static org.junit.Assert.*;
 
 
 public class IntegrationTest_2 {
+
+    /**
+     * This method tests the basic integration of the user and group class by creating
+     * a new group (with null calendar) and obtaining a specific member's user attribute through calls
+     * to the user class and to the group's respective class
+     */
     @Test
     public void TestGroupUserIntegrationGetMembers() {
         User member1 = new User("Brandon", "bmkel@calpoly.edu");
@@ -35,6 +41,12 @@ public class IntegrationTest_2 {
         assertEquals(member1, testGroup.getMembers().get(0));
     }
 
+    /**
+     * This method tests the basic integration of the user and group class by creating
+     * a new group (with null calendar) and testing to see that when a user chooses
+     * to leave a group, the group class integrates correctly with the user class
+     * and deletes the group from that user's saved groups.
+     */
     @Test
     public void TestGroupUserIntegrationLeaveGroup() {
         User member1 = new User("Brandon", "bmkel@calpoly.edu");

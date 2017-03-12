@@ -22,40 +22,20 @@ import java.util.List;
 import static org.junit.Assert.*;
 
 /**
- * Created by Jessie on 3/5/17.
- * This will test more integration of the CalendarEvent and the CalendarManager classes
+ * Created by Andrew on 3/5/17.
+ * This will test more integration of the Group and the CalendarManager classes
  */
 
 
-public class IntegrationTest_3 {
+public class IntegrationTest_4 {
     /**
-     * This method tests the basic integration of the CalendarEvent and CalendarManager classes by
+     * This method tests the basic integration of the Group and CalendarManager classes by
      * creating a new calendarManager without any null attributes and getting these attributes (specifically
-     * the user events array) from both the CalendarEvent class and the manager itself to make sure they are being implemented
+     * the calendar attribute) from both the Group class and the manager itself to make sure they are being implemented
      * together correctly
      */
     @Test
-    public void TestCalendarEventandManagerUserEvents() {
-        EventDateTime startDate = new EventDateTime();
-        Date start_date = new Date();
-        EventDateTime endDate = new EventDateTime();
-        Date end_date = new Date();
-        CalendarEvent thisEvent = new CalendarEvent("Study", "Finish the Project", "Library", startDate, endDate, null, null);
-        ArrayList<CalendarEvent> events = new ArrayList<CalendarEvent>();
-        MonthView testView = new MonthView(events, start_date, end_date);
-        User admin = new User("Jessie", "smithygirl@gmail.com");
-        CalendarManager manager = new CalendarManager(testView, admin);
-        assertEquals(events, manager.getUserEvents("smithygirl@gmail.com"));
-    }
-
-    /**
-     * This method tests the basic integration of the CalendarEvent and CalendarManager classes by
-     * creating a new calendarManager without any null attributes and getting these attributes (specifically the
-     * calendar attribute) from both the CalendarEvent class and the manager itself to make sure they are being implemented
-     * together correctly
-     */
-    @Test
-    public void TestCalendarEventandManagerGetCal() {
+    public void TestCalendarManagerGroupGetCal() {
         User admin = new User("Jessie", "smithygirl@gmail.com");
         EventDateTime startDate = new EventDateTime();
         Date start_date = new Date();
@@ -72,6 +52,33 @@ public class IntegrationTest_3 {
         CalendarEvent event2 = new CalendarEvent("Study", "Finish the Project", "Library", startDate, endDate, null, null);
         events.add(event1);
         events.add(event2);
-        assertEquals(manager.toString(), admin.getGroups().get(0).getCalendar().toString());
+        assertEquals(manager, admin.getGroups().get(0).getCalendar());
     }
+    /**
+     * This method tests the basic integration of the Group and CalendarManager classes by
+     * creating a new calendarManager without any null attributes and getting these attributes (specifically
+     * the event name attribute) from both the Group class and the manager itself to make sure they are being implemented
+     * together correctly
+     */
+    @Test
+    public void TestCalendarManagerGroup() {
+        User admin = new User("Jessie", "smithygirl@gmail.com");
+        EventDateTime startDate = new EventDateTime();
+        Date start_date = new Date();
+        EventDateTime endDate = new EventDateTime();
+        Date end_date = new Date();
+        ArrayList<User> members = new ArrayList<User>();
+        members.add(admin);
+        ArrayList<CalendarEvent> events = new ArrayList<CalendarEvent>();
+        MonthView testView = new MonthView(events, start_date, end_date);
+        CalendarManager manager = new CalendarManager(testView, admin);
+        Group testGroup = new Group("Test Group", admin, members, manager);
+        admin.createNewGroup(testGroup);
+        CalendarEvent event1 = new CalendarEvent("Study", "Finish the Project", "Library", startDate, endDate, null, null);
+        CalendarEvent event2 = new CalendarEvent("Study", "Finish the Project", "Library", startDate, endDate, null, null);
+        events.add(event1);
+        events.add(event2);
+        assertEquals(event1.getEventName(), manager.addEvent(event1.getEventName()));
+    }
+
 }

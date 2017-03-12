@@ -18,13 +18,18 @@ import java.util.List;
 import static org.junit.Assert.*;
 
 /**
- * Created by Jessie on 3/5/17.
+ * Created by Costin on 3/5/17.
  * This will test integration of the user and the group classes
  */
 
 
 public class IntegrationTest_1 {
 
+    /**
+     * This method tests the basic integration of the user and group class by creating
+     * a new group (with null attributes) and obtaining the name attribute through calls
+     * to the user class and to the group's respective class
+     */
         @Test
         public void testGroupUserIntegrationName() {
             User member = new User("Jessie", "smithygirl@gmail.com");
@@ -36,7 +41,13 @@ public class IntegrationTest_1 {
             member.createNewGroup(testGroup.getName());
             assertEquals(testGroup.getName(), member.getGroups().get(0).getName());
         }
-        @Test
+
+    /**
+     * This method tests the basic integration of the user and group class by creating
+     * a new group (with null attributes) and obtaining the members array attribute through calls
+     * to the user class and to the group's respective class
+     */
+    @Test
         public void testGroupUserIntegrationMembers() {
             User member = new User("Jessie", "smithygirl@gmail.com");
             ArrayList<User> members = new ArrayList<User>();
