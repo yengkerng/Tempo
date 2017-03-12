@@ -64,6 +64,10 @@ public class Group {
     public void displayMeetingTimes() {
     }
 
+    public CalendarManager getCalendar () {
+        return calendar;
+    }
+
     public int getMemberCount() {
         return members.size();
     }

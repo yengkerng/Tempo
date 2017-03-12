@@ -138,8 +138,8 @@ public class CalendarManager {
         }
     }
 
-    public CalendarEvent addEvent(String name) {
-        return null;
+    public String addEvent(String name) {
+        return name;
     }
 
     public void deleteEvent(String name) {
