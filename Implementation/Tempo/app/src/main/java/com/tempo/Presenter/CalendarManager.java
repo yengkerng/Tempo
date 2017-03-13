@@ -33,6 +33,7 @@ public class CalendarManager {
     private User userOwner;
     private Group groupOwner;
 
+
     public CalendarManager(CalendarView view, User userOwner) {
         this.view = view;
         this.userOwner = userOwner;
@@ -107,6 +108,7 @@ public class CalendarManager {
             String location;
             EventDateTime startTime;
             EventDateTime endTime;
+            String owner;
             //Create Calendar Event list array
             List<CalendarEvent> userEvents = new ArrayList<CalendarEvent>();
             Events events = mService.events().list("primary")
@@ -130,7 +132,8 @@ public class CalendarManager {
                 location = event.getLocation();
                 startTime = event.getStart();
                 endTime = event.getEnd();
-                CalendarEvent currentEvent = new CalendarEvent(eventName, eventDescription, location, startTime, endTime, null, null);
+                owner = event.getCreator().getEmail();
+                CalendarEvent currentEvent = new CalendarEvent(eventName, eventDescription, location, startTime, endTime, owner);
                 //Add current user event to the user's Calendar Event array list
                 userEvents.add(currentEvent);
             }

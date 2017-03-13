@@ -1,7 +1,9 @@
 package com.tempo.Presenter;
 
 import android.os.AsyncTask;
+import android.support.annotation.NonNull;
 
+import com.google.api.services.calendar.model.Event;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -9,6 +11,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.ValueEventListener;
+import com.tempo.Model.CalendarEvent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,14 +39,48 @@ class DatabaseAccess {
 
     }
 
-    static List<String> getGroupMembers(final String groupName) {
+    /*
+  This was the method to get group members without a callback
+     */
 
+//    static List<String> getGroupMembers(final String groupName) {
+//        final List<String> members = new ArrayList<String>();
+//        new DatabaseAccessTask(new DatabaseAccessCallback() {
+//            @Override
+//            public void call() throws DatabaseAccessException {
+//                DatabaseReference db = FirebaseDatabase.getInstance().getReference();
+//                DatabaseReference theGroup = db.child("groups").child(groupName);
+//                theGroup.addListenerForSingleValueEvent(new ValueEventListener() {
+//                    @Override
+//                    public void onDataChange(DataSnapshot dataSnapshot) {
+//                        GenericTypeIndicator<ArrayList<String>> t = new GenericTypeIndicator<ArrayList<String>>() {};
+//                        ArrayList<String> snapShotMembers = dataSnapshot.getValue(t);
+//                        for(String member : snapShotMembers) {
+//                            members.add(member);
+//                            System.out.println("FROM DATABASE ACCESS: member" + member);
+//
+//                        }
+//                    }
+//                    @Override
+//                    public void onCancelled(DatabaseError databaseError) {
+//                        // ...
+//                    }
+//                });
+//            }
+//
+//        }).execute();
+//        return members;
+//    }
+
+    static void getGroupMembersWithCallback(@NonNull final SimpleCallback<List<String>> finishedCallback, final String groupName) {
         final List<String> members = new ArrayList<String>();
         new DatabaseAccessTask(new DatabaseAccessCallback() {
             @Override
             public void call() throws DatabaseAccessException {
+
                 DatabaseReference db = FirebaseDatabase.getInstance().getReference();
                 DatabaseReference theGroup = db.child("groups").child(groupName);
+
                 theGroup.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
@@ -51,8 +88,9 @@ class DatabaseAccess {
                         ArrayList<String> snapShotMembers = dataSnapshot.getValue(t);
                         for(String member : snapShotMembers) {
                             members.add(member);
-                            System.out.println("FROM DATABASE ACCESS: member" + member);
                         }
+                        // execute callback function
+                        finishedCallback.callback(members);
                     }
 
                     @Override
@@ -63,9 +101,72 @@ class DatabaseAccess {
             }
 
         }).execute();
-        return members;
     }
-    
+
+    static void getUserEventListWithCallback(@NonNull final SimpleCallback<List<CalendarEvent>> finishedCallback,final String userName) {
+        final List<CalendarEvent> userEvents = new ArrayList<CalendarEvent>();
+        new DatabaseAccessTask(new DatabaseAccessCallback() {
+            @Override
+            public void call() throws DatabaseAccessException {
+
+                DatabaseReference db = FirebaseDatabase.getInstance().getReference();
+                DatabaseReference member = db.child("users").child(userName).child("events");
+
+                member.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        GenericTypeIndicator<ArrayList<CalendarEvent>> t = new GenericTypeIndicator<ArrayList<CalendarEvent>>() {};
+                        ArrayList<CalendarEvent> snapShotEvents = dataSnapshot.getValue(t);
+                        for(CalendarEvent thisEvent : snapShotEvents) {
+                            userEvents.add(thisEvent);
+                        }
+                        // execute callback function
+                        finishedCallback.callback(userEvents);
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        // ...
+                    }
+                });
+            }
+
+        }).execute();
+    }
+
+
+    /*
+    This was the method to get user event list without a callback
+     */
+//    static List<CalendarEvent> getUserEventList(final String userName) {
+//        final List<CalendarEvent> userEvents = new ArrayList<CalendarEvent>();
+//        new DatabaseAccessTask(new DatabaseAccessCallback() {
+//            @Override
+//            public void call() throws DatabaseAccessException {
+//                DatabaseReference db = FirebaseDatabase.getInstance().getReference();
+//                DatabaseReference member = db.child("users").child(userName).child("events");
+//                member.addListenerForSingleValueEvent(new ValueEventListener() {
+//                    @Override
+//                    public void onDataChange(DataSnapshot dataSnapshot) {
+//                        GenericTypeIndicator<ArrayList<CalendarEvent>> t = new GenericTypeIndicator<ArrayList<CalendarEvent>>() {};
+//                        ArrayList<CalendarEvent> snapShotEvents = dataSnapshot.getValue(t);
+//                        for(CalendarEvent thisEvent : snapShotEvents) {
+//                            userEvents.add(thisEvent);
+//                            System.out.println("FROM DATABASE ACCESS: event" + thisEvent);
+//                        }
+//                    }
+//
+//                    @Override
+//                    public void onCancelled(DatabaseError databaseError) {
+//                        // ...
+//                    }
+//                });
+//            }
+//
+//        }).execute();
+//        return userEvents;
+//    }
+
 
     static String parseAccountName(String accountNameString) {
         int atIndex = accountNameString.indexOf('@');

@@ -110,10 +110,36 @@ public class MyCalendarActivity extends Activity {
         setCalendarTransitions();
 
         //new SyncCalendarTask(Account.getInstance().googleCred).execute();
-        DatabaseAccess.createGroup("MyGroupppp", Arrays.asList(new String[] { "14bmkelley", "bitsbots3812" }));
-        for(String member : DatabaseAccess.getGroupMembers("Brandon's Group")) {
-            System.out.println("member: " + member);
-        }
+        DatabaseAccess.createGroup("MyGroupppp", Arrays.asList(new String[] { "14bmkelley", "bitsbots3812", "jessieemail" }));
+
+        SimpleCallback<List<String>> cb = new SimpleCallback<List<String>>() {
+            @Override
+            public void callback(List<String> data1) {
+                if (data1 != null) {
+                    for (String member : data1) {
+                        System.out.println("THIS MEMBER!!: " + member);
+                    }
+                } else {
+                    System.out.println("!!!!!!!!!!!!!THE MEMBER ARRAY IS NULL!!!!!!!!!!!!");
+                }
+            }
+        };
+        DatabaseAccess.getGroupMembersWithCallback(cb, "Brandon's Group");
+
+
+        SimpleCallback<List<CalendarEvent>> cb2 = new SimpleCallback<List<CalendarEvent>>() {
+            @Override
+            public void callback(List<CalendarEvent> data2) {
+                if (data2 != null) {
+                    for (CalendarEvent thisEvent : data2) {
+                        System.out.println("THIS EVENT: " + thisEvent);
+                    }
+                } else {
+                    System.out.println("!!!!!!!!!!!!!THE EVENT ARRAY IS NULL!!!!!!!!!!!!");
+                }
+            }
+        };
+        DatabaseAccess.getUserEventListWithCallback(cb2, "14bmkelley");
     }
 
 
@@ -324,10 +350,10 @@ public class MyCalendarActivity extends Activity {
                 dayDateText.setText(dateString);
                 dayEventsList = (ListView) findViewById(R.id.eventList);
                 currentDayEventList = new ArrayList<>();
-                currentDayEventList.add(new CalendarEvent("Test 1", "Testing", "The Den", new EventDateTime(), new EventDateTime(), new ArrayList<User>(), new EventDateTime()));
-                currentDayEventList.add(new CalendarEvent("Test 2", "Testing", "The Den", new EventDateTime(), new EventDateTime(), new ArrayList<User>(), new EventDateTime()));
-                currentDayEventList.add(new CalendarEvent("Test 3", "Testing", "The Den", new EventDateTime(), new EventDateTime(), new ArrayList<User>(), new EventDateTime()));
-                currentDayEventList.add(new CalendarEvent("Test 4", "Testing", "The Den", new EventDateTime(), new EventDateTime(), new ArrayList<User>(), new EventDateTime()));
+                currentDayEventList.add(new CalendarEvent("Test 1", "Testing", "The Den", new EventDateTime(), new EventDateTime(), "creator"));
+                currentDayEventList.add(new CalendarEvent("Test 2", "Testing", "The Den", new EventDateTime(), new EventDateTime(), "creator"));
+                currentDayEventList.add(new CalendarEvent("Test 3", "Testing", "The Den", new EventDateTime(), new EventDateTime(), "creator"));
+                currentDayEventList.add(new CalendarEvent("Test 4", "Testing", "The Den", new EventDateTime(), new EventDateTime(), "creator"));
 
                 eventListAdapter = new EventListAdapter(this, currentDayEventList);
                 if (dayEventsList != null) {
@@ -374,16 +400,32 @@ public class MyCalendarActivity extends Activity {
                         .setSingleEvents(true)
                         .execute();
                 List<Event> items = events.getItems();
+                List<CalendarEvent> calendarEvents = new ArrayList<CalendarEvent>();
+                String eventName;
+                String eventDescription;
+                String location;
+                EventDateTime startTime;
+                EventDateTime endTime;
+                CalendarEvent thisCalendarEvent;
+                String creator;
+                for(Event thisItem : items) {
+                    eventName = thisItem.getSummary();
+                    eventDescription = thisItem.getDescription();
+                    location = thisItem.getLocation();
+                    startTime = thisItem.getStart();
+                    endTime = thisItem.getEnd();
+                    creator = thisItem.getCreator().getEmail();
+                    thisCalendarEvent = new CalendarEvent(eventName, eventDescription, location, startTime, endTime, creator);
+                    calendarEvents.add(thisCalendarEvent);
+                }
                 FirebaseDatabase.getInstance().getReference().child("users")
                         .child(DatabaseAccess.parseAccountName(credential.getSelectedAccountName()))
-                        .child("events").setValue(items);
+                        .child("events").setValue(calendarEvents);
             }
             catch (Exception e) {
                 e.printStackTrace();
             }
             return null;
         }
-
     }
-
 }
