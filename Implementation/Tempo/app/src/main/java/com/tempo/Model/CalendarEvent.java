@@ -18,8 +18,8 @@ public class CalendarEvent {
      * The location of the event in the form of a standard address
      */
     private String location;
-    private EventDateTime startTime;
-    private EventDateTime endTime;
+    private long startTime;
+    private long endTime;
     private String owner;
 
     public CalendarEvent() {
@@ -27,7 +27,7 @@ public class CalendarEvent {
     }
 
     public CalendarEvent(String eventName, String eventDescription, String location,
-                         EventDateTime startTime, EventDateTime endTime, String owner) {
+                         long startTime, long endTime, String owner) {
         this.eventName = eventName;
         this.eventDescription = eventDescription;
         this.location = location;
@@ -55,23 +55,20 @@ public class CalendarEvent {
 
     public void setLocation(String location) {this.location = location;}
 
-    public EventDateTime getStartTime() {
+    public long getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(EventDateTime startTime) {this.startTime = startTime;}
+    public void setStartTime(long startTime) {this.startTime = startTime;}
 
-    public EventDateTime getEndTime() {
+    public long getEndTime() {
         return endTime;
     }
 
-    public void setEndTime(EventDateTime endTime) {this.endTime = endTime;}
+    public void setEndTime(long endTime) {this.endTime = endTime;}
 
     public String getOwner() { return owner;}
 
     public void setOwner(String owner) {this.owner = owner;}
-
-
-
 
 }

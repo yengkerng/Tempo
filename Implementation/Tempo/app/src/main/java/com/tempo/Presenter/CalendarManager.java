@@ -106,8 +106,8 @@ public class CalendarManager {
             String eventName;
             String eventDescription;
             String location;
-            EventDateTime startTime;
-            EventDateTime endTime;
+            long startTime;
+            long endTime;
             String owner;
             //Create Calendar Event list array
             List<CalendarEvent> userEvents = new ArrayList<CalendarEvent>();
@@ -130,8 +130,8 @@ public class CalendarManager {
                 eventName = event.getId();
                 eventDescription = event.getDescription();
                 location = event.getLocation();
-                startTime = event.getStart();
-                endTime = event.getEnd();
+                startTime = event.getStart().getDateTime().getValue() + event.getStart().getDateTime().getTimeZoneShift();
+                endTime = event.getEnd().getDateTime().getValue() + event.getStart().getDateTime().getTimeZoneShift();
                 owner = event.getCreator().getEmail();
                 CalendarEvent currentEvent = new CalendarEvent(eventName, eventDescription, location, startTime, endTime, owner);
                 //Add current user event to the user's Calendar Event array list

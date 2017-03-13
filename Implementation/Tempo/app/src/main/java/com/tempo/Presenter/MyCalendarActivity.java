@@ -120,8 +120,8 @@ public class MyCalendarActivity extends Activity {
         setTabTransitions();
         setCalendarTransitions();
 
+        new SyncCalendarTask(Account.getInstance().googleCred).execute();
 
-        //new SyncCalendarTask(Account.getInstance().googleCred).execute();
         DatabaseAccess.createGroup("MyGroupppp", Arrays.asList(new String[] { "14bmkelley", "bitsbots3812", "jessieemail" }));
 
         SimpleCallback<List<String>> cb = new SimpleCallback<List<String>>() {
@@ -432,10 +432,10 @@ public class MyCalendarActivity extends Activity {
                 dayDateText.setText(dateString);
                 dayEventsList = (ListView) findViewById(R.id.eventList);
                 currentDayEventList = new ArrayList<>();
-                currentDayEventList.add(new CalendarEvent("Test 1", "Testing", "The Den", new EventDateTime(), new EventDateTime(), "creator"));
-                currentDayEventList.add(new CalendarEvent("Test 2", "Testing", "The Den", new EventDateTime(), new EventDateTime(), "creator"));
-                currentDayEventList.add(new CalendarEvent("Test 3", "Testing", "The Den", new EventDateTime(), new EventDateTime(), "creator"));
-                currentDayEventList.add(new CalendarEvent("Test 4", "Testing", "The Den", new EventDateTime(), new EventDateTime(), "creator"));
+                currentDayEventList.add(new CalendarEvent("Test 1", "Testing", "The Den", 0, 1, "creator"));
+                currentDayEventList.add(new CalendarEvent("Test 2", "Testing", "The Den", 0, 1, "creator"));
+                currentDayEventList.add(new CalendarEvent("Test 3", "Testing", "The Den", 0, 1, "creator"));
+                currentDayEventList.add(new CalendarEvent("Test 4", "Testing", "The Den", 0, 1, "creator"));
 
                 eventListAdapter = new EventListAdapter(this, currentDayEventList);
                 if (dayEventsList != null) {
@@ -486,16 +486,16 @@ public class MyCalendarActivity extends Activity {
                 String eventName;
                 String eventDescription;
                 String location;
-                EventDateTime startTime;
-                EventDateTime endTime;
+                long startTime;
+                long endTime;
                 CalendarEvent thisCalendarEvent;
                 String creator;
                 for(Event thisItem : items) {
                     eventName = thisItem.getSummary();
                     eventDescription = thisItem.getDescription();
                     location = thisItem.getLocation();
-                    startTime = thisItem.getStart();
-                    endTime = thisItem.getEnd();
+                    startTime = thisItem.getStart().getDateTime().getValue() + thisItem.getStart().getDateTime().getTimeZoneShift();
+                    endTime = thisItem.getEnd().getDateTime().getValue() + thisItem.getStart().getDateTime().getTimeZoneShift();
                     creator = thisItem.getCreator().getEmail();
                     thisCalendarEvent = new CalendarEvent(eventName, eventDescription, location, startTime, endTime, creator);
                     calendarEvents.add(thisCalendarEvent);

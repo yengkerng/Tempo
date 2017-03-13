@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.tempo.Model.CalendarEvent;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 /**
  * Created by Costin on 3/9/17.
@@ -51,9 +52,9 @@ public class EventListAdapter extends BaseAdapter {
         CalendarEvent ce = (CalendarEvent) getItem(position);
 
         NameOfEvent.setText(ce.getEventName());
-        StartTimeOfEvent.setText(ce.getStartTime().toString());
+        StartTimeOfEvent.setText(String.format(Locale.US, "%d", ce.getStartTime()));
         Dash.setText(" - ");
-        EndTimeOfEvent.setText(ce.getEndTime().toString());
+        EndTimeOfEvent.setText(String.format(Locale.US, "%d", ce.getEndTime()));
         LocationOfEvent.setText(ce.getLocation());
 
 

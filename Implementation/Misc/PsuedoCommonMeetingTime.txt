@@ -37,7 +37,7 @@ public class AttendancePair implements Comparable<AttendancePair>
     }
 }
 
-Hashtable<time, int> initializeUserFreeTable(time startTime, time endTime, time resolution, int amountUsers) {
+public static Hashtable<time, int> initializeUserFreeTable(time startTime, time endTime, time resolution, int amountUsers) {
     Hashtable<time, int> usersFree = new Hashtable<>();
 
     // initialize the amount of users free for all times that we are considering
@@ -49,7 +49,7 @@ Hashtable<time, int> initializeUserFreeTable(time startTime, time endTime, time 
     return usersFree;
 }
 
-void calculateFreeTimes(list<list<event>> userCalendars, time startTime, time resolution, Hashtable<time, int> usersFree) {
+public static void calculateFreeTimes(list<list<event>> userCalendars, time startTime, time resolution, Hashtable<time, int> usersFree) {
     // iterate through all calendars and decrement a position in the table if a user has an event already at that time
     for (list<event> user : usersCalendars)
     {
@@ -71,7 +71,7 @@ void calculateFreeTimes(list<list<event>> userCalendars, time startTime, time re
     }
 }
 
-List<AttendancePair> calculateAvailableTimes(time startTime, 
+public static List<AttendancePair> calculateAvailableTimes(time startTime, 
 					     time endTime, 
 					     time resolution,
 					     time meetingSpan, 
