@@ -15,7 +15,6 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.14.1/taskArtifacts/fileSnapshots.bin" afterPath="$PROJECT_DIR$/.gradle/2.14.1/taskArtifacts/fileSnapshots.bin" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.14.1/taskArtifacts/fileSnapshotsToTreeSnapshotsIndex.bin" afterPath="$PROJECT_DIR$/.gradle/2.14.1/taskArtifacts/fileSnapshotsToTreeSnapshotsIndex.bin" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.14.1/taskArtifacts/taskArtifacts.bin" afterPath="$PROJECT_DIR$/.gradle/2.14.1/taskArtifacts/taskArtifacts.bin" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.14.1/tasks/_app_compileDebugJavaWithJavac/localClassSetAnalysis/localClassSetAnalysis.bin" afterPath="$PROJECT_DIR$/.gradle/2.14.1/tasks/_app_compileDebugJavaWithJavac/localClassSetAnalysis/localClassSetAnalysis.bin" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.14.1/tasks/_app_compileDebugJavaWithJavac/localClassSetAnalysis/localClassSetAnalysis.lock" afterPath="$PROJECT_DIR$/.gradle/2.14.1/tasks/_app_compileDebugJavaWithJavac/localClassSetAnalysis/localClassSetAnalysis.lock" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.14.1/tasks/_app_compileDebugJavaWithJavac/localJarClasspathSnapshot/localJarClasspathSnapshot.bin" afterPath="$PROJECT_DIR$/.gradle/2.14.1/tasks/_app_compileDebugJavaWithJavac/localJarClasspathSnapshot/localJarClasspathSnapshot.bin" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.14.1/tasks/_app_compileDebugJavaWithJavac/localJarClasspathSnapshot/localJarClasspathSnapshot.lock" afterPath="$PROJECT_DIR$/.gradle/2.14.1/tasks/_app_compileDebugJavaWithJavac/localJarClasspathSnapshot/localJarClasspathSnapshot.lock" />
@@ -54,14 +53,14 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="600">
-      <file leaf-file-name="MyCalendarActivity.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="MyCalendarActivity.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/tempo/Presenter/MyCalendarActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="200">
-              <caret line="497" column="0" selection-start-line="497" selection-start-column="0" selection-end-line="497" selection-end-column="0" />
+            <state relative-caret-position="300">
+              <caret line="123" column="0" selection-start-line="123" selection-start-column="0" selection-end-line="123" selection-end-column="0" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#17555#17570#0" expanded="true" />
+                <element signature="e#17504#17519#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -133,27 +132,39 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="DatabaseAccess.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="DatabaseAccess.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/tempo/Presenter/DatabaseAccess.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="293">
-              <caret line="59" column="52" selection-start-line="59" selection-start-column="52" selection-end-line="59" selection-end-column="52" />
+            <state relative-caret-position="425">
+              <caret line="67" column="25" selection-start-line="67" selection-start-column="25" selection-end-line="67" selection-end-column="25" />
               <folding>
                 <element signature="e#808#1380#0" expanded="true" />
                 <element signature="e#1379#1380#0" expanded="true" />
-                <element signature="e#1482#2954#0" expanded="true" />
-                <element signature="e#2953#2954#0" expanded="true" />
-                <element signature="e#4623#4631#0" expanded="true" />
-                <element signature="e#4666#5820#0" expanded="true" />
-                <element signature="e#5819#5820#0" expanded="true" />
-                <element signature="e#6038#6053#0" expanded="true" />
-                <element signature="e#6088#7290#0" expanded="true" />
-                <element signature="e#7289#7290#0" expanded="true" />
-                <element signature="e#7531#7552#0" expanded="true" />
-                <element signature="e#7587#8950#0" expanded="true" />
-                <element signature="e#8949#8950#0" expanded="true" />
-                <marker date="1489445954322" expanded="false" signature="11536:11551" ph=" { " />
-                <marker date="1489445954322" expanded="false" signature="11598:11608" ph=" }" />
+                <element signature="e#1482#3096#0" expanded="true" />
+                <element signature="e#3095#3096#0" expanded="true" />
+                <element signature="e#4765#4773#0" expanded="true" />
+                <element signature="e#4808#5962#0" expanded="true" />
+                <element signature="e#5961#5962#0" expanded="true" />
+                <element signature="e#6180#6195#0" expanded="true" />
+                <element signature="e#6230#7432#0" expanded="true" />
+                <element signature="e#7431#7432#0" expanded="true" />
+                <element signature="e#7673#7694#0" expanded="true" />
+                <element signature="e#7729#9092#0" expanded="true" />
+                <element signature="e#9091#9092#0" expanded="true" />
+                <marker date="1489447878873" expanded="false" signature="11678:11693" ph=" { " />
+                <marker date="1489447878873" expanded="false" signature="11740:11750" ph=" }" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Handler.java" pinned="false" current-in-tab="false">
+        <entry file="file://$USER_HOME$/AppData/Local/Android/sdk/sources/android-25/android/os/Handler.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="168">
+              <caret line="750" column="0" selection-start-line="750" selection-start-column="0" selection-end-line="750" selection-end-column="0" />
+              <folding>
+                <element signature="e#30090#30091#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -2004,8 +2015,8 @@
         <option value="$PROJECT_DIR$/app/src/main/java/com/tempo/Presenter/CalendarManager.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/tempo/Presenter/EventListAdapter.java" />
         <option value="$PROJECT_DIR$/app/src/test/java/com/tempo/TestAlgorithmLoops.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/tempo/Presenter/MyCalendarActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/tempo/Presenter/DatabaseAccess.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/tempo/Presenter/MyCalendarActivity.java" />
       </list>
     </option>
   </component>
@@ -2412,7 +2423,7 @@
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.19297297" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32880098" sideWeight="0.48216215" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32880098" sideWeight="0.48216215" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32880098" sideWeight="0.49783784" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Captures" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32880098" sideWeight="0.5178378" order="7" side_tool="true" content_ui="tabs" />
@@ -2687,8 +2698,7 @@
         <state relative-caret-position="681">
           <caret line="106" column="24" selection-start-line="106" selection-start-column="24" selection-end-line="106" selection-end-column="24" />
           <folding>
-            <element signature="e#3378#4698#0" expanded="true" />
-            <element signature="e#4697#4698#0" expanded="true" />
+            <element signature="e#4697#4698#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -2797,37 +2807,47 @@
         <state />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/tempo/Presenter/MyCalendarActivity.java">
+    <entry file="file://$USER_HOME$/AppData/Local/Android/sdk/sources/android-25/android/os/Handler.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="200">
-          <caret line="497" column="0" selection-start-line="497" selection-start-column="0" selection-end-line="497" selection-end-column="0" />
+        <state relative-caret-position="168">
+          <caret line="750" column="0" selection-start-line="750" selection-start-column="0" selection-end-line="750" selection-end-column="0" />
           <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#17555#17570#0" expanded="true" />
+            <element signature="e#30090#30091#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/tempo/Presenter/DatabaseAccess.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="293">
-          <caret line="59" column="52" selection-start-line="59" selection-start-column="52" selection-end-line="59" selection-end-column="52" />
+        <state relative-caret-position="425">
+          <caret line="67" column="25" selection-start-line="67" selection-start-column="25" selection-end-line="67" selection-end-column="25" />
           <folding>
             <element signature="e#808#1380#0" expanded="true" />
             <element signature="e#1379#1380#0" expanded="true" />
-            <element signature="e#1482#2954#0" expanded="true" />
-            <element signature="e#2953#2954#0" expanded="true" />
-            <element signature="e#4623#4631#0" expanded="true" />
-            <element signature="e#4666#5820#0" expanded="true" />
-            <element signature="e#5819#5820#0" expanded="true" />
-            <element signature="e#6038#6053#0" expanded="true" />
-            <element signature="e#6088#7290#0" expanded="true" />
-            <element signature="e#7289#7290#0" expanded="true" />
-            <element signature="e#7531#7552#0" expanded="true" />
-            <element signature="e#7587#8950#0" expanded="true" />
-            <element signature="e#8949#8950#0" expanded="true" />
-            <marker date="1489445954322" expanded="false" signature="11536:11551" ph=" { " />
-            <marker date="1489445954322" expanded="false" signature="11598:11608" ph=" }" />
+            <element signature="e#1482#3096#0" expanded="true" />
+            <element signature="e#3095#3096#0" expanded="true" />
+            <element signature="e#4765#4773#0" expanded="true" />
+            <element signature="e#4808#5962#0" expanded="true" />
+            <element signature="e#5961#5962#0" expanded="true" />
+            <element signature="e#6180#6195#0" expanded="true" />
+            <element signature="e#6230#7432#0" expanded="true" />
+            <element signature="e#7431#7432#0" expanded="true" />
+            <element signature="e#7673#7694#0" expanded="true" />
+            <element signature="e#7729#9092#0" expanded="true" />
+            <element signature="e#9091#9092#0" expanded="true" />
+            <marker date="1489447878873" expanded="false" signature="11678:11693" ph=" { " />
+            <marker date="1489447878873" expanded="false" signature="11740:11750" ph=" }" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/tempo/Presenter/MyCalendarActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="300">
+          <caret line="123" column="0" selection-start-line="123" selection-start-column="0" selection-end-line="123" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#17504#17519#0" expanded="true" />
           </folding>
         </state>
       </provider>

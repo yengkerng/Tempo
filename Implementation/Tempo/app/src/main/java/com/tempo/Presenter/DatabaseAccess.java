@@ -48,20 +48,24 @@ class DatabaseAccess {
 
                 final DatabaseReference db = FirebaseDatabase.getInstance().getReference();
 
+
                 db.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         GenericTypeIndicator<HashMap<String, String>> t1 = new GenericTypeIndicator<HashMap<String, String>>() {};
                         HashMap<String, String> groupMembers = dataSnapshot.child("groups").child(name).getValue(t1);
 
-                        for (String member : groupMembers.values()) {
-                            GenericTypeIndicator<HashMap<String, String>> t2 = new GenericTypeIndicator<HashMap<String, String>>() {};
-                            HashMap<String, String> userGroups = dataSnapshot.child("users").child(member).child("groups").getValue(t2);
-                            while(userGroups.values().remove(name));
-                            db.child("users").child(member).child("groups").setValue(userGroups);
-                        }
+                        if (groupMembers != null) {
+                            for (String member : groupMembers.values()) {
+                                GenericTypeIndicator<HashMap<String, String>> t2 = new GenericTypeIndicator<HashMap<String, String>>() {
+                                };
+                                HashMap<String, String> userGroups = dataSnapshot.child("users").child(member).child("groups").getValue(t2);
+                                while (userGroups.values().remove(name)) ;
+                                db.child("users").child(member).child("groups").setValue(userGroups);
+                            }
 
-                        db.child("groups").child(name).removeValue();
+                            db.child("groups").child(name).removeValue();
+                        }
                     }
 
                     @Override
