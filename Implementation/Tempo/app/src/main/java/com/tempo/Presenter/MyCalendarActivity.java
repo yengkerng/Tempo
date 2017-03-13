@@ -121,7 +121,8 @@ public class MyCalendarActivity extends Activity {
         setCalendarTransitions();
 
         new SyncCalendarTask(Account.getInstance().googleCred).execute();
-
+        DatabaseAccess.deleteGroup("Test Groupp");
+/*
         DatabaseAccess.createGroup("MyGroupppp", Arrays.asList(new String[] { "14bmkelley", "bitsbots3812", "jessieemail" }));
 
         SimpleCallback<List<String>> cb = new SimpleCallback<List<String>>() {
@@ -172,6 +173,7 @@ public class MyCalendarActivity extends Activity {
             }
         };
         DatabaseAccess.getAllMembersCalendarEventsWithCallback(cb3, "Brandon's Group");
+*/
     }
 
 
