@@ -40,6 +40,39 @@ class DatabaseAccess {
 
     }
 
+    static List<String> getUserGroups(final String userName) {
+        final List<String> groupList = new ArrayList<>();
+
+        new DatabaseAccessTask(new DatabaseAccessCallback() {
+            @Override
+            public void call() throws DatabaseAccessException {
+
+                final DatabaseReference db = FirebaseDatabase.getInstance().getReference();
+                final DatabaseReference userGroupsRef = db.child("users").child(userName).child("groups");
+
+                userGroupsRef.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        GenericTypeIndicator<HashMap<String, String>> t1 = new GenericTypeIndicator<HashMap<String, String>>() {};
+                        HashMap<String, String> groups = dataSnapshot.getValue(t1);
+
+                        if (groups != null) { groupList.addAll(groups.values()); }
+                        for (String group : groupList) {
+                            System.out.println("THIS IS FROM THE FUNCTION: " + group);
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        // ...
+                    }
+                });
+            }
+        }).execute();
+
+        return groupList;
+    }
+
     static void deleteGroup(final String name) {
 
         new DatabaseAccessTask(new DatabaseAccessCallback() {
@@ -47,7 +80,6 @@ class DatabaseAccess {
             public void call() throws DatabaseAccessException {
 
                 final DatabaseReference db = FirebaseDatabase.getInstance().getReference();
-
 
                 db.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
