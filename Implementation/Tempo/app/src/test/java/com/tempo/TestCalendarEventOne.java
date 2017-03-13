@@ -27,17 +27,10 @@ public class TestCalendarEventOne {
         String name = "Running a Test";
         String description = "We are trying to run a JUnit Test";
         String location = "On the Computer";
-        EventDateTime start = new EventDateTime();
-        EventDateTime end = new EventDateTime();
-        EventDateTime notificationTime = new EventDateTime();
-        DateTime startDate = new DateTime(5);
-        DateTime endDate = new DateTime(30);
-        DateTime notTime = new DateTime(1);
+        long start = 0;
+        long end = 1;
         ArrayList<User> attendees = null;
-        start.setDate(startDate);
-        end.setDate(endDate);
-        notificationTime.setDate(notTime);
-        CalendarEvent newEvent = new CalendarEvent(name, description, location, start, end, attendees, notificationTime);
+        CalendarEvent newEvent = new CalendarEvent(name, description, location, start, end, null);
         assertEquals(name, newEvent.getEventName());
     }
 
@@ -46,17 +39,10 @@ public class TestCalendarEventOne {
         String name = "Running a Test";
         String description = "We are trying to run a JUnit Test";
         String location = "On the Computer";
-        EventDateTime start = new EventDateTime();
-        EventDateTime end = new EventDateTime();
-        EventDateTime notificationTime = new EventDateTime();
-        DateTime startDate = new DateTime(5);
-        DateTime endDate = new DateTime(30);
-        DateTime notTime = new DateTime(1);
+        long start = 0;
+        long end = 2;
         ArrayList<User> attendees = null;
-        start.setDate(startDate);
-        end.setDate(endDate);
-        notificationTime.setDate(notTime);
-        CalendarEvent newEvent = new CalendarEvent(name, description, location, start, end, attendees, notificationTime);
+        CalendarEvent newEvent = new CalendarEvent(name, description, location, start, end, null);
         assertEquals(description, newEvent.getEventDescription());
     }
 }

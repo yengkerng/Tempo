@@ -23,42 +23,29 @@ import static org.junit.Assert.*;
 public class TestCalendarEventThree {
 
     @Test
-    public void TestGetEventNotification() {
+    public void TestGetEventOwner() {
         String name = "Running a Test";
         String description = "We are trying to run a JUnit Test";
         String location = "On the Computer";
-        EventDateTime start = new EventDateTime();
-        EventDateTime end = new EventDateTime();
-        EventDateTime notificationTime = new EventDateTime();
-        DateTime startDate = new DateTime(5);
-        DateTime endDate = new DateTime(30);
-        DateTime notTime = new DateTime(1);
+        User owner = new User("Jessie", "smithygirl@gmail.com");
+        long start = 0;
+        long end = 1;
         ArrayList<User> attendees = null;
-        start.setDate(startDate);
-        end.setDate(endDate);
-        notificationTime.setDate(notTime);
-        CalendarEvent newEvent = new CalendarEvent(name, description, location, start, end, attendees, notificationTime);
-        assertEquals(notificationTime, newEvent.getEventNotification());
+        CalendarEvent newEvent = new CalendarEvent(name, description, location, start, end, owner.getUserName());
+        assertEquals(owner.getUserName(), newEvent.getOwner());
     }
 
     @Test
-    public void TestAddUserToEvent() {
+    public void TestSetEventOwner() {
         String name = "Running a Test";
         String description = "We are trying to run a JUnit Test";
         String location = "On the Computer";
         User randomUser = new User("Falessi", "dfalessi@calpoly.edu");
-        EventDateTime start = new EventDateTime();
-        EventDateTime end = new EventDateTime();
-        EventDateTime notificationTime = new EventDateTime();
-        DateTime startDate = new DateTime(5);
-        DateTime endDate = new DateTime(30);
-        DateTime notTime = new DateTime(1);
-        ArrayList<User> attendees = new ArrayList<>();
-        start.setDate(startDate);
-        end.setDate(endDate);
-        notificationTime.setDate(notTime);
-        CalendarEvent newEvent = new CalendarEvent(name, description, location, start, end, attendees, notificationTime);
-        newEvent.addUserToEvent(randomUser);
-        assertEquals(true, newEvent.getAttendees().contains(randomUser));
+        User owner = new User("Jessie", "smithygirl@gmail.com");
+        long start = 0;
+        long end = 1;
+        CalendarEvent newEvent = new CalendarEvent(name, description, location, start, end, null);
+        newEvent.setOwner(owner.getUserName());
+        assertEquals(owner.getUserName(), newEvent.getOwner());
     }
 }

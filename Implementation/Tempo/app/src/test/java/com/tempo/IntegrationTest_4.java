@@ -37,9 +37,9 @@ public class IntegrationTest_4 {
     @Test
     public void TestCalendarManagerGroupGetCal() {
         User admin = new User("Jessie", "smithygirl@gmail.com");
-        EventDateTime startDate = new EventDateTime();
+        long startDate = 0;
         Date start_date = new Date();
-        EventDateTime endDate = new EventDateTime();
+        long endDate = 1;
         Date end_date = new Date();
         ArrayList<User> members = new ArrayList<User>();
         members.add(admin);
@@ -48,8 +48,8 @@ public class IntegrationTest_4 {
         CalendarManager manager = new CalendarManager(testView, admin);
         Group testGroup = new Group("Test Group", admin, members, manager);
         admin.createNewGroup(testGroup);
-        CalendarEvent event1 = new CalendarEvent("Study", "Finish the Project", "Library", startDate, endDate, null, null);
-        CalendarEvent event2 = new CalendarEvent("Study", "Finish the Project", "Library", startDate, endDate, null, null);
+        CalendarEvent event1 = new CalendarEvent("Study", "Finish the Project", "Library", startDate, endDate, null);
+        CalendarEvent event2 = new CalendarEvent("Study", "Finish the Project", "Library", startDate, endDate, null);
         events.add(event1);
         events.add(event2);
         assertEquals(manager, admin.getGroups().get(0).getCalendar());
@@ -63,9 +63,9 @@ public class IntegrationTest_4 {
     @Test
     public void TestCalendarManagerGroup() {
         User admin = new User("Jessie", "smithygirl@gmail.com");
-        EventDateTime startDate = new EventDateTime();
+        long startDate = 0;
         Date start_date = new Date();
-        EventDateTime endDate = new EventDateTime();
+        long endDate = 1;
         Date end_date = new Date();
         ArrayList<User> members = new ArrayList<User>();
         members.add(admin);
@@ -74,8 +74,8 @@ public class IntegrationTest_4 {
         CalendarManager manager = new CalendarManager(testView, admin);
         Group testGroup = new Group("Test Group", admin, members, manager);
         admin.createNewGroup(testGroup);
-        CalendarEvent event1 = new CalendarEvent("Study", "Finish the Project", "Library", startDate, endDate, null, null);
-        CalendarEvent event2 = new CalendarEvent("Study", "Finish the Project", "Library", startDate, endDate, null, null);
+        CalendarEvent event1 = new CalendarEvent("Study", "Finish the Project", "Library", startDate, endDate, null);
+        CalendarEvent event2 = new CalendarEvent("Study", "Finish the Project", "Library", startDate, endDate, null);
         events.add(event1);
         events.add(event2);
         assertEquals(event1.getEventName(), manager.addEvent(event1.getEventName()));

@@ -36,11 +36,11 @@ public class IntegrationTest_3 {
      */
     @Test
     public void TestCalendarEventandManagerUserEvents() {
-        EventDateTime startDate = new EventDateTime();
+        long startDate = 0;
+        long endDate = 1;
         Date start_date = new Date();
-        EventDateTime endDate = new EventDateTime();
         Date end_date = new Date();
-        CalendarEvent thisEvent = new CalendarEvent("Study", "Finish the Project", "Library", startDate, endDate, null, null);
+        CalendarEvent thisEvent = new CalendarEvent("Study", "Finish the Project", "Library", startDate, endDate, null);
         ArrayList<CalendarEvent> events = new ArrayList<CalendarEvent>();
         MonthView testView = new MonthView(events, start_date, end_date);
         User admin = new User("Jessie", "smithygirl@gmail.com");
@@ -57,9 +57,9 @@ public class IntegrationTest_3 {
     @Test
     public void TestCalendarEventandManagerGetCal() {
         User admin = new User("Jessie", "smithygirl@gmail.com");
-        EventDateTime startDate = new EventDateTime();
+        long startDate = 0;
         Date start_date = new Date();
-        EventDateTime endDate = new EventDateTime();
+        long endDate = 1;
         Date end_date = new Date();
         ArrayList<User> members = new ArrayList<User>();
         members.add(admin);
@@ -68,8 +68,8 @@ public class IntegrationTest_3 {
         CalendarManager manager = new CalendarManager(testView, admin);
         Group testGroup = new Group("Test Group", admin, members, manager);
         admin.createNewGroup(testGroup);
-        CalendarEvent event1 = new CalendarEvent("Study", "Finish the Project", "Library", startDate, endDate, null, null);
-        CalendarEvent event2 = new CalendarEvent("Study", "Finish the Project", "Library", startDate, endDate, null, null);
+        CalendarEvent event1 = new CalendarEvent("Study", "Finish the Project", "Library", startDate, endDate, null);
+        CalendarEvent event2 = new CalendarEvent("Study", "Finish the Project", "Library", startDate, endDate, null);
         events.add(event1);
         events.add(event2);
         assertEquals(manager.toString(), admin.getGroups().get(0).getCalendar().toString());
