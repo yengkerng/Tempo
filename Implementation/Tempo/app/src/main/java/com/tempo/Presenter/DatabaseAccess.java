@@ -134,6 +134,42 @@ class DatabaseAccess {
         }).execute();
     }
 
+    static void getAllMembersCalendarEventsWithCallback(@NonNull final SimpleCallback<List<List<CalendarEvent>>> finishedCallback,final String groupName) {
+        final List<List<CalendarEvent>> allEvents = new ArrayList<List<CalendarEvent>>();
+        new DatabaseAccessTask(new DatabaseAccessCallback() {
+            @Override
+            public void call() throws DatabaseAccessException {
+
+                DatabaseReference db = FirebaseDatabase.getInstance().getReference();
+
+                db.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+
+                        GenericTypeIndicator<ArrayList<String>> t1 = new GenericTypeIndicator<ArrayList<String>>() {};
+                        List<String> members = dataSnapshot.child("groups").child(groupName).getValue(t1);
+
+                        for (String user : members) {
+                            GenericTypeIndicator<ArrayList<CalendarEvent>> t2 = new GenericTypeIndicator<ArrayList<CalendarEvent>>() {};
+                            List<CalendarEvent> userCalendar = dataSnapshot.child("users").child(user).child("events").getValue(t2);
+
+                            allEvents.add(userCalendar);
+                        }
+
+                        // execute callback function
+                        finishedCallback.callback(allEvents);
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        // ...
+                    }
+                });
+            }
+
+        }).execute();
+    }
+
 
     /*
     This was the method to get user event list without a callback

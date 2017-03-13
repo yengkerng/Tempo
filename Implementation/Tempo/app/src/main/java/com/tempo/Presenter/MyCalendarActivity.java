@@ -140,6 +140,26 @@ public class MyCalendarActivity extends Activity {
             }
         };
         DatabaseAccess.getUserEventListWithCallback(cb2, "14bmkelley");
+
+        SimpleCallback<List<List<CalendarEvent>>> cb3 = new SimpleCallback<List<List<CalendarEvent>>>() {
+            @Override
+            public void callback(List<List<CalendarEvent>> data3) {
+                if (data3 != null) {
+                    int i = 0;
+                    for (List<CalendarEvent> calendar : data3) {
+                        System.out.println("THIS IS CALENDAR #" + i);
+                        i += 1;
+                        for (CalendarEvent thisEvent : calendar) {
+                            System.out.println("    THIS EVENT IN THE CALENDAR: " + thisEvent);
+                        }
+                        System.out.print("\n");
+                    }
+                } else {
+                    System.out.println("!!!!!!!!!!!!!THE GROUP'S EVENT ARRAYS ARE NULL!!!!!!!!!!!!");
+                }
+            }
+        };
+        DatabaseAccess.getAllMembersCalendarEventsWithCallback(cb3, "Brandon's Group");
     }
 
 
