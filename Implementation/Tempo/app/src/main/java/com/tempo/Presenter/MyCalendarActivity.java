@@ -111,7 +111,9 @@ public class MyCalendarActivity extends Activity {
 
         //new SyncCalendarTask(Account.getInstance().googleCred).execute();
         DatabaseAccess.createGroup("MyGroupppp", Arrays.asList(new String[] { "14bmkelley", "bitsbots3812" }));
-
+        for(String member : DatabaseAccess.getGroupMembers("Brandon's Group")) {
+            System.out.println("member: " + member);
+        }
     }
 
 
