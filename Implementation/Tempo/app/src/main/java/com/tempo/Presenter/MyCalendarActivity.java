@@ -8,11 +8,14 @@ import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.CalendarView;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -96,10 +99,18 @@ public class MyCalendarActivity extends Activity {
 
     private static Context context;
 
+    private EditText newGroupEdit;
+    private Button createGroupButton;
+    private String userEmail, userDisplayName;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
+        Bundle userInfo = getIntent().getExtras();
+        userEmail = userInfo.getString("userEmail");
+        userDisplayName = userInfo.getString("username");
         MyCalendarActivity.context = getApplicationContext();
         setContentView(R.layout.activity_my_calendar);
 
@@ -108,6 +119,7 @@ public class MyCalendarActivity extends Activity {
         displayEvents();
         setTabTransitions();
         setCalendarTransitions();
+
 
         //new SyncCalendarTask(Account.getInstance().googleCred).execute();
         DatabaseAccess.createGroup("MyGroupppp", Arrays.asList(new String[] { "14bmkelley", "bitsbots3812", "jessieemail" }));
@@ -303,6 +315,56 @@ public class MyCalendarActivity extends Activity {
                 });
 
 
+                setUpGroupTabInteraction();
+
+        }
+    }
+
+    private void setUpGroupTabInteraction() {
+
+        setUpNewGroupAbility();
+    }
+
+    private void setUpNewGroupAbility() {
+
+        newGroupEdit = (EditText) findViewById(R.id.newGroup);
+        final List<User> users = new ArrayList<>();
+        users.add(new User(userDisplayName, userEmail));
+
+        final List<String> userEmailList = new ArrayList<>();
+        userEmailList.add(userEmail.split("@")[0]);
+
+        newGroupEdit.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (keyCode == KeyEvent.KEYCODE_ENTER) {
+                    if (event.getAction() == KeyEvent.ACTION_DOWN) {
+                        createNewGroup(users, userEmailList);
+                    }
+                    return true;
+                }
+                return false;
+            }
+        });
+
+
+        createGroupButton = (Button) findViewById(R.id.newGroupSubmit);
+
+        createGroupButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                createNewGroup(users, userEmailList);
+            }
+        });
+
+    }
+
+    public void createNewGroup(List<User> users, List<String> userEmailList) {
+        String groupName = newGroupEdit.getText().toString();
+        if (groupName.length() != 0) {
+            groupList.add(new Group(groupName, new User(userDisplayName, userEmail), (ArrayList<User>) users));
+            DatabaseAccess.createGroup(groupName, userEmailList);
+            newGroupEdit.setText("");
         }
     }
 

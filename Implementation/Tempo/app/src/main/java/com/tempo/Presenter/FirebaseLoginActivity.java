@@ -100,7 +100,16 @@ public class FirebaseLoginActivity extends Activity {
                         public void onComplete(@NonNull Task<AuthResult> task) {
 
                             if (task.isSuccessful()) {
-                                startActivity(new Intent(FirebaseLoginActivity.this, MyCalendarActivity.class));
+                                Intent calendarIntent = new Intent(FirebaseLoginActivity.this, MyCalendarActivity.class);
+                                Bundle userInfo = new Bundle();
+                                userInfo.putString("userEmail", account.getEmail());
+                                userInfo.putString("username", account.getDisplayName());
+                                calendarIntent.putExtras(userInfo);
+                                /*if (account.getDisplayName() != null && account.getEmail() != null) {
+                                    calendarIntent.putExtra("userEmail", account.getEmail());
+                                    calendarIntent.putExtra("username", account.getDisplayName());
+                                }*/
+                                startActivity(calendarIntent);
                             }
                             else {
                                 task.getException().printStackTrace();
