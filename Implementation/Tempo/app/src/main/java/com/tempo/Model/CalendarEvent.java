@@ -20,21 +20,20 @@ public class CalendarEvent {
     private String location;
     private EventDateTime startTime;
     private EventDateTime endTime;
+    private String owner;
 
-    private Group group;
-    private ArrayList<User> attendees;
-    private EventDateTime eventNotification;
+    public CalendarEvent() {
 
+    }
 
     public CalendarEvent(String eventName, String eventDescription, String location,
-                         EventDateTime startTime, EventDateTime endTime, ArrayList<User> attendees, EventDateTime eventNotification) {
+                         EventDateTime startTime, EventDateTime endTime, String owner) {
         this.eventName = eventName;
         this.eventDescription = eventDescription;
         this.location = location;
         this.startTime = startTime;
         this.endTime = endTime;
-        this.attendees = attendees;
-        this.eventNotification = eventNotification;
+        this.owner = owner;
     }
 
 
@@ -42,33 +41,37 @@ public class CalendarEvent {
         return eventName;
     }
 
+    public void setEventName(String eventName) {this.eventName = eventName;}
+
     public String getEventDescription() {
         return eventDescription;
     }
+
+    public void setEventDescription(String eventDescription) {this.eventDescription = eventDescription;}
 
     public String getLocation() {
         return location;
     }
 
+    public void setLocation(String location) {this.location = location;}
+
     public EventDateTime getStartTime() {
         return startTime;
     }
+
+    public void setStartTime(EventDateTime startTime) {this.startTime = startTime;}
 
     public EventDateTime getEndTime() {
         return endTime;
     }
 
-    public List<User> getAttendees() {
-        return attendees;
-    }
+    public void setEndTime(EventDateTime endTime) {this.endTime = endTime;}
 
-    public EventDateTime getEventNotification() {
-        return eventNotification;
-    }
+    public String getOwner() { return owner;}
 
-    public void addUserToEvent(User user) {
-        attendees.add(user);
-    }
+    public void setOwner(String owner) {this.owner = owner;}
 
-    
+
+
+
 }
