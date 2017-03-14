@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.tempo.Model.CalendarEvent;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 /**
@@ -20,9 +21,9 @@ public class EventListAdapter extends BaseAdapter {
 
     private Context mContext;
     private LayoutInflater mInflater;
-    private ArrayList<CalendarEvent> mDataSource;
+    private List<CalendarEvent> mDataSource;
 
-    public EventListAdapter(Context context, ArrayList<CalendarEvent> items) {
+    public EventListAdapter(Context context, List<CalendarEvent> items) {
         mContext = context;
         mDataSource = items;
         mInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);

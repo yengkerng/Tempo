@@ -436,17 +436,19 @@ public class MyCalendarActivity extends Activity {
                 dayDateText = (TextView) findViewById(R.id.dayDate);
                 dayDateText.setText(dateString);
                 dayEventsList = (ListView) findViewById(R.id.eventList);
-                currentDayEventList = new ArrayList<>();
-                currentDayEventList.add(new CalendarEvent("Test 1", "Testing", "The Den", 0, 1, "creator"));
-                currentDayEventList.add(new CalendarEvent("Test 2", "Testing", "The Den", 0, 1, "creator"));
-                currentDayEventList.add(new CalendarEvent("Test 3", "Testing", "The Den", 0, 1, "creator"));
-                currentDayEventList.add(new CalendarEvent("Test 4", "Testing", "The Den", 0, 1, "creator"));
 
-                eventListAdapter = new EventListAdapter(this, currentDayEventList);
-                if (dayEventsList != null) {
-                    dayEventsList.setAdapter(eventListAdapter);
+                final MyCalendarActivity that = this;
 
-                }
+                DatabaseAccess.getUserEventListWithCallback(new SimpleCallback<List<CalendarEvent>>() {
+                    @Override
+                    public void callback(List<CalendarEvent> data) {
+                        eventListAdapter = new EventListAdapter(that, data);
+                        if (dayEventsList != null) {
+                            dayEventsList.setAdapter(eventListAdapter);
+                        }
+                    }
+                }, DatabaseAccess.parseAccountName(userEmail));
+
                 currentCalendar = CalendarType.DAY;
 
         }
