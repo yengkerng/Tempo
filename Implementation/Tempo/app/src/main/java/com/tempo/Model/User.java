@@ -37,6 +37,11 @@ public class User {
         return newGroup;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+
     public String getUserName() {
         return userName;
     }

@@ -298,6 +298,7 @@ public class MyCalendarActivity extends Activity {
                 tempArray.add(new User("Alex BOId", "alex@teamlead.com"));
                 tempArray.add(new User("Alex BOId", "alex@teamlead.com"));
                 tempArray.add(new User("Alex BOId", "alex@teamlead.com"));
+
                 groupList.add(new Group("Falessi's Italianos", new User("Alex BOId", "alex@teamlead.com"), tempArray));
                 groupList.add(new Group("Other team", new User("Alex BOId", "alex@teamlead.com"), tempArray));
                 groupList.add(new Group("Other other team", new User("Alex BOId", "alex@teamlead.com"), tempArray));
@@ -363,7 +364,9 @@ public class MyCalendarActivity extends Activity {
     public void createNewGroup(List<User> users, List<String> userEmailList) {
         String groupName = newGroupEdit.getText().toString();
         if (groupName.length() != 0) {
+
             groupList.add(new Group(groupName, new User(userDisplayName, userEmail), (ArrayList<User>) users));
+            //groupListAdapter.setmDataSource(groupList);
             DatabaseAccess.createGroup(groupName, userEmailList);
             newGroupEdit.setText("");
         }
@@ -371,6 +374,7 @@ public class MyCalendarActivity extends Activity {
 
     private void startGroupInfoActivity(Group selectedGroup) {
         Intent i = new Intent(this, GroupInfoActivity.class);
+        i.putExtra("groupName", selectedGroup.getName());
         startActivity(i);
 
     }
