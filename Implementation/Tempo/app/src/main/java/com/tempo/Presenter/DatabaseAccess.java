@@ -57,6 +57,37 @@ class DatabaseAccess {
 
     }
 
+    static void deleteUserFromGroup(final String userName, final String groupName) {
+
+        new DatabaseAccessTask(new DatabaseAccessCallback() {
+            @Override
+            public void call() throws DatabaseAccessException {
+
+                final DatabaseReference db = FirebaseDatabase.getInstance().getReference();
+
+                db.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        GenericTypeIndicator<HashMap<String, String>> t1 = new GenericTypeIndicator<HashMap<String, String>>() {};
+                        HashMap<String, String> groupRef = dataSnapshot.child("groups").child(groupName).getValue(t1);
+                        HashMap<String, String> userRef = dataSnapshot.child("users").child(userName).child("groups").getValue(t1);
+                        if (groupRef != null && userRef != null) {
+                            while(groupRef.values().remove(userName));
+                            while(userRef.values().remove(groupName));
+                            db.child("groups").child(groupName).setValue(groupRef);
+                            db.child("users").child(userName).child("groups").setValue(userRef);
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        // ...
+                    }
+                });
+            }
+        }).execute();
+    }
+
 
     static List<String> getUserGroups(final String userName) {
         final List<String> groupList = new ArrayList<>();
