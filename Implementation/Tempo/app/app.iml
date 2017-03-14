@@ -159,6 +159,5 @@
     <orderEntry type="library" exported="" name="android-week-view-1.2.6" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="junit-4.12" level="project" />
     <orderEntry type="library" exported="" name="firebase-analytics-9.0.0" level="project" />
-    <orderEntry type="library" exported="" name="android-android-25" level="project" />
   </component>
 </module>
