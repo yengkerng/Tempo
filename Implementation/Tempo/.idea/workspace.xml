@@ -54,14 +54,14 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="600">
-      <file leaf-file-name="MyCalendarActivity.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="MyCalendarActivity.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/tempo/Presenter/MyCalendarActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="256">
-              <caret line="116" column="21" selection-start-line="116" selection-start-column="21" selection-end-line="116" selection-end-column="21" />
+            <state relative-caret-position="431">
+              <caret line="123" column="0" selection-start-line="123" selection-start-column="0" selection-end-line="123" selection-end-column="0" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#17566#17581#0" expanded="true" />
+                <element signature="e#17512#17527#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -133,29 +133,31 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="DatabaseAccess.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="DatabaseAccess.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/tempo/Presenter/DatabaseAccess.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="300">
-              <caret line="56" column="79" selection-start-line="56" selection-start-column="79" selection-end-line="56" selection-end-column="79" />
+            <state relative-caret-position="306">
+              <caret line="53" column="51" selection-start-line="53" selection-start-column="51" selection-end-line="53" selection-end-column="51" />
               <folding>
                 <element signature="e#808#1380#0" expanded="true" />
                 <element signature="e#1379#1380#0" expanded="true" />
-                <element signature="e#1554#2748#0" expanded="true" />
-                <element signature="e#2747#2748#0" expanded="true" />
-                <element signature="e#2876#4489#0" expanded="true" />
-                <element signature="e#4488#4489#0" expanded="true" />
-                <element signature="e#6158#6166#0" expanded="true" />
-                <element signature="e#6201#7355#0" expanded="true" />
-                <element signature="e#7354#7355#0" expanded="true" />
-                <element signature="e#7573#7588#0" expanded="true" />
-                <element signature="e#7623#8825#0" expanded="true" />
-                <element signature="e#8824#8825#0" expanded="true" />
-                <element signature="e#9066#9087#0" expanded="true" />
-                <element signature="e#9122#10485#0" expanded="true" />
-                <element signature="e#10484#10485#0" expanded="true" />
-                <marker date="1489449410041" expanded="false" signature="13071:13086" ph=" { " />
-                <marker date="1489449410041" expanded="false" signature="13133:13143" ph=" }" />
+                <element signature="e#1513#2022#0" expanded="true" />
+                <element signature="e#2021#2022#0" expanded="true" />
+                <element signature="e#2197#3222#0" expanded="true" />
+                <element signature="e#3221#3222#0" expanded="true" />
+                <element signature="e#3350#4963#0" expanded="true" />
+                <element signature="e#4962#4963#0" expanded="true" />
+                <element signature="e#6632#6640#0" expanded="true" />
+                <element signature="e#6675#7829#0" expanded="true" />
+                <element signature="e#7828#7829#0" expanded="true" />
+                <element signature="e#8047#8062#0" expanded="true" />
+                <element signature="e#8097#9299#0" expanded="true" />
+                <element signature="e#9298#9299#0" expanded="true" />
+                <element signature="e#9540#9561#0" expanded="true" />
+                <element signature="e#9596#10959#0" expanded="true" />
+                <element signature="e#10958#10959#0" expanded="true" />
+                <marker date="1489451325447" expanded="false" signature="13545:13560" ph=" { " />
+                <marker date="1489451325447" expanded="false" signature="13607:13617" ph=" }" />
               </folding>
             </state>
           </provider>
@@ -2820,39 +2822,41 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/tempo/Presenter/MyCalendarActivity.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/tempo/Presenter/DatabaseAccess.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="256">
-          <caret line="116" column="21" selection-start-line="116" selection-start-column="21" selection-end-line="116" selection-end-column="21" />
+        <state relative-caret-position="306">
+          <caret line="53" column="51" selection-start-line="53" selection-start-column="51" selection-end-line="53" selection-end-column="51" />
           <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#17566#17581#0" expanded="true" />
+            <element signature="e#808#1380#0" expanded="true" />
+            <element signature="e#1379#1380#0" expanded="true" />
+            <element signature="e#1513#2022#0" expanded="true" />
+            <element signature="e#2021#2022#0" expanded="true" />
+            <element signature="e#2197#3222#0" expanded="true" />
+            <element signature="e#3221#3222#0" expanded="true" />
+            <element signature="e#3350#4963#0" expanded="true" />
+            <element signature="e#4962#4963#0" expanded="true" />
+            <element signature="e#6632#6640#0" expanded="true" />
+            <element signature="e#6675#7829#0" expanded="true" />
+            <element signature="e#7828#7829#0" expanded="true" />
+            <element signature="e#8047#8062#0" expanded="true" />
+            <element signature="e#8097#9299#0" expanded="true" />
+            <element signature="e#9298#9299#0" expanded="true" />
+            <element signature="e#9540#9561#0" expanded="true" />
+            <element signature="e#9596#10959#0" expanded="true" />
+            <element signature="e#10958#10959#0" expanded="true" />
+            <marker date="1489451325447" expanded="false" signature="13545:13560" ph=" { " />
+            <marker date="1489451325447" expanded="false" signature="13607:13617" ph=" }" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/tempo/Presenter/DatabaseAccess.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/tempo/Presenter/MyCalendarActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="300">
-          <caret line="56" column="79" selection-start-line="56" selection-start-column="79" selection-end-line="56" selection-end-column="79" />
+        <state relative-caret-position="431">
+          <caret line="123" column="0" selection-start-line="123" selection-start-column="0" selection-end-line="123" selection-end-column="0" />
           <folding>
-            <element signature="e#808#1380#0" expanded="true" />
-            <element signature="e#1379#1380#0" expanded="true" />
-            <element signature="e#1554#2748#0" expanded="true" />
-            <element signature="e#2747#2748#0" expanded="true" />
-            <element signature="e#2876#4489#0" expanded="true" />
-            <element signature="e#4488#4489#0" expanded="true" />
-            <element signature="e#6158#6166#0" expanded="true" />
-            <element signature="e#6201#7355#0" expanded="true" />
-            <element signature="e#7354#7355#0" expanded="true" />
-            <element signature="e#7573#7588#0" expanded="true" />
-            <element signature="e#7623#8825#0" expanded="true" />
-            <element signature="e#8824#8825#0" expanded="true" />
-            <element signature="e#9066#9087#0" expanded="true" />
-            <element signature="e#9122#10485#0" expanded="true" />
-            <element signature="e#10484#10485#0" expanded="true" />
-            <marker date="1489449410041" expanded="false" signature="13071:13086" ph=" { " />
-            <marker date="1489449410041" expanded="false" signature="13133:13143" ph=" }" />
+            <element signature="imports" expanded="true" />
+            <element signature="e#17512#17527#0" expanded="true" />
           </folding>
         </state>
       </provider>

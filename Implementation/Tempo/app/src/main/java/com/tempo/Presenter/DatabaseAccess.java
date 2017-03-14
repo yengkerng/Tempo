@@ -40,6 +40,24 @@ class DatabaseAccess {
 
     }
 
+    static void addUserToGroup(final String userName, final String groupName) {
+
+        new DatabaseAccessTask(new DatabaseAccessCallback() {
+            @Override
+            public void call() throws DatabaseAccessException {
+
+                DatabaseReference db = FirebaseDatabase.getInstance().getReference();
+                DatabaseReference groupRef = db.child("groups").child(groupName);
+                DatabaseReference userRef = db.child("users").child(userName).child("groups");
+
+                groupRef.push().setValue(userName);
+                userRef.push().setValue(groupName);
+            }
+        }).execute();
+
+    }
+
+
     static List<String> getUserGroups(final String userName) {
         final List<String> groupList = new ArrayList<>();
 
@@ -57,10 +75,7 @@ class DatabaseAccess {
                         HashMap<String, String> groups = dataSnapshot.getValue(t1);
 
                         if (groups != null) { groupList.addAll(groups.values()); }
-                        for (String group : groupList) {
-                            System.out.println("THIS IS FROM THE FUNCTION: " + group);
-                        }
-                    }
+                     }
 
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
