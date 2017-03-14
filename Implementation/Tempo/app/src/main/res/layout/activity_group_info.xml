@@ -17,7 +17,83 @@
        android:layout_height="match_parent"
        android:layout_width="match_parent"
        android:layout_marginTop="20dp"
+       android:layout_marginStart="10dp"
+       android:layout_marginLeft="10dp"
+       android:id="@+id/groupNameView"
+       android:textColor="@color/currentTabWhite"
        android:textSize="30sp"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/addMemberButton"
+            android:text="Add Member"
+            android:background="@color/tempoBlue"
+            android:textColor="@color/currentTabWhite"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/deleteMemberButton"
+            android:text="Delete Member"
+            android:background="@color/tempoBlue"
+            android:textColor="@color/currentTabWhite"/>
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Members:"/>
+
+        <ListView
+            android:id="@+id/memberList"
+            android:layout_width="400dp"
+            android:layout_height="250dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginStart="30dp"
+            android:layout_weight=".8"
+            android:layout_marginTop="5dp">
+
+        </ListView>
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Events:" />
+
+        <ListView
+            android:id="@+id/groupEventList"
+            android:layout_width="400dp"
+            android:layout_height="250dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="5dp"
+            android:layout_weight=".8">
+
+        </ListView>
 
     </LinearLayout>
 
