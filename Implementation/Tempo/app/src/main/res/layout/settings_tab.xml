@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:id="@+id/settingsRoot">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/settingsTabTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="20dp"
+            android:text="Settings"
+            android:textSize="25dp" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:layout_marginTop="40dp"
+            android:layout_marginBottom="20dp"
+            android:textSize="30dp"
+            android:text="Change Theme Color"
+            android:textColor="@color/tempoBlue"
+        />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:layout_height="wrap_content">
+
+
+            <Button
+                android:layout_weight="5"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:backgroundTint="@color/purple"
+                android:backgroundTintMode="src_over" />
+            <Button
+                android:layout_weight="5"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:backgroundTint="@color/green"
+                android:backgroundTintMode="src_over" />
+            <Button
+                android:layout_weight="5"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:backgroundTint="@color/tempoBlue"
+                android:backgroundTintMode="src_over"/>
+            <Button
+                android:layout_weight="5"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:backgroundTint="@color/orange"
+                android:backgroundTintMode="src_over" />
+            <Button
+                android:layout_weight="5"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:backgroundTint="@color/red"
+                android:backgroundTintMode="src_over" />
+
+        </LinearLayout>
+        <TextView
+            android:id="@+id/loginActivity_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="80dp"
+            android:text="Tempo"
+            android:gravity="center_vertical|center_horizontal"
+            android:textSize="50dp"
+            android:textColor="@color/tempoBlue"/>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:layout_height="match_parent"
+            android:layout_marginTop="20dp"
+            android:gravity="center_horizontal">
+
+            <Button
+                android:layout_width="200dp"
+                android:layout_height="100dp"
+                android:layout_centerInParent="true"
+                android:gravity="center"
+                android:id="@+id/logout"
+                android:text="Logout"/>
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+</FrameLayout>
