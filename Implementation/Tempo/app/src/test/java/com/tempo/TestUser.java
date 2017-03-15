@@ -1,8 +1,8 @@
 package com.tempo;
 
 import org.junit.Test;
-import com.tempo.Model.Group;
-import com.tempo.Model.User;
+import com.tempo.model.Group;
+import com.tempo.model.User;
 
 import java.util.ArrayList;
 

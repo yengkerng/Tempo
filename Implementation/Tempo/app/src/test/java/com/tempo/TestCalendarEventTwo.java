@@ -2,8 +2,8 @@ package com.tempo;
 
 import com.google.api.client.util.DateTime;
 import com.google.api.services.calendar.model.EventDateTime;
-import com.tempo.Model.CalendarEvent;
-import com.tempo.Model.User;
+import com.tempo.model.CalendarEvent;
+import com.tempo.model.User;
 
 import org.junit.Test;
 

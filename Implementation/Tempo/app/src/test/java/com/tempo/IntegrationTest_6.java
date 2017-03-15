@@ -3,12 +3,12 @@ package com.tempo;
 import com.google.android.gms.tasks.Task;
 import com.google.api.client.util.DateTime;
 import com.google.api.services.calendar.model.EventDateTime;
-import com.tempo.Model.CalendarEvent;
-import com.tempo.Model.Group;
-import com.tempo.Model.User;
-import com.tempo.Presenter.CalendarManager;
-import com.tempo.Presenter.CalendarView;
-import com.tempo.Presenter.MonthView;
+import com.tempo.model.CalendarEvent;
+import com.tempo.model.Group;
+import com.tempo.model.User;
+import com.tempo.presenter.CalendarManager;
+import com.tempo.presenter.CalendarView;
+import com.tempo.presenter.MonthView;
 
 import org.junit.Test;
 
