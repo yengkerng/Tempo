@@ -23,10 +23,7 @@
         <activity android:name=".MyCalendarActivity" />
         <activity android:name=".GoogleAPILoginActivity" />
         <activity android:name=".FirebaseLoginActivity" />
-        <activity android:name=".GroupInfoActivity" />
-        <activity
-            android:name=".MeetingTimeActivity"
-            android:label="@string/title_activity_meeting_time"></activity>
+        <activity android:name=".GroupInfoActivity"/>
     </application>
 
 </manifest>

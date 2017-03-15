@@ -26,12 +26,18 @@
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:paddingLeft="4.0dip"
+        android:paddingTop="5.0dip"
+        android:paddingRight="4.0dip"
+        android:paddingBottom="1.0dip"
         android:orientation="horizontal">
 
         <Button
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_marginRight="3.0dp"
             android:layout_height="wrap_content"
             android:id="@+id/addMemberButton"
             android:text="Add Member"
@@ -39,7 +45,8 @@
             android:textColor="@color/currentTabWhite"/>
 
         <Button
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
             android:id="@+id/deleteMemberButton"
             android:text="Delete Member"
@@ -80,28 +87,24 @@
 
     </LinearLayout>
 
-
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="0dip"
+        android:layout_weight="1"
+        android:layout_gravity="center|bottom"
         android:orientation="vertical">
 
-        <TextView
+        <Button
             android:layout_width="match_parent"
+            android:layout_marginLeft="5dip"
+            android:layout_marginStart="5dp"
+            android:layout_marginBottom="5dip"
+            android:layout_marginRight="5dip"
             android:layout_height="wrap_content"
-            android:text="Events:"/>
-
-        <ListView
-            android:id="@+id/groupEventList"
-            android:layout_width="400dp"
-            android:layout_height="250dp"
-            android:layout_marginLeft="30dp"
-            android:layout_marginStart="30dp"
-            android:layout_marginTop="5dp"
-            android:layout_weight=".8">
-
-        </ListView>
+            android:id="@+id/findMeetingsButton"
+            android:text="Find Common Meeting Times"
+            android:background="@color/tempoBlue"
+            android:textColor="@color/currentTabWhite"/>
 
     </LinearLayout>
 
