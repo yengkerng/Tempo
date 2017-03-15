@@ -11,6 +11,8 @@ import com.tempo.model.Group;
 import com.tempo.model.User;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by andrewcofano on 3/13/17.
@@ -20,9 +22,9 @@ public class MemberListAdapter extends BaseAdapter {
 
     private Context mContext;
     private LayoutInflater mInflater;
-    private ArrayList<User> mDataSource;
+    private ArrayList<String> mDataSource;
 
-    public MemberListAdapter(android.content.Context context, ArrayList<User> items) {
+    public MemberListAdapter(android.content.Context context, ArrayList<String> items) {
         mContext = context;
         mDataSource = items;
         mInflater = (LayoutInflater) mContext.getSystemService(android.content.Context.LAYOUT_INFLATER_SERVICE);
@@ -36,17 +38,12 @@ public class MemberListAdapter extends BaseAdapter {
         // Get view for row item
         View rowView = mInflater.inflate(R.layout.list_item_member, parent, false);
 
-        TextView userDisplayName =
-                (TextView) rowView.findViewById(R.id.usernameView);
-
         TextView userEmail =
                 (TextView) rowView.findViewById(R.id.userEmailView);
 
+        String user = (String) getItem(position);
 
-        User user = (User) getItem(position);
-
-        userDisplayName.setText(user.getUserName());
-        userEmail.setText(user.getEmail());
+        userEmail.setText(user);
 
         return rowView;
     }
@@ -58,7 +55,7 @@ public class MemberListAdapter extends BaseAdapter {
     }
 
 
-    public void setmDataSource(ArrayList<User> mDataSource) {
+    public void setmDataSource(ArrayList<String> mDataSource) {
         this.mDataSource = mDataSource;
     }
 

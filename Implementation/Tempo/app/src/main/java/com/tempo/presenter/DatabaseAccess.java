@@ -3,6 +3,7 @@ package com.tempo.presenter;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -113,20 +114,35 @@ class DatabaseAccess {
                 final DatabaseReference db = FirebaseDatabase.getInstance().getReference();
                 final DatabaseReference userGroupsRef = db.child("users").child(userName).child("groups");
 
-                userGroupsRef.addValueEventListener(new ValueEventListener() {
+                userGroupsRef.addChildEventListener(new ChildEventListener() {
                     @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        GenericTypeIndicator<HashMap<String, String>> t1 = new GenericTypeIndicator<HashMap<String, String>>() {};
-                        HashMap<String, String> groups = dataSnapshot.getValue(t1);
+                    public void onChildAdded(DataSnapshot dataSnapshot, String prevChildKey) {
+                        String group = dataSnapshot.getValue(String.class);
 
-                        if (groups != null) { groupList.addAll(groups.values()); }
+                        if (group != null && !groupList.contains(group)) { groupList.add(group); }
                      }
+
+                    @Override
+                    public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+                    }
+
+                    @Override
+                    public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+                    }
+
+                    @Override
+                    public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+                    }
 
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
                         // ...
                     }
                 });
+
+
             }
         }).execute();
 
@@ -216,9 +232,9 @@ class DatabaseAccess {
                 theGroup.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-                        GenericTypeIndicator<ArrayList<String>> t = new GenericTypeIndicator<ArrayList<String>>() {};
-                        ArrayList<String> snapShotMembers = dataSnapshot.getValue(t);
-                        for(String member : snapShotMembers) {
+                        GenericTypeIndicator<HashMap<String, String>> t = new GenericTypeIndicator<HashMap<String, String>>() {};
+                        HashMap<String,String> snapShotMembers = dataSnapshot.getValue(t);
+                        for(String member : snapShotMembers.values()) {
                             members.add(member);
                         }
                         // execute callback function
@@ -235,7 +251,7 @@ class DatabaseAccess {
         }).execute();
     }
 
-    static void getUserEventListWithCallback(@NonNull final SimpleCallback<List<CalendarEvent>> finishedCallback,final String userName) {
+    static void getUserEventListWithCallback(@NonNull final SimpleCallback<List<CalendarEvent>> finishedCallback,final String userName, long startTime, long endTime) {
         final List<CalendarEvent> userEvents = new ArrayList<CalendarEvent>();
         new DatabaseAccessTask(new DatabaseAccessCallback() {
             @Override
@@ -244,16 +260,31 @@ class DatabaseAccess {
                 DatabaseReference db = FirebaseDatabase.getInstance().getReference();
                 DatabaseReference member = db.child("users").child(userName).child("events");
 
-                member.addListenerForSingleValueEvent(new ValueEventListener() {
+                member.addChildEventListener(new ChildEventListener() {
                     @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        GenericTypeIndicator<ArrayList<CalendarEvent>> t = new GenericTypeIndicator<ArrayList<CalendarEvent>>() {};
-                        ArrayList<CalendarEvent> snapShotEvents = dataSnapshot.getValue(t);
-                        for(CalendarEvent thisEvent : snapShotEvents) {
-                            userEvents.add(thisEvent);
+                    public void onChildAdded(DataSnapshot dataSnapshot, String prevChildKey) {
+                        CalendarEvent data = dataSnapshot.getValue(CalendarEvent.class);
+                        if (data != null && !userEvents.contains(data)) {
+                            userEvents.add(data);
                         }
                         // execute callback function
                         finishedCallback.callback(userEvents);
+                    }
+
+
+                    @Override
+                    public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+                    }
+
+                    @Override
+                    public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+                    }
+
+                    @Override
+                    public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
                     }
 
                     @Override

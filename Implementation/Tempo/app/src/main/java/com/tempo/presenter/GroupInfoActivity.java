@@ -11,6 +11,7 @@ import com.tempo.model.Group;
 import com.tempo.model.User;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class GroupInfoActivity extends Activity {
@@ -43,12 +44,15 @@ public class GroupInfoActivity extends Activity {
     }
 
     public void inflateUserList() {
+        memberListAdapter = new MemberListAdapter(this, new ArrayList<String>());
 
-        memberList = new ArrayList<>();
-
-        memberListAdapter = new MemberListAdapter(this, memberList);
-        memberListView.setAdapter(memberListAdapter);
-
+        DatabaseAccess.getGroupMembersWithCallback(new SimpleCallback<List<String>>() {
+            @Override
+            public void callback(List<String> data) {
+                memberListAdapter.setmDataSource((ArrayList<String>)data);
+                memberListView.setAdapter(memberListAdapter);
+            }
+        }, groupName);
 
     }
 

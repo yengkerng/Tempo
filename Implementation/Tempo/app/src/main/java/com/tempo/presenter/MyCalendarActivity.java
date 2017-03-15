@@ -18,6 +18,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -44,8 +45,13 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
+import static com.tempo.presenter.DatabaseAccess.parseAccountName;
+
 public class MyCalendarActivity extends Activity {
 
+    private final long ONE_DAY_LONG = 1000 * 60 * 60 * 24;
+
+    private TableRow calendarTabView;
 
     public enum CalendarType {
         MONTH, WEEK, DAY
@@ -55,17 +61,18 @@ public class MyCalendarActivity extends Activity {
         HOME, GROUPS, SETTINGS
     }
 
-    public class MyDate {
-        public int year;
-        public int month;
-        public int day;
+    public class CurrentDay {
+        public long start;
+        public long end;
 
-        public MyDate(int year, int month, int day) {
-            this.year = year;
-            this.month = month;
-            this.day = day;
+        public CurrentDay(long start, long end) {
+            this.start = start;
+            this.end = end;
         }
     }
+
+    private TableRow calendarTab;
+
 
     private CalendarManager manager;
     private ViewGroup rootView;
@@ -89,12 +96,12 @@ public class MyCalendarActivity extends Activity {
 
 
 
-    private EventDateTime currentDate = null;
+    private CurrentDay currentDate;
     private long dateInMillis;
     private String dateString;
 
     private ArrayList<CalendarEvent> currentDayEventList;
-    private ArrayList<Group> groupList;
+    private ArrayList<String> groupList;
 
     private static Context context;
 
@@ -121,7 +128,7 @@ public class MyCalendarActivity extends Activity {
         setCalendarTransitions();
 
         new SyncCalendarTask(Account.getInstance().googleCred).execute();
-        DatabaseAccess.createGroup("new group", Arrays.asList(new String[] { "14bmkelley", "bitsbots3812", "smithygirl" }));
+        /*
         /*
         DatabaseAccess.createGroup("MyGroupppp", Arrays.asList(new String[] { "14bmkelley", "bitsbots3812", "jessieemail" }));
 
@@ -220,19 +227,23 @@ public class MyCalendarActivity extends Activity {
 
         monthlyCalendar = (CalendarView) findViewById(R.id.monthlyCalendar);
         dateInMillis = monthlyCalendar.getDate();
+        currentDate = new CurrentDay(monthlyCalendar.getDate(), monthlyCalendar.getDate() + ONE_DAY_LONG);
         SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
         dateString = formatter.format(new Date(dateInMillis));
+
         monthlyCalendar.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange(CalendarView calendarView, int year, int month, int day) {
                 Toast.makeText(getApplicationContext(), (month + 1) + "/" + day + "/" + year, Toast.LENGTH_SHORT).show();
                 setDateString((month + 1) + "/" + day + "/" + year);
+                currentDate = new CurrentDay(monthlyCalendar.getDate(), monthlyCalendar.getDate() + ONE_DAY_LONG);
             }
         });
 
         dayView   = inflater.inflate(R.layout.calendar_day, null);
 
     }
+
 
     private void setDateString(String newDate) {
         dateString = newDate;
@@ -288,6 +299,10 @@ public class MyCalendarActivity extends Activity {
                 rootView.addView(homeView);
                 currentTabView = homeView;
                 currentTab = TabType.HOME;
+
+                calendarTab = (TableRow) findViewById(R.id.calendarTabView);
+                calendarTab.setVisibility(View.VISIBLE);
+
                 break;
 
             // case WEEK:
@@ -300,37 +315,30 @@ public class MyCalendarActivity extends Activity {
                 rootView.addView(groupsView);
                 currentTabView = groupsView;
                 currentTab = TabType.GROUPS;
-
+                removeCalendarTabs();
+                setUpGroupTabInteraction();
+                groupList = (ArrayList<String>)DatabaseAccess.getUserGroups(DatabaseAccess.parseAccountName(userEmail));
 
                 groupListView = (ListView) findViewById(R.id.groupList);
-                groupList = new ArrayList<>();
-                tempArray = new ArrayList<>();
-                tempArray.add(new User("Alex BOId", "alex@teamlead.com"));
-                tempArray.add(new User("Alex BOId", "alex@teamlead.com"));
-                tempArray.add(new User("Alex BOId", "alex@teamlead.com"));
-                tempArray.add(new User("Alex BOId", "alex@teamlead.com"));
-
-                groupList.add(new Group("Falessi's Italianos", new User("Alex BOId", "alex@teamlead.com"), tempArray));
-                groupList.add(new Group("Other team", new User("Alex BOId", "alex@teamlead.com"), tempArray));
-                groupList.add(new Group("Other other team", new User("Alex BOId", "alex@teamlead.com"), tempArray));
-
-
-                groupListAdapter = new GroupListAdapter(this, groupList);
+                groupListAdapter = new GroupListAdapter(groupList);
                 groupListView.setAdapter(groupListAdapter);
 
                 groupListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view,int position, long id) {
-                        Group selectedGroup = groupList.get(position);
+                        String selectedGroup = groupList.get(position);
                         startGroupInfoActivity(selectedGroup);
 
                     }
                 });
 
-
-                setUpGroupTabInteraction();
-
         }
+    }
+
+    private void removeCalendarTabs() {
+
+        calendarTab = (TableRow) findViewById(R.id.calendarTabView);
+        calendarTab.setVisibility(View.INVISIBLE);
     }
 
     private void setUpGroupTabInteraction() {
@@ -376,16 +384,15 @@ public class MyCalendarActivity extends Activity {
         String groupName = newGroupEdit.getText().toString();
         if (groupName.length() != 0) {
 
-            groupList.add(new Group(groupName, new User(userDisplayName, userEmail), (ArrayList<User>) users));
             //groupListAdapter.setmDataSource(groupList);
             DatabaseAccess.createGroup(groupName, userEmailList);
             newGroupEdit.setText("");
         }
     }
 
-    private void startGroupInfoActivity(Group selectedGroup) {
+    private void startGroupInfoActivity(String selectedGroup) {
         Intent i = new Intent(this, GroupInfoActivity.class);
-        i.putExtra("groupName", selectedGroup.getName());
+        i.putExtra("groupName", selectedGroup);
         startActivity(i);
 
     }
@@ -458,7 +465,7 @@ public class MyCalendarActivity extends Activity {
                             dayEventsList.setAdapter(eventListAdapter);
                         }
                     }
-                }, DatabaseAccess.parseAccountName(userEmail));
+                }, parseAccountName(userEmail), currentDate.start, currentDate.end);
 
                 currentCalendar = CalendarType.DAY;
 
@@ -522,7 +529,7 @@ public class MyCalendarActivity extends Activity {
                     calendarEvents.add(thisCalendarEvent);
                 }
                 FirebaseDatabase.getInstance().getReference().child("users")
-                        .child(DatabaseAccess.parseAccountName(credential.getSelectedAccountName()))
+                        .child(parseAccountName(credential.getSelectedAccountName()))
                         .child("events").setValue(calendarEvents);
             }
             catch (Exception e) {
