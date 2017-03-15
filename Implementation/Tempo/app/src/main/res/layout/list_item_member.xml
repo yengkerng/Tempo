@@ -12,12 +12,12 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/usernameView"/>
+            android:id="@+id/userEmailView"/>
 
-        <TextView
+       <!-- <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/userEmailView"/>
+            android:id="@+id/userEmailView"/> -->
 
     </LinearLayout>
 

@@ -13,6 +13,6 @@ Last Edit: 2/4/17
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:orientation="vertical"
-    tools:context="com.tempo.Presenter.MyCalendarActivity">
+    tools:context="com.tempo.presenter.MyCalendarActivity">
 
 </LinearLayout>

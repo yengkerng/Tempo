@@ -86,6 +86,7 @@
         android:clipToPadding="false"
         android:layout_height="match_parent"
         android:clipChildren="false"
+        android:id="@+id/calendarTabView"
         android:layout_alignParentBottom="true"
         android:minHeight="97dp"
         android:baselineAligned="false">
