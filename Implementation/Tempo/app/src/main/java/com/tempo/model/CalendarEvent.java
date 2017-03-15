@@ -16,6 +16,8 @@ public class CalendarEvent {
     private long endTime;
     private String owner;
 
+    public CalendarEvent() {}
+
     public CalendarEvent(String eventName, String eventDescription, String location,
                          long startTime, long endTime, String owner) {
         this.eventName = eventName;

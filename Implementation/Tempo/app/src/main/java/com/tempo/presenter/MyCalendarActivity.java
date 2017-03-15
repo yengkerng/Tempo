@@ -40,6 +40,7 @@ import com.tempo.model.User;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -120,7 +121,7 @@ public class MyCalendarActivity extends Activity {
         setCalendarTransitions();
 
         new SyncCalendarTask(Account.getInstance().googleCred).execute();
-        DatabaseAccess.deleteUserFromGroup("14bmkelley", "MyGroupppp");
+        DatabaseAccess.createGroup("new group", Arrays.asList(new String[] { "14bmkelley", "bitsbots3812", "smithygirl" }));
         /*
         DatabaseAccess.createGroup("MyGroupppp", Arrays.asList(new String[] { "14bmkelley", "bitsbots3812", "jessieemail" }));
 
@@ -173,6 +174,16 @@ public class MyCalendarActivity extends Activity {
         };
         DatabaseAccess.getAllMembersCalendarEventsWithCallback(cb3, "Brandon's Group");
 */
+
+/*
+        DatabaseAccess.getAllMembersCalendarEventsWithCallback(new SimpleCallback<List<List<CalendarEvent>>>() {
+            @Override
+            public void callback(List<List<CalendarEvent>> data) {
+                MeetingTimeAlgorithm.execute(data, System.currentTimeMillis() + 1000 * 60 * 60 * 12, System.currentTimeMillis() + 1000 * 60 * 60 * 24, 60 * 60, 1000 * 60 * 50);
+            }
+        }, "Brandon's Group");
+*/
+
     }
 
 
@@ -501,6 +512,9 @@ public class MyCalendarActivity extends Activity {
                     eventName = thisItem.getSummary();
                     eventDescription = thisItem.getDescription();
                     location = thisItem.getLocation();
+                    if (thisItem.getStart().getDateTime() == null && thisItem.getEnd().getDateTime() == null) {
+                        continue;
+                    }
                     startTime = thisItem.getStart().getDateTime().getValue() + thisItem.getStart().getDateTime().getTimeZoneShift();
                     endTime = thisItem.getEnd().getDateTime().getValue() + thisItem.getStart().getDateTime().getTimeZoneShift();
                     creator = thisItem.getCreator().getEmail();

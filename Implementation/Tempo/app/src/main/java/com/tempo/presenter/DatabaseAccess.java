@@ -23,14 +23,31 @@ class DatabaseAccess {
             @Override
             public void call() throws DatabaseAccessException {
 
-                DatabaseReference db = FirebaseDatabase.getInstance().getReference();
-                DatabaseReference newGroup = db.child("groups").child(name);
+                FirebaseDatabase.getInstance().getReference().child("groups").child(name)
+                        .addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
 
-                for (String member : members) {
-                    DatabaseReference groups = db.child("users").child(member).child("groups");
-                    groups.push().setValue(name);
-                    newGroup.push().setValue(member);
-                }
+                                if (dataSnapshot.getChildrenCount() > 0) {
+                                    return;
+                                }
+
+                                DatabaseReference db = FirebaseDatabase.getInstance().getReference();
+                                DatabaseReference newGroup = db.child("groups").child(name);
+
+                                for (String member : members) {
+                                    DatabaseReference groups = db.child("users").child(member).child("groups");
+                                    groups.push().setValue(name);
+                                    newGroup.push().setValue(member);
+                                }
+
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+
+                            }
+                        });
 
             }
         }).execute();
