@@ -1,6 +1,7 @@
 package com.tempo.presenter;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -23,9 +24,6 @@ public class GroupInfoActivity extends Activity {
     private MemberListAdapter memberListAdapter;
     private ArrayList<User> memberList;
 
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,7 +37,7 @@ public class GroupInfoActivity extends Activity {
 
         inflateUserList();
 
-
+        setMeetingTimesListener();
 
     }
 
@@ -54,6 +52,17 @@ public class GroupInfoActivity extends Activity {
             }
         }, groupName);
 
+    }
+
+    private void setMeetingTimesListener() {
+        findViewById(R.id.findMeetingTimes).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(GroupInfoActivity.this, MeetingTimeActivity.class);
+                intent.putExtra("group", groupName);
+                startActivity(intent);
+            }
+        });
     }
 
 

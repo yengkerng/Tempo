@@ -46,6 +46,14 @@
             android:background="@color/tempoBlue"
             android:textColor="@color/currentTabWhite"/>
 
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/findMeetingTimes"
+            android:text="Find Meeting Times"
+            android:background="@color/tempoBlue"
+            android:textColor="@color/currentTabWhite"/>
+
 
     </LinearLayout>
 

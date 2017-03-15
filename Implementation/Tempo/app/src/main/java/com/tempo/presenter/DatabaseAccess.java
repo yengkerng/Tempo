@@ -309,13 +309,12 @@ class DatabaseAccess {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
 
-                        GenericTypeIndicator<ArrayList<String>> t1 = new GenericTypeIndicator<ArrayList<String>>() {};
-                        List<String> members = dataSnapshot.child("groups").child(groupName).getValue(t1);
+                        GenericTypeIndicator<HashMap<String, String>> t = new GenericTypeIndicator<HashMap<String, String>>() {};
+                        HashMap<String,String> members = dataSnapshot.child("groups").child(groupName).getValue(t);
 
-                        for (String user : members) {
+                        for (String user : members.values()) {
                             GenericTypeIndicator<ArrayList<CalendarEvent>> t2 = new GenericTypeIndicator<ArrayList<CalendarEvent>>() {};
                             List<CalendarEvent> userCalendar = dataSnapshot.child("users").child(user).child("events").getValue(t2);
-
                             allEvents.add(userCalendar);
                         }
 

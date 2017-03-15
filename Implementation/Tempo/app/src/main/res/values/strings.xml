@@ -2,4 +2,5 @@
     <string name="app_name">Tempo</string>
     <string name="DayView">View current day</string>
     <string name="dayView">Day</string>
+    <string name="title_activity_meeting_time">MeetingTimeActivity</string>
 </resources>
