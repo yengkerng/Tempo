@@ -7,6 +7,7 @@ import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -238,10 +239,25 @@ public class MyCalendarActivity extends Activity {
                 Toast.makeText(getApplicationContext(), (month + 1) + "/" + day + "/" + year, Toast.LENGTH_SHORT).show();
                 setDateString((month + 1) + "/" + day + "/" + year);
                 currentDate = new CurrentDay(monthlyCalendar.getDate(), monthlyCalendar.getDate() + ONE_DAY_LONG);
+                updateDayView();
             }
         });
 
         dayView   = inflater.inflate(R.layout.calendar_day, null);
+
+    }
+
+    private void updateDayView() {
+        final MyCalendarActivity that = this;
+        DatabaseAccess.getUserEventListWithCallback(new SimpleCallback<List<CalendarEvent>>() {
+            @Override
+            public void callback(List<CalendarEvent> data) {
+                eventListAdapter = new EventListAdapter(that, data);
+                if (dayEventsList != null) {
+                    dayEventsList.setAdapter(eventListAdapter);
+                }
+            }
+        }, parseAccountName(userEmail), currentDate.start, currentDate.end);
 
     }
 
@@ -453,19 +469,10 @@ public class MyCalendarActivity extends Activity {
 
                 dayDateText = (TextView) findViewById(R.id.dayDate);
                 dayDateText.setText(dateString);
+                updateDayView();
                 dayEventsList = (ListView) findViewById(R.id.eventList);
 
                 final MyCalendarActivity that = this;
-
-                DatabaseAccess.getUserEventListWithCallback(new SimpleCallback<List<CalendarEvent>>() {
-                    @Override
-                    public void callback(List<CalendarEvent> data) {
-                        eventListAdapter = new EventListAdapter(that, data);
-                        if (dayEventsList != null) {
-                            dayEventsList.setAdapter(eventListAdapter);
-                        }
-                    }
-                }, parseAccountName(userEmail), currentDate.start, currentDate.end);
 
                 currentCalendar = CalendarType.DAY;
 

@@ -53,60 +53,43 @@
             android:background="@color/tempoBlue"
             android:textColor="@color/currentTabWhite"/>
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/findMeetingTimes"
-            android:text="Find Meeting Times"
-            android:background="@color/tempoBlue"
-            android:textColor="@color/currentTabWhite"/>
-
 
     </LinearLayout>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/findMeetingTimes"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="3dp"
+        android:layout_marginBottom="5dp"
+        android:text="Find Meeting Times"
+        android:background="@color/tempoBlue"
+        android:textColor="@color/currentTabWhite"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:paddingLeft="4.0dip"
+        android:paddingTop="5.0dip">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textSize="25sp"
+            android:textStyle="bold"
             android:text="Members:"/>
 
         <ListView
             android:id="@+id/memberList"
-            android:layout_width="400dp"
-            android:layout_height="250dp"
-            android:layout_marginLeft="30dp"
-            android:layout_marginStart="30dp"
-            android:layout_weight=".8"
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent"
             android:layout_marginTop="5dp">
 
         </ListView>
 
     </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dip"
-        android:layout_weight="1"
-        android:layout_gravity="center|bottom"
-        android:orientation="vertical">
-
-        <Button
-            android:layout_width="match_parent"
-            android:layout_marginLeft="5dip"
-            android:layout_marginStart="5dp"
-            android:layout_marginBottom="5dip"
-            android:layout_marginRight="5dip"
-            android:layout_height="wrap_content"
-            android:id="@+id/findMeetingsButton"
-            android:text="Find Common Meeting Times"
-            android:background="@color/tempoBlue"
-            android:textColor="@color/currentTabWhite"/>
-
-    </LinearLayout>
-
 
 </LinearLayout>

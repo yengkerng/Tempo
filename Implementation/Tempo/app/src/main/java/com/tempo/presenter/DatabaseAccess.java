@@ -15,6 +15,7 @@ import com.tempo.model.CalendarEvent;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 
 class DatabaseAccess {
 
@@ -268,16 +269,71 @@ class DatabaseAccess {
                 DatabaseReference db = FirebaseDatabase.getInstance().getReference();
                 DatabaseReference theGroup = db.child("groups").child(groupName);
 
-                theGroup.addListenerForSingleValueEvent(new ValueEventListener() {
+                theGroup.addChildEventListener(new ChildEventListener() {
+                    @Override
+                    public void onChildAdded(DataSnapshot dataSnapshot, String prevChildKey) {
+                        //GenericTypeIndicator<HashMap<String, String>> t = new GenericTypeIndicator<HashMap<String, String>>() {};
+                        String snapShotMember = dataSnapshot.getValue(String.class);
+                        //for(String member : snapShotMembers.values()) {
+                        if (!members.contains(snapShotMember)) {
+                            members.add(snapShotMember);
+                        }
+                        //}
+                        // execute callback function
+                        finishedCallback.callback(members);
+                    }
+
+                    @Override
+                    public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+                    }
+
+                    @Override
+                    public void onChildRemoved(DataSnapshot dataSnapshot) {
+                        String snapShotMember = dataSnapshot.getValue(String.class);
+                        members.remove(snapShotMember);
+                        finishedCallback.callback(members);
+                    }
+
+                    @Override
+                    public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        // ...
+                    }
+                });
+            }
+
+        }).execute();
+    }
+
+    static void getUsersNotInGroup(@NonNull final SimpleCallback<List<String>> finishedCallback, final String groupName) {
+        final List<String> users = new ArrayList<String>();
+        new DatabaseAccessTask(new DatabaseAccessCallback() {
+            @Override
+            public void call() throws DatabaseAccessException {
+
+                DatabaseReference db = FirebaseDatabase.getInstance().getReference();
+                DatabaseReference theUsers = db.child("users");
+
+                db.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         GenericTypeIndicator<HashMap<String, String>> t = new GenericTypeIndicator<HashMap<String, String>>() {};
-                        HashMap<String,String> snapShotMembers = dataSnapshot.getValue(t);
-                        for(String member : snapShotMembers.values()) {
-                            members.add(member);
+                        HashMap<String,String> snapShotGroups = dataSnapshot.child("groups").child(groupName).getValue(t);
+                        GenericTypeIndicator<HashMap<String, Object>> t2 = new GenericTypeIndicator<HashMap<String, Object>>() {};
+                        Set<String> snapShotUsers = dataSnapshot.child("users").getValue(t2).keySet();
+                        for (String userName: snapShotGroups.values()) {
+                            snapShotUsers.remove(userName);
+                        }
+                        for (String user: snapShotUsers) {
+                            users.add(user);
                         }
                         // execute callback function
-                        finishedCallback.callback(members);
+                        finishedCallback.callback(users);
                     }
 
                     @Override

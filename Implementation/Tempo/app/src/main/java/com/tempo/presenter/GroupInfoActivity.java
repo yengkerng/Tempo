@@ -38,8 +38,22 @@ public class GroupInfoActivity extends Activity {
         inflateUserList();
 
         setMeetingTimesListener();
+        setAddMemberListener();
+        setDeleteMemberListener();
 
     }
+
+    private void setDeleteMemberListener() {
+        findViewById(R.id.deleteMemberButton).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(GroupInfoActivity.this, DeleteMemberActivity.class);
+                intent.putExtra("groupName", groupName);
+                startActivity(intent);
+            }
+        });
+    }
+
 
     public void inflateUserList() {
         memberListAdapter = new MemberListAdapter(this, new ArrayList<String>());
@@ -54,6 +68,17 @@ public class GroupInfoActivity extends Activity {
 
     }
 
+    private void setAddMemberListener() {
+        findViewById(R.id.addMemberButton).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(GroupInfoActivity.this, AddMemberActivity.class);
+                intent.putExtra("groupName", groupName);
+                startActivity(intent);
+            }
+        });
+    }
+
     private void setMeetingTimesListener() {
         findViewById(R.id.findMeetingTimes).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -63,6 +88,13 @@ public class GroupInfoActivity extends Activity {
                 startActivity(intent);
             }
         });
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        inflateUserList();
+
     }
 
 
