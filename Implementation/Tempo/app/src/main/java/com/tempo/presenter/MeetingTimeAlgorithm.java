@@ -13,6 +13,8 @@ import java.util.List;
  */
 
 class MeetingTimeAlgorithm {
+    final static long FIVE_MINUTES = 5 * 60 * 1000;
+
 
     public static List<MeetingTime> run(List<List<CalendarEvent>> events, long start, long end, long duration) {
 
@@ -34,7 +36,7 @@ class MeetingTimeAlgorithm {
 
         HashMap<Long, Integer> usersFree = new HashMap<Long, Integer>();
 
-        for (long t = start; t <= end; t += 1000) {
+        for (long t = start; t <= end; t += FIVE_MINUTES) {
             usersFree.put(t, count);
         }
 
@@ -48,8 +50,8 @@ class MeetingTimeAlgorithm {
         for (List<CalendarEvent> userCalendar : userCalendars) {
             for (CalendarEvent userEvent : userCalendar) {
                 HashSet<Long> uniqueTimeForUser = new HashSet<Long>();
-                long offset = (userEvent.getStartTime() - start) % 1000;
-                for (long t = userEvent.getStartTime() - offset; t <= userEvent.getEndTime(); t += 1000) {
+                long offset = (userEvent.getStartTime() - start) % FIVE_MINUTES;
+                for (long t = userEvent.getStartTime() - offset; t <= userEvent.getEndTime(); t += FIVE_MINUTES) {
                     if (!uniqueTimeForUser.contains(t) && usersFree.containsKey(t)) {
                         uniqueTimeForUser.add(t);
                         usersFree.put(t, usersFree.get(t) - 1);
@@ -64,10 +66,10 @@ class MeetingTimeAlgorithm {
 
         List<MeetingTime> availableTimes = new ArrayList<MeetingTime>();
 
-        for (long t = start; t <= end; t += 1000) {
+        for (long t = start; t <= end; t += FIVE_MINUTES) {
             int minAttendance = numUsers;
             long spanT = t;
-            for ( ; spanT <= t + duration; spanT += 1000) {
+            for ( ; spanT <= t + duration; spanT += FIVE_MINUTES) {
                 if (usersFree.containsKey(spanT)) {
                     int tempAttendance = usersFree.get(spanT);
                     if (tempAttendance < minAttendance) {

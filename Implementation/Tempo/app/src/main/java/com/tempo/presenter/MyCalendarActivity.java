@@ -118,6 +118,7 @@ public class MyCalendarActivity extends Activity {
         Bundle userInfo = getIntent().getExtras();
         userEmail = userInfo.getString("userEmail");
         userDisplayName = userInfo.getString("username");
+        Account.getInstance().userEmail = userEmail;
         MyCalendarActivity.context = getApplicationContext();
         setContentView(R.layout.activity_my_calendar);
 
@@ -394,7 +395,6 @@ public class MyCalendarActivity extends Activity {
         Intent i = new Intent(this, GroupInfoActivity.class);
         i.putExtra("groupName", selectedGroup);
         startActivity(i);
-
     }
 
     private void setCalendarTransitions() {

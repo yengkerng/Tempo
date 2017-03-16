@@ -10,6 +10,18 @@
         android:orientation="vertical" android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+        <EditText
+            android:id="@+id/meeting_time_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Event Title"/>
+
+        <EditText
+            android:id="@+id/meeting_time_location"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Location"/>
+
         <DatePicker
             android:id="@+id/meeting_time_start"
             android:layout_width="wrap_content"

@@ -6,13 +6,14 @@ import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccoun
  * Created by bkell on 2/22/2017.
  */
 
-public class Account {
+class Account {
 
     private static Account data;
 
     GoogleAccountCredential googleCred;
+    String userEmail;
 
-    public static synchronized Account getInstance() {
+    static synchronized Account getInstance() {
         if (data != null) {
             return data;
         }

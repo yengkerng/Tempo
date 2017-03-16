@@ -24,6 +24,7 @@
         <activity android:name=".GoogleAPILoginActivity" />
         <activity android:name=".FirebaseLoginActivity" />
         <activity android:name=".GroupInfoActivity"/>
+        <activity android:name=".MeetingTimeActivity"/>
     </application>
 
 </manifest>

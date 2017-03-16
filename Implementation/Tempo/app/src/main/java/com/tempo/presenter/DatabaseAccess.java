@@ -72,6 +72,45 @@ class DatabaseAccess {
 
     }
 
+    static void addEventToGroup(final String groupName, final CalendarEvent event, final SimpleCallback<Void> callback) {
+
+        new DatabaseAccessTask(new DatabaseAccessCallback() {
+            @Override
+            public void call() throws DatabaseAccessException {
+
+                final DatabaseReference db = FirebaseDatabase.getInstance().getReference();
+
+                db.addListenerForSingleValueEvent(new ValueEventListener() {
+
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+
+                        GenericTypeIndicator<HashMap<String, String>> type = new GenericTypeIndicator<HashMap<String, String>>() {};
+                        HashMap<String, String> groupRef = dataSnapshot.child("groups").child(groupName).getValue(type);
+
+                        for (String groupMember : groupRef.values()) {
+                            GenericTypeIndicator<List<CalendarEvent>> type2 = new GenericTypeIndicator<List<CalendarEvent>>() {};
+                            List<CalendarEvent> memberEvents = dataSnapshot.child("users").child(groupMember).child("events").getValue(type2);
+                            memberEvents.add(event);
+                            db.child("users").child(groupMember).child("events").setValue(memberEvents);
+                        }
+
+                        callback.callback(null);
+
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+
+                });
+
+            }
+        }).execute();
+
+    }
+
     static void deleteUserFromGroup(final String userName, final String groupName) {
 
         new DatabaseAccessTask(new DatabaseAccessCallback() {
