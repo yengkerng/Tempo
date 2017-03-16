@@ -12,7 +12,7 @@ import java.util.List;
  * Created by bkell on 3/15/2017.
  */
 
-class MeetingTimeAlgorithm {
+public class MeetingTimeAlgorithm {
     final static long FIVE_MINUTES = 5 * 60 * 1000;
 
 
@@ -32,7 +32,7 @@ class MeetingTimeAlgorithm {
 
     }
 
-    private static HashMap<Long, Integer> initializeUserFreeMap(long start, long end, int count) {
+    public static HashMap<Long, Integer> initializeUserFreeMap(long start, long end, int count) {
 
         HashMap<Long, Integer> usersFree = new HashMap<Long, Integer>();
 
@@ -44,44 +44,56 @@ class MeetingTimeAlgorithm {
 
     }
 
-    private static void calculateFreeTimes(List<List<CalendarEvent>> userCalendars,
+    public static void calculateFreeTimes(List<List<CalendarEvent>> userCalendars,
                                            long start, HashMap<Long, Integer> usersFree) {
 
         for (List<CalendarEvent> userCalendar : userCalendars) {
-            for (CalendarEvent userEvent : userCalendar) {
-                HashSet<Long> uniqueTimeForUser = new HashSet<Long>();
-                long offset = (userEvent.getStartTime() - start) % FIVE_MINUTES;
-                for (long t = userEvent.getStartTime() - offset; t <= userEvent.getEndTime(); t += FIVE_MINUTES) {
-                    if (!uniqueTimeForUser.contains(t) && usersFree.containsKey(t)) {
-                        uniqueTimeForUser.add(t);
-                        usersFree.put(t, usersFree.get(t) - 1);
-                    }
-                }
-            }
+            getUniqueTime(userCalendars, start, usersFree, userCalendar);
         }
-
     }
 
-    private static List<MeetingTime> calculateAvailableTimes(long start, long end, long duration, int numUsers, HashMap<Long, Integer> usersFree) {
+    public static void getUniqueTime(List<List<CalendarEvent>> userCalendars,
+                                     long start, HashMap<Long, Integer> usersFree, List<CalendarEvent> userCalendar) {
+        for (CalendarEvent userEvent : userCalendar) {
+            HashSet<Long> uniqueTimeForUser = new HashSet<Long>();
+            long offset = (userEvent.getStartTime() - start) % FIVE_MINUTES;
+            getUniqueTimeHelper(userCalendars, start, usersFree, userEvent, offset, uniqueTimeForUser);
+        }
+    }
+
+    public static void getUniqueTimeHelper(List<List<CalendarEvent>> userCalendars,
+                                     long start, HashMap<Long, Integer> usersFree, CalendarEvent userEvent, long offset, HashSet<Long> uniqueTimeForUser) {
+        for (long t = userEvent.getStartTime() - offset; t <= userEvent.getEndTime(); t += FIVE_MINUTES) {
+            if (!uniqueTimeForUser.contains(t) && usersFree.containsKey(t)) {
+                uniqueTimeForUser.add(t);
+                usersFree.put(t, usersFree.get(t) - 1);
+            }
+        }
+    }
+
+    public static List<MeetingTime> calculateAvailableTimes(long start, long end, long duration, int numUsers, HashMap<Long, Integer> usersFree) {
 
         List<MeetingTime> availableTimes = new ArrayList<MeetingTime>();
 
         for (long t = start; t <= end; t += FIVE_MINUTES) {
             int minAttendance = numUsers;
             long spanT = t;
-            for ( ; spanT <= t + duration; spanT += FIVE_MINUTES) {
-                if (usersFree.containsKey(spanT)) {
-                    int tempAttendance = usersFree.get(spanT);
-                    if (tempAttendance < minAttendance) {
-                        minAttendance = tempAttendance;
-                    }
-                }
-            }
+            minAttendance = calculateAvailableTimesHelper(start, end, duration, numUsers, usersFree, spanT, minAttendance, t);
             availableTimes.add(new MeetingTime(minAttendance, spanT));
         }
-
         return availableTimes;
+    }
 
+    public static int calculateAvailableTimesHelper(long start, long end, long duration, int numUsers, HashMap<Long, Integer> usersFree, long spanT, int minAttendance, long t) {
+        for ( ; spanT <= t + duration; spanT += FIVE_MINUTES) {
+            if (usersFree.containsKey(spanT)) {
+                int tempAttendance = usersFree.get(spanT);
+                if (tempAttendance < minAttendance) {
+                    minAttendance = tempAttendance;
+                }
+            }
+        }
+        return minAttendance;
     }
 
     static class MeetingTime implements Comparable<MeetingTime> {
@@ -113,5 +125,4 @@ class MeetingTimeAlgorithm {
         }
 
     }
-
 }
