@@ -29,19 +29,17 @@ class DatabaseAccess {
             @Override
             public void call() throws DatabaseAccessException {
                 FirebaseDatabase.getInstance().getReference().child(group).child(name).addListenerForSingleValueEvent(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(DataSnapshot dataSnapshot) {
-                                if (dataSnapshot.getChildrenCount() > 0) {return;}
+                            @Override public void onDataChange(DataSnapshot dataSnapshot) {
+                                if (dataSnapshot.getChildrenCount() > 0)
+                                    return;
                                 DatabaseReference db = FirebaseDatabase.getInstance().getReference();
                                 DatabaseReference newGroup = FirebaseDatabase.getInstance().getReference().child(group).child(name);
                                 for (String member : members) {
-                                    DatabaseReference groups = db.child(user).child(member).child(group);
-                                    groups.push().setValue(name);
+                                    (db.child(user).child(member).child(group)).push().setValue(name);
                                     newGroup.push().setValue(member);
                                 }
                             }
-                            @Override
-                            public void onCancelled(DatabaseError databaseError) { /* ...*/ }
+                            @Override public void onCancelled(DatabaseError databaseError) { /* ...*/ }
                         });
             }
         }).execute();
@@ -51,8 +49,7 @@ class DatabaseAccess {
     static void addUserToGroup(final String userName, final String groupName) {
 
         new DatabaseAccessTask(new DatabaseAccessCallback() {
-            @Override
-            public void call() throws DatabaseAccessException {
+            @Override public void call() throws DatabaseAccessException {
 
                 DatabaseReference db = FirebaseDatabase.getInstance().getReference();
                 DatabaseReference groupRef = db.child(group).child(groupName);
@@ -68,24 +65,19 @@ class DatabaseAccess {
     static void addEventToGroup(final String groupName, final CalendarEvent event, final SimpleCallback<Void> callback) {
 
         new DatabaseAccessTask(new DatabaseAccessCallback() {
-            @Override
-            public void call() throws DatabaseAccessException {
+            @Override public void call() throws DatabaseAccessException {
                 final DatabaseReference db = FirebaseDatabase.getInstance().getReference();
                 db.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        GenericTypeIndicator<HashMap<String, String>> type = new GenericTypeIndicator<HashMap<String, String>>() {};
-                        HashMap<String, String> groupRef = dataSnapshot.child(group).child(groupName).getValue(type);
+                    @Override public void onDataChange(DataSnapshot dataSnapshot) {
+                        HashMap<String, String> groupRef = dataSnapshot.child(group).child(groupName).getValue(new GenericTypeIndicator<HashMap<String, String>>() {});
                         for (String groupMember : groupRef.values()) {
-                            GenericTypeIndicator<List<CalendarEvent>> type2 = new GenericTypeIndicator<List<CalendarEvent>>() {};
-                            List<CalendarEvent> memberEvents = dataSnapshot.child(user).child(groupMember).child(events).getValue(type2);
+                            List<CalendarEvent> memberEvents = dataSnapshot.child(user).child(groupMember).child(events).getValue(new GenericTypeIndicator<List<CalendarEvent>>() {});
                             memberEvents.add(event);
                             db.child(user).child(groupMember).child(events).setValue(memberEvents);
                         }
                         callback.callback(null);
                     }
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {/*..*/}
+                    @Override public void onCancelled(DatabaseError databaseError) {/*..*/}
                 });
             }
         }).execute();
@@ -94,15 +86,12 @@ class DatabaseAccess {
     static void deleteUserFromGroup(final String userName, final String groupName) {
 
         new DatabaseAccessTask(new DatabaseAccessCallback() {
-            @Override
-            public void call() throws DatabaseAccessException {
+            @Override public void call() throws DatabaseAccessException {
                 final DatabaseReference db = FirebaseDatabase.getInstance().getReference();
                 db.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        GenericTypeIndicator<HashMap<String, String>> t1 = new GenericTypeIndicator<HashMap<String, String>>() {};
-                        HashMap<String, String> groupRef = dataSnapshot.child(group).child(groupName).getValue(t1);
-                        HashMap<String, String> userRef = dataSnapshot.child(user).child(userName).child(group).getValue(t1);
+                    @Override public void onDataChange(DataSnapshot dataSnapshot) {
+                        HashMap<String, String> groupRef = dataSnapshot.child(group).child(groupName).getValue(new GenericTypeIndicator<HashMap<String, String>>() {});
+                        HashMap<String, String> userRef = dataSnapshot.child(user).child(userName).child(group).getValue(new GenericTypeIndicator<HashMap<String, String>>() {});
                         if (groupRef != null && userRef != null) {
                             while(groupRef.values().remove(userName));
                             while(userRef.values().remove(groupName));
@@ -110,10 +99,8 @@ class DatabaseAccess {
                             db.child(user).child(userName).child(group).setValue(userRef);
                         }
                     }
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) { /*...*/}
-                });
-            }
+                    @Override public void onCancelled(DatabaseError databaseError) { /*...*/}
+                });}
         }).execute();
     }
 
@@ -122,72 +109,50 @@ class DatabaseAccess {
         final List<String> groupList = new ArrayList<>();
 
         new DatabaseAccessTask(new DatabaseAccessCallback() {
-            @Override
-            public void call() throws DatabaseAccessException {
-                final DatabaseReference db = FirebaseDatabase.getInstance().getReference();
-                final DatabaseReference userGroupsRef = db.child(user).child(userName).child(group);
+            @Override public void call() throws DatabaseAccessException {
+                final DatabaseReference userGroupsRef = (FirebaseDatabase.getInstance().getReference()).child(user).child(userName).child(group);
                 userGroupsRef.addChildEventListener(new ChildEventListener() {
-                    @Override
-                    public void onChildAdded(DataSnapshot dataSnapshot, String prevChildKey) {
-                        String group = dataSnapshot.getValue(String.class);
-                        if (group != null && !groupList.contains(group))
-                            groupList.add(group);
-                     }
-                    @Override
-                    public void onChildChanged(DataSnapshot dataSnapshot, String s) { /*...*/}
-                    @Override
-                    public void onChildRemoved(DataSnapshot dataSnapshot) {/*...*/}
-                    @Override
-                    public void onChildMoved(DataSnapshot dataSnapshot, String s) {/*...*/}
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {/*...*/}
-                });
-            }
-        }).execute();
+                    @Override public void onChildAdded(DataSnapshot dataSnapshot, String prevChildKey) {
+                        String groupSnapshot = dataSnapshot.getValue(String.class);
+                        if (groupSnapshot != null && !groupList.contains(groupSnapshot))
+                            groupList.add(groupSnapshot);
+                    }
+                    @Override public void onChildChanged(DataSnapshot dataSnapshot, String s) { /*...*/}
+                    @Override public void onChildRemoved(DataSnapshot dataSnapshot) {/*...*/}
+                    @Override public void onChildMoved(DataSnapshot dataSnapshot, String s) {/*...*/}
+                    @Override public void onCancelled(DatabaseError databaseError) {/*...*/}
+                });}}).execute();
         return groupList;
     }
 
     static void getGroupMembersWithCallback(@NonNull final SimpleCallback<List<String>> finishedCallback, final String groupName) {
         final List<String> members = new ArrayList<>();
         new DatabaseAccessTask(new DatabaseAccessCallback() {
-            @Override
-            public void call() throws DatabaseAccessException {
-                DatabaseReference db = FirebaseDatabase.getInstance().getReference();
-                DatabaseReference theGroup = db.child(group).child(groupName);
+            @Override public void call() throws DatabaseAccessException {
+                DatabaseReference theGroup = FirebaseDatabase.getInstance().getReference().child(group).child(groupName);
                 theGroup.addChildEventListener(new ChildEventListener() {
-                    @Override
-                    public void onChildAdded(DataSnapshot dataSnapshot, String prevChildKey) {
-                        String snapShotMember = dataSnapshot.getValue(String.class);
-                        if (!members.contains(snapShotMember))
-                            members.add(snapShotMember);
+                    @Override public void onChildAdded(DataSnapshot dataSnapshot, String prevChildKey) {
+                        if (!members.contains(dataSnapshot.getValue(String.class)))
+                            members.add(dataSnapshot.getValue(String.class));
                         finishedCallback.callback(members);
                     }
-                    @Override
-                    public void onChildChanged(DataSnapshot dataSnapshot, String s) {/*...*/}
-                    @Override
-                    public void onChildRemoved(DataSnapshot dataSnapshot) {
-                        String snapShotMember = dataSnapshot.getValue(String.class);
-                        members.remove(snapShotMember);
+                    @Override public void onChildChanged(DataSnapshot dataSnapshot, String s) {/*...*/}
+                    @Override public void onChildRemoved(DataSnapshot dataSnapshot) {
+                        members.remove(dataSnapshot.getValue(String.class));
                         finishedCallback.callback(members);
                     }
-                    @Override
-                    public void onChildMoved(DataSnapshot dataSnapshot, String s) {/*...*/}
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {/*...*/}
-                });
-            }
-        }).execute();
+                    @Override public void onChildMoved(DataSnapshot dataSnapshot, String s) {/*...*/}
+                    @Override public void onCancelled(DatabaseError databaseError) {/*...*/}
+                });}}).execute();
     }
 
     static void getUsersNotInGroup(@NonNull final SimpleCallback<List<String>> finishedCallback, final String groupName) {
         final List<String> users = new ArrayList<>();
         new DatabaseAccessTask(new DatabaseAccessCallback() {
-            @Override
-            public void call() throws DatabaseAccessException {
+            @Override public void call() throws DatabaseAccessException {
                 DatabaseReference db = FirebaseDatabase.getInstance().getReference();
                 db.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
+                    @Override public void onDataChange(DataSnapshot dataSnapshot) {
                         GenericTypeIndicator<HashMap<String, String>> t = new GenericTypeIndicator<HashMap<String, String>>() {};
                         HashMap<String,String> snapShotGroups = dataSnapshot.child(group).child(groupName).getValue(t);
                         GenericTypeIndicator<HashMap<String, Object>> t2 = new GenericTypeIndicator<HashMap<String, Object>>() {};
@@ -200,8 +165,7 @@ class DatabaseAccess {
                         }
                         finishedCallback.callback(users);
                     }
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {/*...*/}
+                    @Override public void onCancelled(DatabaseError databaseError) {/*...*/}
                 });
             }
         }).execute();
@@ -210,26 +174,20 @@ class DatabaseAccess {
     static void getUserEventListWithCallback(@NonNull final SimpleCallback<List<CalendarEvent>> finishedCallback,final String userName, long startTime, long endTime) {
         final List<CalendarEvent> userEvents = new ArrayList<>();
         new DatabaseAccessTask(new DatabaseAccessCallback() {
-            @Override
-            public void call() throws DatabaseAccessException {
+            @Override public void call() throws DatabaseAccessException {
                 DatabaseReference db = FirebaseDatabase.getInstance().getReference();
                 DatabaseReference member = db.child(user).child(userName).child(events);
                 member.addChildEventListener(new ChildEventListener() {
-                    @Override
-                    public void onChildAdded(DataSnapshot dataSnapshot, String prevChildKey) {
+                    @Override public void onChildAdded(DataSnapshot dataSnapshot, String prevChildKey) {
                         CalendarEvent data = dataSnapshot.getValue(CalendarEvent.class);
                         if (data != null && !userEvents.contains(data))
                             userEvents.add(data);
                         finishedCallback.callback(userEvents);
                     }
-                    @Override
-                    public void onChildChanged(DataSnapshot dataSnapshot, String s) {/*...*/}
-                    @Override
-                    public void onChildRemoved(DataSnapshot dataSnapshot) {/*...*/}
-                    @Override
-                    public void onChildMoved(DataSnapshot dataSnapshot, String s) {/*...*/}
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {/*...*/}
+                    @Override public void onChildChanged(DataSnapshot dataSnapshot, String s) {/*...*/}
+                    @Override public void onChildRemoved(DataSnapshot dataSnapshot) {/*...*/}
+                    @Override public void onChildMoved(DataSnapshot dataSnapshot, String s) {/*...*/}
+                    @Override public void onCancelled(DatabaseError databaseError) {/*...*/}
                 });
             }
         }).execute();
@@ -238,12 +196,10 @@ class DatabaseAccess {
     static void getAllMembersCalendarEventsWithCallback(@NonNull final SimpleCallback<List<List<CalendarEvent>>> finishedCallback,final String groupName) {
         final List<List<CalendarEvent>> allEvents = new ArrayList<>();
         new DatabaseAccessTask(new DatabaseAccessCallback() {
-            @Override
-            public void call() throws DatabaseAccessException {
+            @Override public void call() throws DatabaseAccessException {
                 DatabaseReference db = FirebaseDatabase.getInstance().getReference();
                 db.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
+                    @Override public void onDataChange(DataSnapshot dataSnapshot) {
                         GenericTypeIndicator<HashMap<String, String>> t = new GenericTypeIndicator<HashMap<String, String>>() {};
                         HashMap<String,String> members = dataSnapshot.child(group).child(groupName).getValue(t);
                         for (String user : members.values()) {
@@ -253,8 +209,7 @@ class DatabaseAccess {
                         }
                         finishedCallback.callback(allEvents);
                     }
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {/*...*/}
+                    @Override public void onCancelled(DatabaseError databaseError) {/*...*/}
                 });
             }
         }).execute();
@@ -275,8 +230,7 @@ class DatabaseAccess {
             this.inBackgroundThread = inBackgroundThread;
         }
 
-        @Override
-        protected Void doInBackground(Void... voids) {
+        @Override protected Void doInBackground(Void... voids) {
             try {
                 inBackgroundThread.call();
             }

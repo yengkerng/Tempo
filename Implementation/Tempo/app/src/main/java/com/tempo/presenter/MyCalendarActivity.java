@@ -239,6 +239,7 @@ public class MyCalendarActivity extends Activity {
         groupListView = (ListView) findViewById(R.id.groupList);
         groupListAdapter = new GroupListAdapter(groupList);
         groupListView.setAdapter(groupListAdapter);
+        groupListAdapter.notifyDataSetChanged();
 
         groupListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
