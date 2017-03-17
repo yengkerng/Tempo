@@ -194,7 +194,7 @@ public class LoopTesting {
     }
     @Test
     public void testInitializeUserLoopTypicalNumber() {
-]        HashMap<Long, Integer> usersFree = new HashMap<Long, Integer>();
+        HashMap<Long, Integer> usersFree = new HashMap<Long, Integer>();
         usersFree.put(0l, 0);
         usersFree.put(5 * 60 * 1000l, 0);
         usersFree.put(5 * 60 * 1000 * 2l, 0);
