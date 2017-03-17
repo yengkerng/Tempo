@@ -45,7 +45,7 @@ public class IntegrationTest_3 {
         MonthView testView = new MonthView(events, start_date, end_date);
         User admin = new User("Jessie", "smithygirl@gmail.com");
         CalendarManager manager = new CalendarManager(testView, admin);
-        assertEquals(events, manager.getUserEvents("smithygirl@gmail.com"));
+        assertEquals(events, manager.getUserEvents());
     }
 
     /**
