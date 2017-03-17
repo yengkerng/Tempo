@@ -2,6 +2,7 @@ package com.tempo.presenter;
 
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -233,7 +234,7 @@ class DatabaseAccess {
                 inBackgroundThread.call();
             }
             catch (DatabaseAccessException e) {
-                e.printStackTrace();
+                Log.getStackTraceString(e);
             }
             return null;
         }

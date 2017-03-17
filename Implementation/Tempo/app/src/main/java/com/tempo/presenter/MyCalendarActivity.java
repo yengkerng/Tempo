@@ -41,8 +41,6 @@ import static com.tempo.presenter.DatabaseAccess.parseAccountName;
 
 public class MyCalendarActivity extends Activity {
 
-    private static final long ONEDAY = ((long)(1000)) * 60 * 60 * 24;
-
     private View settingsView;
 
     public enum CalendarType {
@@ -66,7 +64,6 @@ public class MyCalendarActivity extends Activity {
     private EventListAdapter eventListAdapter;
     private CalendarType currentCalendar;
     private TabType currentTab;
-    private CalendarView monthlyCalendar;
 
     private String dateString;
     private ArrayList<String> groupList;
@@ -121,7 +118,7 @@ public class MyCalendarActivity extends Activity {
         currentCalendar = CalendarType.MONTH;
         tabRootView.addView(monthView);
 
-        monthlyCalendar = (CalendarView) findViewById(R.id.monthlyCalendar);
+        CalendarView monthlyCalendar = (CalendarView) findViewById(R.id.monthlyCalendar);
         dateInMillis = monthlyCalendar.getDate();
         SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
         dateString = formatter.format(new Date(dateInMillis));

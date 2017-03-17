@@ -65,6 +65,21 @@ public class MeetingTimeActivity extends Activity {
 
     }
 
+    private AdapterView.OnItemClickListener getOnItemClickListener(final String title, final String location, final long start, final long delta) {
+        return new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                CalendarEvent event = new CalendarEvent(title, "This event created by Tempo!", location, start, start + delta, userEmail);
+                DatabaseAccess.addEventToGroup(group, event, new SimpleCallback<Void>() {
+                    @Override
+                    public void callback(Void data) {
+                        finish();
+                    }
+                });
+            }
+        };
+    }
+
     public void getMemberCalendars(final long start, final long end, final long delta, final String title, final String location) {
         DatabaseAccess.getAllMembersCalendarEventsWithCallback(new SimpleCallback<List<List<CalendarEvent>>>() {
             @Override
@@ -73,20 +88,8 @@ public class MeetingTimeActivity extends Activity {
                 rootView.removeView(formView);
                 rootView.addView(meetingTimeView);
                 ListView meetingTimeList = (ListView) findViewById(R.id.meeting_times);
-                MeetingTimeAdapter adapter = new MeetingTimeAdapter(MeetingTimeActivity.this, meetingTimes);
-                meetingTimeList.setAdapter(adapter);
-                meetingTimeList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                        CalendarEvent event = new CalendarEvent(title, "This event created by Tempo!", location, start, start + delta, userEmail);
-                        DatabaseAccess.addEventToGroup(group, event, new SimpleCallback<Void>() {
-                            @Override
-                            public void callback(Void data) {
-                                finish();
-                            }
-                        });
-                    }
-                });
+                meetingTimeList.setAdapter(new MeetingTimeAdapter(MeetingTimeActivity.this, meetingTimes));
+                meetingTimeList.setOnItemClickListener(getOnItemClickListener(title, location, start, delta));
             }
         }, group);
     }
