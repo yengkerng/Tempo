@@ -3,7 +3,6 @@ package com.tempo.presenter;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -22,7 +21,6 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import android.graphics.PorterDuff.Mode;
 
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
@@ -35,21 +33,18 @@ import com.google.api.services.calendar.model.Event;
 import com.google.api.services.calendar.model.Events;
 import com.google.firebase.database.FirebaseDatabase;
 import com.tempo.model.CalendarEvent;
-import com.tempo.model.Group;
 import com.tempo.model.User;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
-import java.util.logging.Logger;
 
 import static com.tempo.presenter.DatabaseAccess.parseAccountName;
 
 public class MyCalendarActivity extends Activity {
 
-    private final static long oneDayLong = ((long)(1000)) * 60 * 60 * 24;
+    private final static long ONEDAY = ((long)(1000)) * 60 * 60 * 24;
 
     private View settingsView;
 
@@ -86,14 +81,9 @@ public class MyCalendarActivity extends Activity {
     private TabType currentTab;
     private CalendarView monthlyCalendar;
 
-
     private CurrentDay currentDate;
     private String dateString;
-
     private ArrayList<String> groupList;
-
-    private Context context;
-
     private EditText newGroupEdit;
     private String userEmail;
     private String userDisplayName;
@@ -107,7 +97,6 @@ public class MyCalendarActivity extends Activity {
         userEmail = userInfo.getString("userEmail");
         userDisplayName = userInfo.getString("username");
         Account.getInstance().userEmail = userEmail;
-        context = getApplicationContext();
         setContentView(R.layout.activity_my_calendar);
 
         renderTabs();
@@ -148,7 +137,7 @@ public class MyCalendarActivity extends Activity {
 
         monthlyCalendar = (CalendarView) findViewById(R.id.monthlyCalendar);
         dateInMillis = monthlyCalendar.getDate();
-        currentDate = new CurrentDay(monthlyCalendar.getDate(), monthlyCalendar.getDate() + oneDayLong);
+        currentDate = new CurrentDay(monthlyCalendar.getDate(), monthlyCalendar.getDate() + ONEDAY);
         SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
         dateString = formatter.format(new Date(dateInMillis));
 
@@ -157,7 +146,7 @@ public class MyCalendarActivity extends Activity {
             public void onSelectedDayChange(CalendarView calendarView, int year, int month, int day) {
                 Toast.makeText(getApplicationContext(), (month + 1) + "/" + day + "/" + year, Toast.LENGTH_SHORT).show();
                 setDateString((month + 1) + "/" + day + "/" + year);
-                currentDate = new CurrentDay(monthlyCalendar.getDate(), monthlyCalendar.getDate() + oneDayLong);
+                currentDate = new CurrentDay(monthlyCalendar.getDate(), monthlyCalendar.getDate() + ONEDAY);
                 updateDayView();
             }
         });
@@ -191,7 +180,6 @@ public class MyCalendarActivity extends Activity {
             @Override
             public void onClick(View view) {
                 MyCalendarActivity.this.setCurrentTab(TabType.HOME);
-                final ImageView image = (ImageView) findViewById(R.id.home);
 
             }
         });
@@ -201,8 +189,6 @@ public class MyCalendarActivity extends Activity {
             @Override
             public void onClick(View view) {
                 MyCalendarActivity.this.setCurrentTab(TabType.GROUPS);
-                final ImageButton image = (ImageButton) findViewById(R.id.home);
-                image.setColorFilter(Color.argb(255, 255, 255, 255));
             }
         });
 
@@ -211,8 +197,6 @@ public class MyCalendarActivity extends Activity {
             @Override
             public void onClick(View view) {
                 MyCalendarActivity.this.setCurrentTab(TabType.SETTINGS);
-                final ImageButton image = (ImageButton) findViewById(R.id.home);
-                image.setColorFilter(Color.argb(255, 255, 255, 255));
             }
         });
 
@@ -227,34 +211,26 @@ public class MyCalendarActivity extends Activity {
 
         rootView.removeView(currentTabView);
 
-        switch (current) {
+        if (current == TabType.HOME) {
+            rootView.addView(homeView);
+            currentTabView = homeView;
+            currentTab = TabType.HOME;
 
-            case HOME:
-                rootView.addView(homeView);
-                currentTabView = homeView;
-                currentTab = TabType.HOME;
-
-                calendarTab = (TableRow) findViewById(R.id.calendarTabView);
-                calendarTab.setVisibility(View.VISIBLE);
-
-                break;
-
-            case GROUPS:
-                rootView.addView(groupsView);
-                currentTabView = groupsView;
-                currentTab = TabType.GROUPS;
-                removeCalendarTabs();
-                setUpGroupTabInteraction();
-
-                break;
-                
-            case SETTINGS:
-                rootView.addView(settingsView);
-                currentTabView = settingsView;
-                currentTab = TabType.SETTINGS;
-                removeCalendarTabs();
-                break;
-                
+            calendarTab = (TableRow) findViewById(R.id.calendarTabView);
+            calendarTab.setVisibility(View.VISIBLE);
+        }
+        else if (current == TabType.GROUPS) {
+            rootView.addView(groupsView);
+            currentTabView = groupsView;
+            currentTab = TabType.GROUPS;
+            removeCalendarTabs();
+            setUpGroupTabInteraction();
+        }
+        else if (current == TabType.SETTINGS) {
+            rootView.addView(settingsView);
+            currentTabView = settingsView;
+            currentTab = TabType.SETTINGS;
+            removeCalendarTabs();
 
         }
     }
