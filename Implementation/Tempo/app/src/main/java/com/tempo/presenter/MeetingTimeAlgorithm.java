@@ -15,7 +15,9 @@ import java.util.Set;
  */
 
 public class MeetingTimeAlgorithm {
-    final static long FIVEMINUTES = 5 * 60 * ((long)(1000));
+    static final long FIVEMINUTES = 5 * 60 * ((long)(1000));
+
+    private MeetingTimeAlgorithm() {}
 
     public static List<MeetingTime> run(List<List<CalendarEvent>> events, long start, long end, long duration) {
 
@@ -49,12 +51,11 @@ public class MeetingTimeAlgorithm {
                                            long start, Map<Long, Integer> usersFree) {
 
         for (List<CalendarEvent> userCalendar : userCalendars) {
-            getUniqueTime(userCalendars, start, usersFree, userCalendar);
+            getUniqueTime(start, usersFree, userCalendar);
         }
     }
 
-    public static void getUniqueTime(List<List<CalendarEvent>> userCalendars,
-                                     long start, Map<Long, Integer> usersFree, List<CalendarEvent> userCalendar) {
+    public static void getUniqueTime(long start, Map<Long, Integer> usersFree, List<CalendarEvent> userCalendar) {
         for (CalendarEvent userEvent : userCalendar) {
             HashSet<Long> uniqueTimeForUser = new HashSet<>();
             long offset = (userEvent.getStartTime() - start) % FIVEMINUTES;
@@ -85,15 +86,16 @@ public class MeetingTimeAlgorithm {
     }
 
     public static int calculateAvailableTimesHelper(long duration, Map<Long, Integer> usersFree, long spanT, int minAttendance, long t) {
-        for ( ; spanT <= t + duration; spanT += FIVEMINUTES) {
-            if (usersFree.containsKey(spanT)) {
-                int tempAttendance = usersFree.get(spanT);
-                if (tempAttendance < minAttendance) {
-                    minAttendance = tempAttendance;
+        int minAttend = minAttendance;
+        for (long span = spanT; span <= t + duration; span += FIVEMINUTES) {
+            if (usersFree.containsKey(span)) {
+                int tempAttendance = usersFree.get(span);
+                if (tempAttendance < minAttend) {
+                    minAttend = tempAttendance;
                 }
             }
         }
-        return minAttendance;
+        return minAttend;
     }
 
     static class MeetingTime implements Comparable<MeetingTime> {
@@ -120,6 +122,11 @@ public class MeetingTimeAlgorithm {
         @Override
         public boolean equals(Object obj) {
             return this == obj;
+        }
+
+        @Override
+        public int hashCode() {
+            return super.hashCode();
         }
 
         public int getAttendance() {
