@@ -53,6 +53,7 @@ public class MyCalendarActivity extends Activity {
     private final long ONE_DAY_LONG = 1000 * 60 * 60 * 24;
 
     private TableRow calendarTabView;
+    private View settingsView;
 
     public enum CalendarType {
         MONTH, WEEK, DAY
@@ -211,7 +212,7 @@ public class MyCalendarActivity extends Activity {
 
         //monthlyCalendar = (CalendarView) findViewById(R.id.monthlyCalendar);
 
-
+        settingsView = inflater.inflate(R.layout.settings_tab, null);
         groupsView   = inflater.inflate(R.layout.group_tab, null);
 
     }
@@ -297,6 +298,19 @@ public class MyCalendarActivity extends Activity {
                 image.setColorFilter(Color.argb(255, 255, 255, 255));
             }
         });
+
+        // Set listener for switching to settings tab
+        findViewById(R.id.settingsButton).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                MyCalendarActivity.this.setCurrentTab(TabType.SETTINGS);
+                Resources res = getAppContext().getResources();
+                final ImageButton image = (ImageButton) findViewById(R.id.home);
+                //final int color = res.getColor(R.color.currentTabWhite);
+                image.setColorFilter(Color.argb(255, 255, 255, 255));
+            }
+        });
+
     }
 
 
@@ -348,6 +362,15 @@ public class MyCalendarActivity extends Activity {
 
                     }
                 });
+                break;
+                
+            case SETTINGS:
+                rootView.addView(settingsView);
+                currentTabView = settingsView;
+                currentTab = TabType.SETTINGS;
+                removeCalendarTabs();
+                break;
+                
 
         }
     }

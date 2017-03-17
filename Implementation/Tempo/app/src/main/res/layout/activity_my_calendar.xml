@@ -41,16 +41,18 @@
                 android:src="@drawable/groups"
                 android:layout_weight="3"
                 android:scaleType="fitCenter"
-                android:backgroundTint="@color/tempoBlue" />
+                android:backgroundTint="@color/tempoBlue"
+                android:tint="@color/currentTabWhite"/>
 
             <ImageButton
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:src="@drawable/settings"
-                android:id="@+id/imageButton"
+                android:id="@+id/settingsButton"
                 android:layout_weight="3"
                 android:scaleType="fitCenter"
-                android:backgroundTint="@color/tempoBlue"/>
+                android:backgroundTint="@color/tempoBlue"
+                android:tint="@color/currentTabWhite"/>
 
         </TableRow>
 
@@ -95,15 +97,16 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:id="@+id/dayView"
-            android:layout_weight="3" />
-
+            android:layout_weight="3"
+            android:drawableTint="@color/currentTabWhite"
+        />
         <Button
             android:text="Week"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:id="@+id/weekView"
             android:layout_weight="3"
-            style="@android:style/Widget.DeviceDefault.Button.Borderless" />
+            />
 
         <Button
             android:text="Month"
@@ -111,6 +114,6 @@
             android:layout_height="match_parent"
             android:id="@+id/monthView"
             android:layout_weight="3"
-            style="@android:style/Widget.DeviceDefault.Button.Toggle" />
+        />
     </TableRow>
 </LinearLayout>
