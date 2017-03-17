@@ -14,10 +14,10 @@ import java.util.List;
 
 public class GroupListAdapter extends BaseAdapter {
 
-    private List<String> mDataSource;
+    private List<String> mDataSource1;
 
     public GroupListAdapter(List<String> items) {
-        mDataSource = items;
+        mDataSource1 = items;
 
     }
 
@@ -37,16 +37,16 @@ public class GroupListAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return mDataSource.size();
+        return mDataSource1.size();
     }
 
-    public void setmDataSource(List<String> mDataSource) {
-        this.mDataSource = mDataSource;
+    public void setmDataSource(List<String> mDataSource1) {
+        this.mDataSource1 = mDataSource1;
     }
 
     @Override
     public Object getItem(int position) {
-        return mDataSource.get(position);
+        return mDataSource1.get(position);
     }
 
     @Override

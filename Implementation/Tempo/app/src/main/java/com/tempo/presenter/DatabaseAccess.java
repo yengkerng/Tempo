@@ -118,10 +118,10 @@ class DatabaseAccess {
                         if (groupSnapshot != null && !groupList.contains(groupSnapshot))
                             groupList.add(groupSnapshot);
                     }
-                    @Override public void onChildChanged(DataSnapshot dataSnapshot, String s) { /*...*/}
-                    @Override public void onChildRemoved(DataSnapshot dataSnapshot) {/*...*/}
-                    @Override public void onChildMoved(DataSnapshot dataSnapshot, String s) {/*...*/}
-                    @Override public void onCancelled(DatabaseError databaseError) {/*...*/}
+                    @Override public void onChildChanged(DataSnapshot dataSnapshot1, String s) { /*...*/}
+                    @Override public void onChildRemoved(DataSnapshot dataSnapshot1) {/*...*/}
+                    @Override public void onChildMoved(DataSnapshot dataSnapshot1, String s) {/*...*/}
+                    @Override public void onCancelled(DatabaseError databaseError1) {/*...*/}
                 });}}).execute();
         return groupList;
     }
