@@ -15,6 +15,7 @@ public abstract class DayView extends CalendarView {
         super(events, startDate, endDate);
     }
 
+    @Override
     public abstract void display();
 
 }
