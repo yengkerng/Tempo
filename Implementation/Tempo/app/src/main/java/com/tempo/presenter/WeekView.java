@@ -14,7 +14,8 @@ public class WeekView extends CalendarView {
         super(events, startDate, endDate);
     }
 
+    @Override
     public void display(){
-
+        //...
     }
 }

@@ -22,7 +22,6 @@ public class GroupInfoActivity extends Activity {
 
     private ListView memberListView;
     private MemberListAdapter memberListAdapter;
-    private ArrayList<User> memberList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
