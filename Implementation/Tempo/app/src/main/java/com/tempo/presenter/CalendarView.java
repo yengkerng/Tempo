@@ -20,4 +20,16 @@ public abstract class CalendarView {
     }
 
     public abstract void display();
+
+    public List<CalendarEvent> getEvents() {
+        return events;
+    }
+
+    public Date getStartDate() {
+        return startDate;
+    }
+
+    public Date getEndDate() {
+        return endDate;
+    }
 }

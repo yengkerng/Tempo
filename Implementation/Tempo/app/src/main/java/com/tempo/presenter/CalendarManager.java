@@ -16,6 +16,7 @@ import com.tempo.model.Group;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Calendar;
 import java.util.Date;
@@ -44,14 +45,32 @@ public class CalendarManager {
     }
 
     public List<String> calendarEventListToString(List<CalendarEvent> eventList) {
-        String currentEvent = "";
-        List<String> returnList = new ArrayList<String>();
+        StringBuilder currentEvent = new StringBuilder();
+        List<String> returnList = new ArrayList<>();
         for(int i = 0; i < eventList.size(); i++) {
-            currentEvent += eventList.get(i).getEventName() + eventList.get(i).getEventDescription() + eventList.get(i).getLocation();
-            returnList.add(currentEvent);
-            currentEvent = "";
+            currentEvent.append(eventList.get(i).getEventName());
+            currentEvent.append(eventList.get(i).getEventDescription());
+            currentEvent.append(eventList.get(i).getLocation());
+            returnList.add(currentEvent.toString());
+            currentEvent = new StringBuilder();
         }
         return returnList;
+    }
+
+    public CalendarView getView() {
+        return view;
+    }
+
+    public User getUserOwner() {
+        return userOwner;
+    }
+
+    public void setUserOwner(User userOwner) {
+        this.userOwner = userOwner;
+    }
+
+    public Group getGroupOwner() {
+        return groupOwner;
     }
 
     /**
@@ -60,7 +79,6 @@ public class CalendarManager {
      */
     class MakeRequestTask extends AsyncTask<Void, Void, List<String>> {
         private com.google.api.services.calendar.Calendar mService = null;
-        private Exception mLastError = null;
 
         public MakeRequestTask(GoogleAccountCredential credential) {
             HttpTransport transport = AndroidHttp.newCompatibleTransport();
@@ -78,12 +96,13 @@ public class CalendarManager {
          */
         @Override
         protected List<String> doInBackground(Void... params) {
+            Exception mLastError = null;
             try {
                 return calendarEventListToString(getUserEventsFromApi());
             } catch (Exception e) {
                 mLastError = e;
                 cancel(true);
-                return null;
+                return Collections.emptyList();
             }
         }
 
@@ -109,7 +128,7 @@ public class CalendarManager {
             long endTime;
             String owner;
             //Create Calendar Event list array
-            List<CalendarEvent> userEvents = new ArrayList<CalendarEvent>();
+            List<CalendarEvent> userEvents = new ArrayList<>();
             Events events = mService.events().list("primary")
                     .setTimeMin(oneMonthInPast)
                     .setTimeMax(oneMonthInFuture)
@@ -123,7 +142,7 @@ public class CalendarManager {
                 if (start == null) {
                     // All-day events don't have start times, so just use
                     // the start date.
-                    start = event.getStart().getDate();
+                    event.getStart().getDate();
                 }
                 //Get event information from user's google calendar and save as calendar event object
                 eventName = event.getId();
@@ -144,13 +163,9 @@ public class CalendarManager {
         return name;
     }
 
-    public void deleteEvent(String name) {
-        return;
-    }
 
-    public List<CalendarEvent> getUserEvents(String email) {
-        List<CalendarEvent> events = new ArrayList<CalendarEvent>();
-        return events;
+    public List<CalendarEvent> getUserEvents() {
+        return new ArrayList<>();
     }
 
 }
