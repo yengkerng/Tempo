@@ -19,13 +19,16 @@ import java.util.Set;
 
 class DatabaseAccess {
 
+    private static String group = "groups";
+    private static String user = "users";
+
     static void createGroup(final String name, final List<String> members) {
 
         new DatabaseAccessTask(new DatabaseAccessCallback() {
             @Override
             public void call() throws DatabaseAccessException {
 
-                FirebaseDatabase.getInstance().getReference().child("groups").child(name)
+                FirebaseDatabase.getInstance().getReference().child(group).child(name)
                         .addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
                             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -35,10 +38,10 @@ class DatabaseAccess {
                                 }
 
                                 DatabaseReference db = FirebaseDatabase.getInstance().getReference();
-                                DatabaseReference newGroup = db.child("groups").child(name);
+                                DatabaseReference newGroup = db.child(group).child(name);
 
                                 for (String member : members) {
-                                    DatabaseReference groups = db.child("users").child(member).child("groups");
+                                    DatabaseReference groups = db.child(user).child(member).child(group);
                                     groups.push().setValue(name);
                                     newGroup.push().setValue(member);
                                 }
@@ -63,8 +66,8 @@ class DatabaseAccess {
             public void call() throws DatabaseAccessException {
 
                 DatabaseReference db = FirebaseDatabase.getInstance().getReference();
-                DatabaseReference groupRef = db.child("groups").child(groupName);
-                DatabaseReference userRef = db.child("users").child(userName).child("groups");
+                DatabaseReference groupRef = db.child(group).child(groupName);
+                DatabaseReference userRef = db.child(user).child(userName).child(group);
 
                 groupRef.push().setValue(userName);
                 userRef.push().setValue(groupName);
@@ -87,13 +90,13 @@ class DatabaseAccess {
                     public void onDataChange(DataSnapshot dataSnapshot) {
 
                         GenericTypeIndicator<HashMap<String, String>> type = new GenericTypeIndicator<HashMap<String, String>>() {};
-                        HashMap<String, String> groupRef = dataSnapshot.child("groups").child(groupName).getValue(type);
+                        HashMap<String, String> groupRef = dataSnapshot.child(group).child(groupName).getValue(type);
 
                         for (String groupMember : groupRef.values()) {
                             GenericTypeIndicator<List<CalendarEvent>> type2 = new GenericTypeIndicator<List<CalendarEvent>>() {};
-                            List<CalendarEvent> memberEvents = dataSnapshot.child("users").child(groupMember).child("events").getValue(type2);
+                            List<CalendarEvent> memberEvents = dataSnapshot.child(user).child(groupMember).child("events").getValue(type2);
                             memberEvents.add(event);
-                            db.child("users").child(groupMember).child("events").setValue(memberEvents);
+                            db.child(user).child(groupMember).child("events").setValue(memberEvents);
                         }
 
                         callback.callback(null);
@@ -124,13 +127,11 @@ class DatabaseAccess {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         GenericTypeIndicator<HashMap<String, String>> t1 = new GenericTypeIndicator<HashMap<String, String>>() {};
-                        HashMap<String, String> groupRef = dataSnapshot.child("groups").child(groupName).getValue(t1);
-                        HashMap<String, String> userRef = dataSnapshot.child("users").child(userName).child("groups").getValue(t1);
+                        HashMap<String, String> groupRef = dataSnapshot.child(group).child(groupName).getValue(t1);
+                        HashMap<String, String> userRef = dataSnapshot.child(user).child(userName).child(group).getValue(t1);
                         if (groupRef != null && userRef != null) {
-                            while(groupRef.values().remove(userName));
-                            while(userRef.values().remove(groupName));
-                            db.child("groups").child(groupName).setValue(groupRef);
-                            db.child("users").child(userName).child("groups").setValue(userRef);
+                            db.child(group).child(groupName).setValue(groupRef);
+                            db.child(user).child(userName).child(group).setValue(userRef);
                         }
                     }
 
@@ -152,14 +153,16 @@ class DatabaseAccess {
             public void call() throws DatabaseAccessException {
 
                 final DatabaseReference db = FirebaseDatabase.getInstance().getReference();
-                final DatabaseReference userGroupsRef = db.child("users").child(userName).child("groups");
+                final DatabaseReference userGroupsRef = db.child(user).child(userName).child(group);
 
                 userGroupsRef.addChildEventListener(new ChildEventListener() {
                     @Override
                     public void onChildAdded(DataSnapshot dataSnapshot, String prevChildKey) {
                         String group = dataSnapshot.getValue(String.class);
 
-                        if (group != null && !groupList.contains(group)) { groupList.add(group); }
+                        if (group != null && !groupList.contains(group)) {
+                            groupList.add(group);
+                        }
                      }
 
                     @Override
@@ -201,18 +204,18 @@ class DatabaseAccess {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         GenericTypeIndicator<HashMap<String, String>> t1 = new GenericTypeIndicator<HashMap<String, String>>() {};
-                        HashMap<String, String> groupMembers = dataSnapshot.child("groups").child(name).getValue(t1);
+                        HashMap<String, String> groupMembers = dataSnapshot.child(group).child(name).getValue(t1);
 
                         if (groupMembers != null) {
                             for (String member : groupMembers.values()) {
                                 GenericTypeIndicator<HashMap<String, String>> t2 = new GenericTypeIndicator<HashMap<String, String>>() {
                                 };
-                                HashMap<String, String> userGroups = dataSnapshot.child("users").child(member).child("groups").getValue(t2);
+                                HashMap<String, String> userGroups = dataSnapshot.child(user).child(member).child(group).getValue(t2);
                                 while (userGroups.values().remove(name)) ;
-                                db.child("users").child(member).child("groups").setValue(userGroups);
+                                db.child(user).child(member).child(group).setValue(userGroups);
                             }
 
-                            db.child("groups").child(name).removeValue();
+                            db.child(group).child(name).removeValue();
                         }
                     }
 
@@ -227,38 +230,7 @@ class DatabaseAccess {
     }
 
 
-    /*
-  This was the method to get group members without a callback
-     */
 
-//    static List<String> getGroupMembers(final String groupName) {
-//        final List<String> members = new ArrayList<String>();
-//        new DatabaseAccessTask(new DatabaseAccessCallback() {
-//            @Override
-//            public void call() throws DatabaseAccessException {
-//                DatabaseReference db = FirebaseDatabase.getInstance().getReference();
-//                DatabaseReference theGroup = db.child("groups").child(groupName);
-//                theGroup.addListenerForSingleValueEvent(new ValueEventListener() {
-//                    @Override
-//                    public void onDataChange(DataSnapshot dataSnapshot) {
-//                        GenericTypeIndicator<ArrayList<String>> t = new GenericTypeIndicator<ArrayList<String>>() {};
-//                        ArrayList<String> snapShotMembers = dataSnapshot.getValue(t);
-//                        for(String member : snapShotMembers) {
-//                            members.add(member);
-//                            System.out.println("FROM DATABASE ACCESS: member" + member);
-//
-//                        }
-//                    }
-//                    @Override
-//                    public void onCancelled(DatabaseError databaseError) {
-//                        // ...
-//                    }
-//                });
-//            }
-//
-//        }).execute();
-//        return members;
-//    }
 
     static void getGroupMembersWithCallback(@NonNull final SimpleCallback<List<String>> finishedCallback, final String groupName) {
         final List<String> members = new ArrayList<String>();
@@ -267,7 +239,7 @@ class DatabaseAccess {
             public void call() throws DatabaseAccessException {
 
                 DatabaseReference db = FirebaseDatabase.getInstance().getReference();
-                DatabaseReference theGroup = db.child("groups").child(groupName);
+                DatabaseReference theGroup = db.child(group).child(groupName);
 
                 theGroup.addChildEventListener(new ChildEventListener() {
                     @Override
@@ -317,15 +289,14 @@ class DatabaseAccess {
             public void call() throws DatabaseAccessException {
 
                 DatabaseReference db = FirebaseDatabase.getInstance().getReference();
-                DatabaseReference theUsers = db.child("users");
 
                 db.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         GenericTypeIndicator<HashMap<String, String>> t = new GenericTypeIndicator<HashMap<String, String>>() {};
-                        HashMap<String,String> snapShotGroups = dataSnapshot.child("groups").child(groupName).getValue(t);
+                        HashMap<String,String> snapShotGroups = dataSnapshot.child(group).child(groupName).getValue(t);
                         GenericTypeIndicator<HashMap<String, Object>> t2 = new GenericTypeIndicator<HashMap<String, Object>>() {};
-                        Set<String> snapShotUsers = dataSnapshot.child("users").getValue(t2).keySet();
+                        Set<String> snapShotUsers = dataSnapshot.child(user).getValue(t2).keySet();
                         for (String userName: snapShotGroups.values()) {
                             snapShotUsers.remove(userName);
                         }
@@ -353,7 +324,7 @@ class DatabaseAccess {
             public void call() throws DatabaseAccessException {
 
                 DatabaseReference db = FirebaseDatabase.getInstance().getReference();
-                DatabaseReference member = db.child("users").child(userName).child("events");
+                DatabaseReference member = db.child(user).child(userName).child("events");
 
                 member.addChildEventListener(new ChildEventListener() {
                     @Override
@@ -405,11 +376,11 @@ class DatabaseAccess {
                     public void onDataChange(DataSnapshot dataSnapshot) {
 
                         GenericTypeIndicator<HashMap<String, String>> t = new GenericTypeIndicator<HashMap<String, String>>() {};
-                        HashMap<String,String> members = dataSnapshot.child("groups").child(groupName).getValue(t);
+                        HashMap<String,String> members = dataSnapshot.child(group).child(groupName).getValue(t);
 
                         for (String user : members.values()) {
                             GenericTypeIndicator<ArrayList<CalendarEvent>> t2 = new GenericTypeIndicator<ArrayList<CalendarEvent>>() {};
-                            List<CalendarEvent> userCalendar = dataSnapshot.child("users").child(user).child("events").getValue(t2);
+                            List<CalendarEvent> userCalendar = dataSnapshot.child(user).child(user).child("events").getValue(t2);
                             allEvents.add(userCalendar);
                         }
 
@@ -426,39 +397,6 @@ class DatabaseAccess {
 
         }).execute();
     }
-
-
-    /*
-    This was the method to get user event list without a callback
-     */
-//    static List<CalendarEvent> getUserEventList(final String userName) {
-//        final List<CalendarEvent> userEvents = new ArrayList<CalendarEvent>();
-//        new DatabaseAccessTask(new DatabaseAccessCallback() {
-//            @Override
-//            public void call() throws DatabaseAccessException {
-//                DatabaseReference db = FirebaseDatabase.getInstance().getReference();
-//                DatabaseReference member = db.child("users").child(userName).child("events");
-//                member.addListenerForSingleValueEvent(new ValueEventListener() {
-//                    @Override
-//                    public void onDataChange(DataSnapshot dataSnapshot) {
-//                        GenericTypeIndicator<ArrayList<CalendarEvent>> t = new GenericTypeIndicator<ArrayList<CalendarEvent>>() {};
-//                        ArrayList<CalendarEvent> snapShotEvents = dataSnapshot.getValue(t);
-//                        for(CalendarEvent thisEvent : snapShotEvents) {
-//                            userEvents.add(thisEvent);
-//                            System.out.println("FROM DATABASE ACCESS: event" + thisEvent);
-//                        }
-//                    }
-//
-//                    @Override
-//                    public void onCancelled(DatabaseError databaseError) {
-//                        // ...
-//                    }
-//                });
-//            }
-//
-//        }).execute();
-//        return userEvents;
-//    }
 
 
     static String parseAccountName(String accountNameString) {

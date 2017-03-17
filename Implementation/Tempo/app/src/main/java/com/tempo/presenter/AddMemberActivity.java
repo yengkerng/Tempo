@@ -15,12 +15,11 @@ import java.util.List;
 public class AddMemberActivity extends Activity {
 
     private static ArrayList<UserEntry> userList;
-    private List<String> databaseUsers;
     private ListView listView;
     private UserListAdapter adapter;
     private String groupName;
-
     private Button addMemberConfirm;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,9 +33,9 @@ public class AddMemberActivity extends Activity {
 
     private void fillListWithUsers() {
         listView = (ListView) findViewById(R.id.databaseUsersList);
-        userList = (ArrayList<UserEntry>) getLastCustomNonConfigurationInstance();
+        userList = getLastCustomNonConfigurationInstance();
         if (userList == null) {
-            userList = new ArrayList<UserEntry>();
+            userList = new ArrayList<>();
 
         }
         adapter = new UserListAdapter(userList);
@@ -61,7 +60,7 @@ public class AddMemberActivity extends Activity {
 
     private void setConfirmAddMemberListener() {
 
-        addMemberConfirm = (Button) findViewById(R.id.addMemberSubmit);
+        Button addMemberConfirm = (Button) findViewById(R.id.addMemberSubmit);
 
         addMemberConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
