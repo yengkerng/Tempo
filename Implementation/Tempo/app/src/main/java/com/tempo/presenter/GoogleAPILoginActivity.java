@@ -6,8 +6,6 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 
@@ -17,7 +15,6 @@ import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccoun
 import com.google.api.client.util.ExponentialBackOff;
 import com.google.api.services.calendar.CalendarScopes;
 
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -143,10 +140,8 @@ public class GoogleAPILoginActivity extends Activity implements EasyPermissions.
                 }
             }
         }
-        else if (requestCode == REQUEST_AUTHORIZATION) {
-            if (resultCode == RESULT_OK) {
-                completeAuthentication();
-            }
+        else if (requestCode == REQUEST_AUTHORIZATION && resultCode == RESULT_OK) {
+            completeAuthentication();
         }
 
     }
@@ -193,17 +188,6 @@ public class GoogleAPILoginActivity extends Activity implements EasyPermissions.
     }
 
     /**
-     * Checks whether the device currently has a network connection.
-     * @return true if the device has a network connection, false otherwise.
-     */
-    private boolean isDeviceOnline() {
-        ConnectivityManager connMgr =
-                (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
-        return networkInfo != null && networkInfo.isConnected();
-    }
-
-    /**
      * Check that Google Play services APK is installed and up to date.
      * @return true if Google Play Services is available and up to
      *     date on this device; false otherwise.
@@ -245,6 +229,6 @@ public class GoogleAPILoginActivity extends Activity implements EasyPermissions.
                 REQUEST_GOOGLE_PLAY_SERVICES);
         dialog.show();
     }
-    
+
 
 }

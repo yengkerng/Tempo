@@ -96,11 +96,9 @@ public class CalendarManager {
          */
         @Override
         protected List<String> doInBackground(Void... params) {
-            Exception mLastError = null;
             try {
                 return calendarEventListToString(getUserEventsFromApi());
             } catch (Exception e) {
-                mLastError = e;
                 cancel(true);
                 return Collections.emptyList();
             }
