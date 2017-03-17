@@ -1,17 +1,12 @@
 package com.tempo.presenter;
 
-import android.content.Context;
-import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.tempo.model.Group;
-
-import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.List;
 
 /**
  * Created by andrewcofano on 3/11/17.
@@ -19,9 +14,9 @@ import java.util.HashSet;
 
 public class GroupListAdapter extends BaseAdapter {
 
-    private ArrayList<String> mDataSource;
+    private List<String> mDataSource;
 
-    public GroupListAdapter(ArrayList<String> items) {
+    public GroupListAdapter(List<String> items) {
         mDataSource = items;
 
     }
@@ -31,30 +26,23 @@ public class GroupListAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         // Get view for row item
 
-        if (convertView == null) {
-            //rowView = mInflater.inflate(R.layout.list_item_group, parent, false);
-            LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-            convertView = inflater.inflate(R.layout.list_item_group, parent, false);
-        }
+        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+        View newView = inflater.inflate(R.layout.list_item_group, parent, false);
 
-        TextView nameOfGroup = (TextView) convertView.findViewById(R.id.nameOfGroup);
+        TextView nameOfGroup = (TextView) newView.findViewById(R.id.nameOfGroup);
         String group = (String) getItem(position);
         nameOfGroup.setText(group);
-        return convertView;
+        return newView;
     }
-
 
     @Override
     public int getCount() {
         return mDataSource.size();
     }
 
-
-    public void setmDataSource(ArrayList<String> mDataSource) {
+    public void setmDataSource(List<String> mDataSource) {
         this.mDataSource = mDataSource;
     }
-
-
 
     @Override
     public Object getItem(int position) {

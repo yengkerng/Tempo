@@ -67,7 +67,6 @@ class DatabaseAccess {
 
         new DatabaseAccessTask(new DatabaseAccessCallback() {
             @Override public void call() throws DatabaseAccessException {
-                
                 final DatabaseReference db = FirebaseDatabase.getInstance().getReference();
                 db.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override public void onDataChange(DataSnapshot dataSnapshot) {

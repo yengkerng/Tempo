@@ -50,10 +50,7 @@ public class EventListAdapter extends BaseAdapter {
 
         nameOfEvent.setText(ce.getEventName());
         startTimeOfEvent.setText(formatter.format(new Date(ce.getStartTime())));
-        //startTimeOfEvent.setText(String.format(Locale.US, "%d", ce.getStartTime()));
-        //dash.setText(" - ");
         endTimeOfEvent.setText(formatter.format(new Date(ce.getEndTime())));
-        //endTimeOfEvent.setText(String.format(Locale.US, "%d", ce.getEndTime()));
         locationOfEvent.setText(ce.getLocation());
 
 
