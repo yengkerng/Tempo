@@ -17,10 +17,6 @@ import java.util.Set;
 public class MeetingTimeAlgorithm {
     final static long FIVEMINUTES = 5 * 60 * ((long)(1000));
 
-    private MeetingTimeAlgorithm() {
-        // ...
-    }
-
     public static List<MeetingTime> run(List<List<CalendarEvent>> events, long start, long end, long duration) {
 
         int numUsers = events.size();
