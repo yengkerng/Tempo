@@ -7,7 +7,6 @@ import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,7 +32,6 @@ import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.client.util.DateTime;
 import com.google.api.services.calendar.Calendar;
 import com.google.api.services.calendar.model.Event;
-import com.google.api.services.calendar.model.EventDateTime;
 import com.google.api.services.calendar.model.Events;
 import com.google.firebase.database.FirebaseDatabase;
 import com.tempo.model.CalendarEvent;
@@ -45,14 +43,14 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Logger;
 
 import static com.tempo.presenter.DatabaseAccess.parseAccountName;
 
 public class MyCalendarActivity extends Activity {
 
-    private final long ONE_DAY_LONG = 1000 * 60 * 60 * 24;
+    private final static long oneDayLong = ((long)(1000)) * 60 * 60 * 24;
 
-    private TableRow calendarTabView;
     private View settingsView;
 
     public enum CalendarType {
@@ -64,8 +62,8 @@ public class MyCalendarActivity extends Activity {
     }
 
     public class CurrentDay {
-        public long start;
-        public long end;
+        private long start;
+        private long end;
 
         public CurrentDay(long start, long end) {
             this.start = start;
@@ -74,41 +72,29 @@ public class MyCalendarActivity extends Activity {
     }
 
     private TableRow calendarTab;
-
-
-    private CalendarManager manager;
     private ViewGroup rootView;
     private ViewGroup tabRootView;
     private View monthView;
-    private View weekView;
     private View dayView;
     private View currentView;
     private View currentTabView;
     private View homeView;
     private View groupsView;
     private ListView dayEventsList;
-    private ListView groupListView;
     private EventListAdapter eventListAdapter;
-    private GroupListAdapter groupListAdapter;
     private CalendarType currentCalendar;
     private TabType currentTab;
     private CalendarView monthlyCalendar;
-    private WeekView weeklyCalendar;
-    private TextView dayDateText;
-
 
 
     private CurrentDay currentDate;
-    private long dateInMillis;
     private String dateString;
 
-    private ArrayList<CalendarEvent> currentDayEventList;
     private ArrayList<String> groupList;
 
-    private static Context context;
+    private Context context;
 
     private EditText newGroupEdit;
-    private Button createGroupButton;
     private String userEmail;
     private String userDisplayName;
 
@@ -121,85 +107,18 @@ public class MyCalendarActivity extends Activity {
         userEmail = userInfo.getString("userEmail");
         userDisplayName = userInfo.getString("username");
         Account.getInstance().userEmail = userEmail;
-        MyCalendarActivity.context = getApplicationContext();
+        context = getApplicationContext();
         setContentView(R.layout.activity_my_calendar);
 
         renderTabs();
         renderCalendar();
-        displayEvents();
         setTabTransitions();
         setCalendarTransitions();
 
         new SyncCalendarTask(Account.getInstance().googleCred).execute();
-        /*
-        /*
-        DatabaseAccess.createGroup("MyGroupppp", Arrays.asList(new String[] { "14bmkelley", "bitsbots3812", "jessieemail" }));
-
-        SimpleCallback<List<String>> cb = new SimpleCallback<List<String>>() {
-            @Override
-            public void callback(List<String> data1) {
-                if (data1 != null) {
-                    for (String member : data1) {
-                        System.out.println("THIS MEMBER!!: " + member);
-                    }
-                } else {
-                    System.out.println("!!!!!!!!!!!!!THE MEMBER ARRAY IS NULL!!!!!!!!!!!!");
-                }
-            }
-        };
-        DatabaseAccess.getGroupMembersWithCallback(cb, "Brandon's Group");
-
-
-        SimpleCallback<List<CalendarEvent>> cb2 = new SimpleCallback<List<CalendarEvent>>() {
-            @Override
-            public void callback(List<CalendarEvent> data2) {
-                if (data2 != null) {
-                    for (CalendarEvent thisEvent : data2) {
-                        System.out.println("THIS EVENT: " + thisEvent);
-                    }
-                } else {
-                    System.out.println("!!!!!!!!!!!!!THE EVENT ARRAY IS NULL!!!!!!!!!!!!");
-                }
-            }
-        };
-        DatabaseAccess.getUserEventListWithCallback(cb2, "14bmkelley");
-
-        SimpleCallback<List<List<CalendarEvent>>> cb3 = new SimpleCallback<List<List<CalendarEvent>>>() {
-            @Override
-            public void callback(List<List<CalendarEvent>> data3) {
-                if (data3 != null) {
-                    int i = 0;
-                    for (List<CalendarEvent> calendar : data3) {
-                        System.out.println("THIS IS CALENDAR #" + i);
-                        i += 1;
-                        for (CalendarEvent thisEvent : calendar) {
-                            System.out.println("    THIS EVENT IN THE CALENDAR: " + thisEvent);
-                        }
-                        System.out.print("\n");
-                    }
-                } else {
-                    System.out.println("!!!!!!!!!!!!!THE GROUP'S EVENT ARRAYS ARE NULL!!!!!!!!!!!!");
-                }
-            }
-        };
-        DatabaseAccess.getAllMembersCalendarEventsWithCallback(cb3, "Brandon's Group");
-*/
-
-/*
-        DatabaseAccess.getAllMembersCalendarEventsWithCallback(new SimpleCallback<List<List<CalendarEvent>>>() {
-            @Override
-            public void callback(List<List<CalendarEvent>> data) {
-                MeetingTimeAlgorithm.execute(data, System.currentTimeMillis() + 1000 * 60 * 60 * 12, System.currentTimeMillis() + 1000 * 60 * 60 * 24, 60 * 60, 1000 * 60 * 50);
-            }
-        }, "Brandon's Group");
-*/
 
     }
 
-
-    public static Context getAppContext() {
-        return MyCalendarActivity.context;
-    }
 
     private void renderTabs() {
         LayoutInflater inflater = getLayoutInflater();
@@ -210,8 +129,6 @@ public class MyCalendarActivity extends Activity {
         currentTab = TabType.HOME;
         rootView.addView(homeView);
 
-        //monthlyCalendar = (CalendarView) findViewById(R.id.monthlyCalendar);
-
         settingsView = inflater.inflate(R.layout.settings_tab, null);
         groupsView   = inflater.inflate(R.layout.group_tab, null);
 
@@ -219,9 +136,10 @@ public class MyCalendarActivity extends Activity {
 
     private void renderCalendar() {
 
+        long dateInMillis;
+
         LayoutInflater inflater = getLayoutInflater();
 
-        //rootView  = (ViewGroup) findViewById(R.id.tabRoot);
         tabRootView = (ViewGroup) findViewById(R.id.homeRoot);
         monthView = inflater.inflate(R.layout.calendar_month, null);
         currentView = monthView;
@@ -230,7 +148,7 @@ public class MyCalendarActivity extends Activity {
 
         monthlyCalendar = (CalendarView) findViewById(R.id.monthlyCalendar);
         dateInMillis = monthlyCalendar.getDate();
-        currentDate = new CurrentDay(monthlyCalendar.getDate(), monthlyCalendar.getDate() + ONE_DAY_LONG);
+        currentDate = new CurrentDay(monthlyCalendar.getDate(), monthlyCalendar.getDate() + oneDayLong);
         SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
         dateString = formatter.format(new Date(dateInMillis));
 
@@ -239,7 +157,7 @@ public class MyCalendarActivity extends Activity {
             public void onSelectedDayChange(CalendarView calendarView, int year, int month, int day) {
                 Toast.makeText(getApplicationContext(), (month + 1) + "/" + day + "/" + year, Toast.LENGTH_SHORT).show();
                 setDateString((month + 1) + "/" + day + "/" + year);
-                currentDate = new CurrentDay(monthlyCalendar.getDate(), monthlyCalendar.getDate() + ONE_DAY_LONG);
+                currentDate = new CurrentDay(monthlyCalendar.getDate(), monthlyCalendar.getDate() + oneDayLong);
                 updateDayView();
             }
         });
@@ -267,22 +185,13 @@ public class MyCalendarActivity extends Activity {
         dateString = newDate;
     }
 
-
-    private void displayEvents() {
-
-    }
-
-
     private void setTabTransitions() {
         // Set listener for switching to home tab
         findViewById(R.id.home).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 MyCalendarActivity.this.setCurrentTab(TabType.HOME);
-                Resources res = getAppContext().getResources();
                 final ImageView image = (ImageView) findViewById(R.id.home);
-                final int color = res.getColor(R.color.currentTabWhite);
-                image.setColorFilter(color, Mode.SRC_ATOP);
 
             }
         });
@@ -292,9 +201,7 @@ public class MyCalendarActivity extends Activity {
             @Override
             public void onClick(View view) {
                 MyCalendarActivity.this.setCurrentTab(TabType.GROUPS);
-                Resources res = getAppContext().getResources();
                 final ImageButton image = (ImageButton) findViewById(R.id.home);
-                //final int color = res.getColor(R.color.currentTabWhite);
                 image.setColorFilter(Color.argb(255, 255, 255, 255));
             }
         });
@@ -304,9 +211,7 @@ public class MyCalendarActivity extends Activity {
             @Override
             public void onClick(View view) {
                 MyCalendarActivity.this.setCurrentTab(TabType.SETTINGS);
-                Resources res = getAppContext().getResources();
                 final ImageButton image = (ImageButton) findViewById(R.id.home);
-                //final int color = res.getColor(R.color.currentTabWhite);
                 image.setColorFilter(Color.argb(255, 255, 255, 255));
             }
         });
@@ -315,8 +220,6 @@ public class MyCalendarActivity extends Activity {
 
 
     public void setCurrentTab(TabType current) {
-
-        ArrayList<User> tempArray;
 
         if (currentTab == current) {
             return;
@@ -336,32 +239,13 @@ public class MyCalendarActivity extends Activity {
 
                 break;
 
-            // case WEEK:
-                /*rootView.addView(weekView);
-                currentView = weekView;
-                currentCalendar = CalendarType.WEEK;
-                break;*/
-
             case GROUPS:
                 rootView.addView(groupsView);
                 currentTabView = groupsView;
                 currentTab = TabType.GROUPS;
                 removeCalendarTabs();
                 setUpGroupTabInteraction();
-                groupList = (ArrayList<String>)DatabaseAccess.getUserGroups(DatabaseAccess.parseAccountName(userEmail));
 
-                groupListView = (ListView) findViewById(R.id.groupList);
-                groupListAdapter = new GroupListAdapter(groupList);
-                groupListView.setAdapter(groupListAdapter);
-
-                groupListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view,int position, long id) {
-                        String selectedGroup = groupList.get(position);
-                        startGroupInfoActivity(selectedGroup);
-
-                    }
-                });
                 break;
                 
             case SETTINGS:
@@ -375,6 +259,26 @@ public class MyCalendarActivity extends Activity {
         }
     }
 
+    private void inflateGroupListView() {
+        ListView groupListView;
+        GroupListAdapter groupListAdapter;
+
+        groupList = (ArrayList<String>)DatabaseAccess.getUserGroups(DatabaseAccess.parseAccountName(userEmail));
+        groupListView = (ListView) findViewById(R.id.groupList);
+        groupListAdapter = new GroupListAdapter(groupList);
+        groupListView.setAdapter(groupListAdapter);
+
+        groupListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view,int position, long id) {
+                String selectedGroup = groupList.get(position);
+                startGroupInfoActivity(selectedGroup);
+
+            }
+        });
+
+    }
+
     private void removeCalendarTabs() {
 
         calendarTab = (TableRow) findViewById(R.id.calendarTabView);
@@ -384,9 +288,13 @@ public class MyCalendarActivity extends Activity {
     private void setUpGroupTabInteraction() {
 
         setUpNewGroupAbility();
+        inflateGroupListView();
+
     }
 
     private void setUpNewGroupAbility() {
+
+        Button createGroupButton;
 
         newGroupEdit = (EditText) findViewById(R.id.newGroup);
         final List<User> users = new ArrayList<>();
@@ -400,7 +308,7 @@ public class MyCalendarActivity extends Activity {
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if (keyCode == KeyEvent.KEYCODE_ENTER) {
                     if (event.getAction() == KeyEvent.ACTION_DOWN) {
-                        createNewGroup(users, userEmailList);
+                        createNewGroup(userEmailList);
                     }
                     return true;
                 }
@@ -414,17 +322,16 @@ public class MyCalendarActivity extends Activity {
         createGroupButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                createNewGroup(users, userEmailList);
+                createNewGroup(userEmailList);
             }
         });
 
     }
 
-    public void createNewGroup(List<User> users, List<String> userEmailList) {
+    public void createNewGroup(List<String> userEmailList) {
         String groupName = newGroupEdit.getText().toString();
         if (groupName.length() != 0) {
 
-            //groupListAdapter.setmDataSource(groupList);
             DatabaseAccess.createGroup(groupName, userEmailList);
             newGroupEdit.setText("");
         }
@@ -466,39 +373,30 @@ public class MyCalendarActivity extends Activity {
 
     public void setCurrentCalendar(CalendarType calendar) {
 
+        TextView dayDateText;
+
         if (calendar == currentCalendar) {
             return;
         }
 
         tabRootView.removeView(currentView);
 
-        switch (calendar) {
+        if (calendar == CalendarType.MONTH) {
+            tabRootView.addView(monthView);
+            currentView = monthView;
+            currentCalendar = CalendarType.MONTH;
 
-            case MONTH:
-                tabRootView.addView(monthView);
-                currentView = monthView;
-                currentCalendar = CalendarType.MONTH;
-                break;
+        }
+        else if (calendar == CalendarType.DAY) {
+            tabRootView.addView(dayView);
+            currentView = dayView;
 
-           // case WEEK:
-                /*rootView.addView(weekView);
-                currentView = weekView;
-                currentCalendar = CalendarType.WEEK;
-                break;*/
+            dayDateText = (TextView) findViewById(R.id.dayDate);
+            dayDateText.setText(dateString);
+            updateDayView();
+            dayEventsList = (ListView) findViewById(R.id.eventList);
 
-            case DAY:
-                tabRootView.addView(dayView);
-                currentView = dayView;
-
-                dayDateText = (TextView) findViewById(R.id.dayDate);
-                dayDateText.setText(dateString);
-                updateDayView();
-                dayEventsList = (ListView) findViewById(R.id.eventList);
-
-                final MyCalendarActivity that = this;
-
-                currentCalendar = CalendarType.DAY;
-
+            currentCalendar = CalendarType.DAY;
         }
 
     }
@@ -537,7 +435,7 @@ public class MyCalendarActivity extends Activity {
                         .setSingleEvents(true)
                         .execute();
                 List<Event> items = events.getItems();
-                List<CalendarEvent> calendarEvents = new ArrayList<CalendarEvent>();
+                List<CalendarEvent> calendarEvents = new ArrayList<>();
                 String eventName;
                 String eventDescription;
                 String location;
