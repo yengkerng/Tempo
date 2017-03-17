@@ -2,7 +2,6 @@ package com.tempo.presenter;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
@@ -14,13 +13,10 @@ import java.util.List;
 
 public class DeleteMemberActivity extends Activity {
 
-    private static ArrayList<UserEntry> userList;
-    private List<String> databaseUsers;
+    private ArrayList<UserEntry> userList;
     private ListView listView;
     private UserListAdapter adapter;
     private String groupName;
-
-    private Button deleteMemberConfirm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,9 +30,9 @@ public class DeleteMemberActivity extends Activity {
 
     private void fillListWithUsers() {
         listView = (ListView) findViewById(R.id.databaseUsersList);
-        userList = (ArrayList<UserEntry>) getLastCustomNonConfigurationInstance();
+        userList = (ArrayList<UserEntry>)getLastCustomNonConfigurationInstance();
         if (userList == null) {
-            userList = new ArrayList<UserEntry>();
+            userList = new ArrayList<>();
 
         }
         adapter = new UserListAdapter(userList);
@@ -61,13 +57,13 @@ public class DeleteMemberActivity extends Activity {
 
 
     private void setConfirmDeleteMemberListener() {
+        Button deleteMemberConfirm;
 
         deleteMemberConfirm = (Button) findViewById(R.id.deleteMemberConfirm);
 
         deleteMemberConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                System.out.println("Got clicked");
                 deleteMembersFromGroup();
                 closeActivity();
             }
@@ -92,7 +88,7 @@ public class DeleteMemberActivity extends Activity {
     }
 
 
-    public ArrayList<UserEntry> getLastCustomNonConfigurationInstance() {
+    public List<UserEntry> getLastCustomNonConfigurationInstance() {
         return userList;
     }
 }

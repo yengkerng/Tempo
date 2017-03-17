@@ -153,10 +153,8 @@ class DatabaseAccess {
                 DatabaseReference db = FirebaseDatabase.getInstance().getReference();
                 db.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override public void onDataChange(DataSnapshot dataSnapshot) {
-                        GenericTypeIndicator<HashMap<String, String>> t = new GenericTypeIndicator<HashMap<String, String>>() {};
-                        HashMap<String,String> snapShotGroups = dataSnapshot.child(group).child(groupName).getValue(t);
-                        GenericTypeIndicator<HashMap<String, Object>> t2 = new GenericTypeIndicator<HashMap<String, Object>>() {};
-                        Set<String> snapShotUsers = dataSnapshot.child(user).getValue(t2).keySet();
+                        HashMap<String,String> snapShotGroups = dataSnapshot.child(group).child(groupName).getValue(new GenericTypeIndicator<HashMap<String, String>>() {});
+                        Set<String> snapShotUsers = dataSnapshot.child(user).getValue(new GenericTypeIndicator<HashMap<String, Object>>() {}).keySet();
                         for (String userName: snapShotGroups.values()) {
                             snapShotUsers.remove(userName);
                         }
@@ -171,7 +169,7 @@ class DatabaseAccess {
         }).execute();
     }
 
-    static void getUserEventListWithCallback(@NonNull final SimpleCallback<List<CalendarEvent>> finishedCallback,final String userName, long startTime, long endTime) {
+    static void getUserEventListWithCallback(@NonNull final SimpleCallback<List<CalendarEvent>> finishedCallback,final String userName) {
         final List<CalendarEvent> userEvents = new ArrayList<>();
         new DatabaseAccessTask(new DatabaseAccessCallback() {
             @Override public void call() throws DatabaseAccessException {
@@ -202,9 +200,9 @@ class DatabaseAccess {
                     @Override public void onDataChange(DataSnapshot dataSnapshot) {
                         GenericTypeIndicator<HashMap<String, String>> t = new GenericTypeIndicator<HashMap<String, String>>() {};
                         HashMap<String,String> members = dataSnapshot.child(group).child(groupName).getValue(t);
-                        for (String user : members.values()) {
+                        for (String specificUser : members.values()) {
                             GenericTypeIndicator<ArrayList<CalendarEvent>> t2 = new GenericTypeIndicator<ArrayList<CalendarEvent>>() {};
-                            List<CalendarEvent> userCalendar = dataSnapshot.child(user).child(user).child(events).getValue(t2);
+                            List<CalendarEvent> userCalendar = dataSnapshot.child(user).child(specificUser).child(events).getValue(t2);
                             allEvents.add(userCalendar);
                         }
                         finishedCallback.callback(allEvents);

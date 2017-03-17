@@ -161,7 +161,7 @@ public class MyCalendarActivity extends Activity {
                     dayEventsList.setAdapter(eventListAdapter);
                 }
             }
-        }, parseAccountName(userEmail), currentDate.start, currentDate.end);
+        }, parseAccountName(userEmail));
 
     }
 
