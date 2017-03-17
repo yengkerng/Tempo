@@ -21,6 +21,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.logging.Logger;
 
 
 /**
@@ -100,7 +101,7 @@ public class CalendarManager {
             try {
                 return calendarEventListToString(getUserEventsFromApi());
             } catch (Exception e) {
-                Log.d("debug", e.toString());
+                Logger.getAnonymousLogger().info(e.getMessage());
                 cancel(true);
                 return Collections.emptyList();
             }
