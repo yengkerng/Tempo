@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import com.tempo.model.UserEntry;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by andrewcofano on 3/15/17.
@@ -18,9 +18,9 @@ import java.util.ArrayList;
 
 public class UserListAdapter extends BaseAdapter {
 
-    private ArrayList<UserEntry> mUsers;
+    private List<UserEntry> mUsers;
 
-    public UserListAdapter(ArrayList<UserEntry> users) {
+    public UserListAdapter(List<UserEntry> users) {
         mUsers = users;
     }
 
@@ -42,13 +42,12 @@ public class UserListAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        if (convertView == null) {
-            LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-            convertView = inflater.inflate(R.layout.list_item_user, parent, false);
-        }
+        
+        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+        View newView = inflater.inflate(R.layout.list_item_user, parent, false);
 
-        TextView textView = (TextView) convertView.findViewById(R.id.userNameView);
-        CheckBox checkBox = (CheckBox) convertView.findViewById(R.id.checkbox);
+        TextView textView = (TextView) newView.findViewById(R.id.userNameView);
+        CheckBox checkBox = (CheckBox) newView.findViewById(R.id.checkbox);
         final UserEntry userEntry = (UserEntry) getItem(position);
 
         textView.setText(userEntry.getText());
@@ -62,10 +61,10 @@ public class UserListAdapter extends BaseAdapter {
 
         checkBox.setChecked(userEntry.isCheck());
 
-        return convertView;
+        return newView;
     }
 
-    public void setmDataSource(ArrayList<UserEntry> mDataSource) {
+    public void setmDataSource(List<UserEntry> mDataSource) {
         this.mUsers = mDataSource;
     }
 }

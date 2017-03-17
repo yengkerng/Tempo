@@ -94,8 +94,8 @@ class DatabaseAccess {
                         HashMap<String, String> groupRef = dataSnapshot.child(group).child(groupName).getValue(new GenericTypeIndicator<HashMap<String, String>>() {});
                         HashMap<String, String> userRef = dataSnapshot.child(user).child(userName).child(group).getValue(new GenericTypeIndicator<HashMap<String, String>>() {});
                         if (groupRef != null && userRef != null) {
-                            while(groupRef.values().remove(userName));
-                            while(userRef.values().remove(groupName));
+                            groupRef.values().remove(userName);
+                            userRef.values().remove(groupName);
                             db.child(group).child(groupName).setValue(groupRef);
                             db.child(user).child(userName).child(group).setValue(userRef);
                         }
