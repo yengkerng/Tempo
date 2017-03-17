@@ -6,25 +6,23 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.NumberPicker;
 import android.widget.TextView;
 
-import com.google.api.client.util.DateTime;
 import com.tempo.model.CalendarEvent;
 
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 public class MeetingTimeActivity extends Activity {
 
     private ViewGroup rootView;
-    private View formView, meetingTimeView;
-    private String group, userEmail;
+    private View formView;
+    private View meetingTimeView;
+    private String group;
+    private String userEmail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,42 +58,38 @@ public class MeetingTimeActivity extends Activity {
                 final long delta = (Integer.parseInt(((EditText) findViewById(R.id.meeting_time_hours)).getText().toString()) * 60
                     + Integer.parseInt(((EditText) findViewById(R.id.meeting_time_minutes)).getText().toString())) * 60 * 1000;
 
-                DatabaseAccess.getAllMembersCalendarEventsWithCallback(new SimpleCallback<List<List<CalendarEvent>>>() {
-                    @Override
-                    public void callback(List<List<CalendarEvent>> data) {
-
-                        final List<MeetingTimeAlgorithm.MeetingTime> meetingTimes =
-                                MeetingTimeAlgorithm.run(data, start, end, delta);
-
-                        rootView.removeView(formView);
-                        rootView.addView(meetingTimeView);
-
-                        ListView meetingTimeList = (ListView) findViewById(R.id.meeting_times);
-                        MeetingTimeAdapter adapter = new MeetingTimeAdapter(MeetingTimeActivity.this, meetingTimes);
-
-                        meetingTimeList.setAdapter(adapter);
-
-                        meetingTimeList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                            @Override
-                            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                                CalendarEvent event = new CalendarEvent(title, "This event created by Tempo!", location, start, start + delta, userEmail);
-                                DatabaseAccess.addEventToGroup(group, event, new SimpleCallback<Void>() {
-                                    @Override
-                                    public void callback(Void data) {
-                                        finish();
-                                    }
-                                });
-                            }
-                        });
-
-                    }
-                }, group);
+                getMemberCalendars(start, end, delta, title, location);
 
             }
         });
 
     }
 
+    public void getMemberCalendars(final long start, final long end, final long delta, final String title, final String location) {
+        DatabaseAccess.getAllMembersCalendarEventsWithCallback(new SimpleCallback<List<List<CalendarEvent>>>() {
+            @Override
+            public void callback(List<List<CalendarEvent>> data) {
+                final List<MeetingTimeAlgorithm.MeetingTime> meetingTimes = MeetingTimeAlgorithm.run(data, start, end, delta);
+                rootView.removeView(formView);
+                rootView.addView(meetingTimeView);
+                ListView meetingTimeList = (ListView) findViewById(R.id.meeting_times);
+                MeetingTimeAdapter adapter = new MeetingTimeAdapter(MeetingTimeActivity.this, meetingTimes);
+                meetingTimeList.setAdapter(adapter);
+                meetingTimeList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                        CalendarEvent event = new CalendarEvent(title, "This event created by Tempo!", location, start, start + delta, userEmail);
+                        DatabaseAccess.addEventToGroup(group, event, new SimpleCallback<Void>() {
+                            @Override
+                            public void callback(Void data) {
+                                finish();
+                            }
+                        });
+                    }
+                });
+            }
+        }, group);
+    }
     public long millisFromDatePicker(int view) {
         Calendar calendar = Calendar.getInstance();
         DatePicker dateView = (DatePicker) findViewById(view);
