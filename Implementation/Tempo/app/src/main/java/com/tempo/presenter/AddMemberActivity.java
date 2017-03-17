@@ -14,11 +14,10 @@ import java.util.List;
 
 public class AddMemberActivity extends Activity {
 
-    private static ArrayList<UserEntry> userList;
+    private ArrayList<UserEntry> userList;
     private ListView listView;
     private UserListAdapter adapter;
     private String groupName;
-    private Button addMemberConfirm;
 
 
     @Override
@@ -33,7 +32,7 @@ public class AddMemberActivity extends Activity {
 
     private void fillListWithUsers() {
         listView = (ListView) findViewById(R.id.databaseUsersList);
-        userList = getLastCustomNonConfigurationInstance();
+        userList = (ArrayList<UserEntry>)getLastCustomNonConfigurationInstance();
         if (userList == null) {
             userList = new ArrayList<>();
 
@@ -43,7 +42,7 @@ public class AddMemberActivity extends Activity {
             @Override
             public void callback(List<String> data) {
                 for (String user: data) {
-                    if (!userList.contains(user)) {
+                    if (!userList.contains(new UserEntry(user, false))) {
                         userList.add(new UserEntry(user, false));
                     }
                 }
@@ -95,7 +94,7 @@ public class AddMemberActivity extends Activity {
     }
 
 
-    public ArrayList<UserEntry> getLastCustomNonConfigurationInstance() {
+    public List<UserEntry> getLastCustomNonConfigurationInstance() {
         return userList;
     }
 }

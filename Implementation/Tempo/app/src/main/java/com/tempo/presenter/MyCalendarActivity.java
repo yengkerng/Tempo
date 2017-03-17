@@ -1,9 +1,7 @@
 package com.tempo.presenter;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -14,8 +12,6 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CalendarView;
 import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -44,7 +40,7 @@ import static com.tempo.presenter.DatabaseAccess.parseAccountName;
 
 public class MyCalendarActivity extends Activity {
 
-    private final static long ONEDAY = ((long)(1000)) * 60 * 60 * 24;
+    private static final long ONEDAY = ((long)(1000)) * 60 * 60 * 24;
 
     private View settingsView;
 
