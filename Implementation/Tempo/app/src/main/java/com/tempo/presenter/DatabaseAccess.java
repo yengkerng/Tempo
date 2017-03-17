@@ -28,12 +28,10 @@ class DatabaseAccess {
         new DatabaseAccessTask(new DatabaseAccessCallback() {
             @Override
             public void call() throws DatabaseAccessException {
-                FirebaseDatabase.getInstance().getReference().child(group).child(name)
-                        .addListenerForSingleValueEvent(new ValueEventListener() {
+                FirebaseDatabase.getInstance().getReference().child(group).child(name).addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
                             public void onDataChange(DataSnapshot dataSnapshot) {
-                                if (dataSnapshot.getChildrenCount() > 0)
-                                    return;
+                                if (dataSnapshot.getChildrenCount() > 0) {return;}
                                 DatabaseReference db = FirebaseDatabase.getInstance().getReference();
                                 DatabaseReference newGroup = FirebaseDatabase.getInstance().getReference().child(group).child(name);
                                 for (String member : members) {
@@ -80,7 +78,7 @@ class DatabaseAccess {
                         HashMap<String, String> groupRef = dataSnapshot.child(group).child(groupName).getValue(type);
                         for (String groupMember : groupRef.values()) {
                             GenericTypeIndicator<List<CalendarEvent>> type2 = new GenericTypeIndicator<List<CalendarEvent>>() {};
-                            List<CalendarEvent> memberEvents = dataSnapshot.child(user).child(groupMember).child("events").getValue(type2);
+                            List<CalendarEvent> memberEvents = dataSnapshot.child(user).child(groupMember).child(events).getValue(type2);
                             memberEvents.add(event);
                             db.child(user).child(groupMember).child(events).setValue(memberEvents);
                         }
@@ -106,6 +104,8 @@ class DatabaseAccess {
                         HashMap<String, String> groupRef = dataSnapshot.child(group).child(groupName).getValue(t1);
                         HashMap<String, String> userRef = dataSnapshot.child(user).child(userName).child(group).getValue(t1);
                         if (groupRef != null && userRef != null) {
+                            while(groupRef.values().remove(userName));
+                            while(userRef.values().remove(groupName));
                             db.child(group).child(groupName).setValue(groupRef);
                             db.child(user).child(userName).child(group).setValue(userRef);
                         }
@@ -248,7 +248,7 @@ class DatabaseAccess {
                         HashMap<String,String> members = dataSnapshot.child(group).child(groupName).getValue(t);
                         for (String user : members.values()) {
                             GenericTypeIndicator<ArrayList<CalendarEvent>> t2 = new GenericTypeIndicator<ArrayList<CalendarEvent>>() {};
-                            List<CalendarEvent> userCalendar = dataSnapshot.child(user).child(user).child("events").getValue(t2);
+                            List<CalendarEvent> userCalendar = dataSnapshot.child(user).child(user).child(events).getValue(t2);
                             allEvents.add(userCalendar);
                         }
                         finishedCallback.callback(allEvents);

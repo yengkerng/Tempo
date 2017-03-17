@@ -87,8 +87,8 @@ public class AddMemberActivity extends Activity {
     private void addMembersToGroup() {
 
         for (UserEntry user: userList) {
-            if (user.check){
-                DatabaseAccess.addUserToGroup(user.text, groupName);
+            if (user.isCheck()){
+                DatabaseAccess.addUserToGroup(user.getText(), groupName);
             }
         }
     }

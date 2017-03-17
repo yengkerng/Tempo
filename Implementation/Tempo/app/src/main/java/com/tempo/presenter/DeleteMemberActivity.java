@@ -2,6 +2,7 @@ package com.tempo.presenter;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
@@ -66,6 +67,7 @@ public class DeleteMemberActivity extends Activity {
         deleteMemberConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                System.out.println("Got clicked");
                 deleteMembersFromGroup();
                 closeActivity();
             }
@@ -82,8 +84,9 @@ public class DeleteMemberActivity extends Activity {
     private void deleteMembersFromGroup() {
 
         for (UserEntry user: userList) {
-            if (user.check){
-                DatabaseAccess.deleteUserFromGroup(user.text, groupName);
+            if (user.isCheck()){
+                DatabaseAccess.deleteUserFromGroup(user.getText(), groupName);
+
             }
         }
     }

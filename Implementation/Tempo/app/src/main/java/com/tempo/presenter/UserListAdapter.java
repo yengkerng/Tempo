@@ -51,16 +51,16 @@ public class UserListAdapter extends BaseAdapter {
         CheckBox checkBox = (CheckBox) convertView.findViewById(R.id.checkbox);
         final UserEntry userEntry = (UserEntry) getItem(position);
 
-        textView.setText(userEntry.text);
+        textView.setText(userEntry.getText());
 
         checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                userEntry.check = isChecked;
+                userEntry.setCheck(isChecked);
             }
         });
 
-        checkBox.setChecked(userEntry.check);
+        checkBox.setChecked(userEntry.isCheck());
 
         return convertView;
     }
