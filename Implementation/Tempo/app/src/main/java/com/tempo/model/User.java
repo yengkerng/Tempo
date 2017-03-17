@@ -19,7 +19,7 @@ public class User {
     }
 
     public Group createNewGroup(String groupName) {
-        ArrayList<User> members = new ArrayList<User>();
+        ArrayList<User> members = new ArrayList<>();
         members.add(this);
         Group newGroup = new Group(groupName, this, members, null);
         newGroup.name = groupName;
@@ -54,9 +54,6 @@ public class User {
 
     public List<Group> getGroups () {
         return groups;
-    }
-
-    public void changeLanguage(String language) {
     }
 
 }

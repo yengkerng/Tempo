@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -98,24 +99,17 @@ public class FirebaseLoginActivity extends Activity {
                     .addOnCompleteListener(FirebaseLoginActivity.this, new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
-
                             if (task.isSuccessful()) {
                                 Intent calendarIntent = new Intent(FirebaseLoginActivity.this, MyCalendarActivity.class);
                                 Bundle userInfo = new Bundle();
                                 userInfo.putString("userEmail", account.getEmail());
                                 userInfo.putString("username", account.getDisplayName());
                                 calendarIntent.putExtras(userInfo);
-                                /*if (account.getDisplayName() != null && account.getEmail() != null) {
-                                    calendarIntent.putExtra("userEmail", account.getEmail());
-                                    calendarIntent.putExtra("username", account.getDisplayName());
-                                }*/
                                 startActivity(calendarIntent);
                             }
                             else {
-                                task.getException().printStackTrace();
-                                /* You should probably report this. */
+                                Log.getStackTraceString(task.getException());
                             }
-
                         }
                     });
 
