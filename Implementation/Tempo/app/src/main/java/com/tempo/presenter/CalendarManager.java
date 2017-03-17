@@ -1,6 +1,7 @@
 package com.tempo.presenter;
 
 import android.os.AsyncTask;
+import android.util.Log;
 
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
@@ -99,6 +100,7 @@ public class CalendarManager {
             try {
                 return calendarEventListToString(getUserEventsFromApi());
             } catch (Exception e) {
+                Log.d("debug", e.toString());
                 cancel(true);
                 return Collections.emptyList();
             }
