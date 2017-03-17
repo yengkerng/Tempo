@@ -55,7 +55,7 @@ public class MeetingTimeActivity extends Activity {
                 final String location = ((TextView) findViewById(R.id.meeting_time_location)).getText().toString();
                 final long start = MeetingTimeActivity.this.millisFromDatePicker(R.id.meeting_time_start);
                 final long end = MeetingTimeActivity.this.millisFromDatePicker(R.id.meeting_time_end);
-                final long delta = (Integer.parseInt(((EditText) findViewById(R.id.meeting_time_hours)).getText().toString()) * 60
+                final long delta = (long) (Integer.parseInt(((EditText) findViewById(R.id.meeting_time_hours)).getText().toString()) * 60
                     + Integer.parseInt(((EditText) findViewById(R.id.meeting_time_minutes)).getText().toString())) * 60 * 1000;
 
                 getMemberCalendars(start, end, delta, title, location);

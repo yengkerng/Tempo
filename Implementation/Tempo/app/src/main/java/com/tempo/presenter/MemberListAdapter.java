@@ -7,12 +7,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.tempo.model.Group;
-import com.tempo.model.User;
-
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
 /**
  * Created by andrewcofano on 3/13/17.
@@ -22,9 +17,9 @@ public class MemberListAdapter extends BaseAdapter {
 
     private Context mContext;
     private LayoutInflater mInflater;
-    private ArrayList<String> mDataSource;
+    private List<String> mDataSource;
 
-    public MemberListAdapter(android.content.Context context, ArrayList<String> items) {
+    public MemberListAdapter(android.content.Context context, List<String> items) {
         mContext = context;
         mDataSource = items;
         mInflater = (LayoutInflater) mContext.getSystemService(android.content.Context.LAYOUT_INFLATER_SERVICE);
@@ -55,7 +50,7 @@ public class MemberListAdapter extends BaseAdapter {
     }
 
 
-    public void setmDataSource(ArrayList<String> mDataSource) {
+    public void setmDataSource(List<String> mDataSource) {
         this.mDataSource = mDataSource;
     }
 
