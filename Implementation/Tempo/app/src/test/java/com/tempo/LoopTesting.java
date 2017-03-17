@@ -176,55 +176,48 @@ public class LoopTesting {
 
     @Test
     public void testInitializeUserLoopNoBody() {
-        MeetingTimeAlgorithm thisTest = new MeetingTimeAlgorithm();
         HashMap<Long, Integer> usersFree = new HashMap<Long, Integer>();
-        assertEquals(usersFree, thisTest.initializeUserFreeMap(1, 0, 0));
+        assertEquals(usersFree, MeetingTimeAlgorithm.initializeUserFreeMap(1, 0, 0));
     }
     @Test
     public void testInitializeUserLoopOnce() {
-        MeetingTimeAlgorithm thisTest = new MeetingTimeAlgorithm();
         HashMap<Long, Integer> usersFree = new HashMap<Long, Integer>();
         usersFree.put(0l, 0);
-        assertEquals(usersFree, thisTest.initializeUserFreeMap(0, 0, 0));
+        assertEquals(usersFree, MeetingTimeAlgorithm.initializeUserFreeMap(0, 0, 0));
     }
     @Test
     public void testInitializeUserLoopTwice() {
-        MeetingTimeAlgorithm thisTest = new MeetingTimeAlgorithm();
         HashMap<Long, Integer> usersFree = new HashMap<Long, Integer>();
         usersFree.put(0l, 0);
         usersFree.put(5 * 60 * 1000l, 0);
-        assertEquals(usersFree, thisTest.initializeUserFreeMap(0, 5 * 60 * 1000, 0));
+        assertEquals(usersFree, MeetingTimeAlgorithm.initializeUserFreeMap(0, 5 * 60 * 1000, 0));
     }
     @Test
     public void testInitializeUserLoopTypicalNumber() {
-        MeetingTimeAlgorithm thisTest = new MeetingTimeAlgorithm();
-        HashMap<Long, Integer> usersFree = new HashMap<Long, Integer>();
+]        HashMap<Long, Integer> usersFree = new HashMap<Long, Integer>();
         usersFree.put(0l, 0);
         usersFree.put(5 * 60 * 1000l, 0);
         usersFree.put(5 * 60 * 1000 * 2l, 0);
-        assertEquals(usersFree, thisTest.initializeUserFreeMap(0, 5 * 60 * 1000 * 2, 0));
+        assertEquals(usersFree, MeetingTimeAlgorithm.initializeUserFreeMap(0, 5 * 60 * 1000 * 2, 0));
     }
 
     @Test
     public void testCalculateFreeTimesLoopNoBody() {
-        MeetingTimeAlgorithm thisTest = new MeetingTimeAlgorithm();
         List<List<CalendarEvent>> userEventsList = new ArrayList<>();
-        thisTest.calculateFreeTimes(userEventsList, 0, null);
+        MeetingTimeAlgorithm.calculateFreeTimes(userEventsList, 0, null);
     }
     @Test
     public void testCalculateFreeTimesLoopOnce() {
-        MeetingTimeAlgorithm thisTest = new MeetingTimeAlgorithm();
         List<CalendarEvent> userEvents = new ArrayList<CalendarEvent>();
         HashMap<Long, Integer> usersFree = new HashMap<Long, Integer>();
         HashMap<Long, Integer> tester = new HashMap<Long, Integer>();
         List<List<CalendarEvent>> userEventsList = new ArrayList<>();
         userEventsList.add(userEvents);
-        thisTest.calculateFreeTimes(userEventsList, 0, usersFree);
+        MeetingTimeAlgorithm.calculateFreeTimes(userEventsList, 0, usersFree);
         assertEquals(tester, usersFree);
     }
     @Test
     public void testCalculateFreeTimesLoopTwice() {
-        MeetingTimeAlgorithm thisTest = new MeetingTimeAlgorithm();
         List<CalendarEvent> userEvents = new ArrayList<CalendarEvent>();
         List<CalendarEvent> userEvents2 = new ArrayList<CalendarEvent>();
         HashMap<Long, Integer> usersFree = new HashMap<Long, Integer>();
@@ -232,12 +225,11 @@ public class LoopTesting {
         List<List<CalendarEvent>> userEventsList = new ArrayList<>();
         userEventsList.add(userEvents);
         userEventsList.add(userEvents2);
-        thisTest.calculateFreeTimes(userEventsList, 0, usersFree);
+        MeetingTimeAlgorithm.calculateFreeTimes(userEventsList, 0, usersFree);
         assertEquals(tester, usersFree);
     }
     @Test
     public void testCalculateFreeTimesLoopTypicalNumber() {
-        MeetingTimeAlgorithm thisTest = new MeetingTimeAlgorithm();
         List<CalendarEvent> userEvents = new ArrayList<CalendarEvent>();
         List<CalendarEvent> userEvents2 = new ArrayList<CalendarEvent>();
         List<CalendarEvent> userEvents3 = new ArrayList<CalendarEvent>();
@@ -247,25 +239,23 @@ public class LoopTesting {
         userEventsList.add(userEvents);
         userEventsList.add(userEvents2);
         userEventsList.add(userEvents3);
-        thisTest.calculateFreeTimes(userEventsList, 0, usersFree);
+        MeetingTimeAlgorithm.calculateFreeTimes(userEventsList, 0, usersFree);
         assertEquals(tester, usersFree);
     }
 
     @Test
     public void testGetUniqueTimesNoBody() {
-        MeetingTimeAlgorithm thisTest = new MeetingTimeAlgorithm();
         List<CalendarEvent> userEvents = new ArrayList<CalendarEvent>();
         List<CalendarEvent> userEvents2 = new ArrayList<CalendarEvent>();
         List<CalendarEvent> userEvents3 = new ArrayList<CalendarEvent>();
         HashMap<Long, Integer> usersFree = new HashMap<Long, Integer>();
         HashMap<Long, Integer> tester = new HashMap<Long, Integer>();
         List<List<CalendarEvent>> userEventsList = new ArrayList<>();
-        thisTest.getUniqueTime(userEventsList, 0, usersFree, userEvents);
+        MeetingTimeAlgorithm.getUniqueTime(0, usersFree, userEvents);
         assertEquals(tester, usersFree);
     }
     @Test
     public void testGetUniqueTimesOnce() {
-        MeetingTimeAlgorithm thisTest = new MeetingTimeAlgorithm();
         List<CalendarEvent> userEvents = new ArrayList<CalendarEvent>();
         List<CalendarEvent> userEvents2 = new ArrayList<CalendarEvent>();
         List<CalendarEvent> userEvents3 = new ArrayList<CalendarEvent>();
@@ -273,12 +263,11 @@ public class LoopTesting {
         HashMap<Long, Integer> tester = new HashMap<Long, Integer>();
         List<List<CalendarEvent>> userEventsList = new ArrayList<>();
         userEventsList.add(userEvents);
-        thisTest.getUniqueTime(userEventsList, 0, usersFree, userEvents);
+        MeetingTimeAlgorithm.getUniqueTime(0, usersFree, userEvents);
         assertEquals(tester, usersFree);
     }
     @Test
     public void testGetUniqueTimesTwice() {
-        MeetingTimeAlgorithm thisTest = new MeetingTimeAlgorithm();
         List<CalendarEvent> userEvents = new ArrayList<CalendarEvent>();
         List<CalendarEvent> userEvents2 = new ArrayList<CalendarEvent>();
         List<CalendarEvent> userEvents3 = new ArrayList<CalendarEvent>();
@@ -287,12 +276,11 @@ public class LoopTesting {
         List<List<CalendarEvent>> userEventsList = new ArrayList<>();
         userEventsList.add(userEvents);
         userEventsList.add(userEvents2);
-        thisTest.getUniqueTime(userEventsList, 0, usersFree, userEvents);
+        MeetingTimeAlgorithm.getUniqueTime(0, usersFree, userEvents);
         assertEquals(tester, usersFree);
     }
     @Test
     public void testGetUniqueTimesTypicalNumber() {
-        MeetingTimeAlgorithm thisTest = new MeetingTimeAlgorithm();
         List<CalendarEvent> userEvents = new ArrayList<CalendarEvent>();
         List<CalendarEvent> userEvents2 = new ArrayList<CalendarEvent>();
         List<CalendarEvent> userEvents3 = new ArrayList<CalendarEvent>();
@@ -302,7 +290,7 @@ public class LoopTesting {
         userEventsList.add(userEvents);
         userEventsList.add(userEvents2);
         userEventsList.add(userEvents3);
-        thisTest.getUniqueTime(userEventsList, 0, usersFree, userEvents);
+        MeetingTimeAlgorithm.getUniqueTime(0, usersFree, userEvents);
         assertEquals(tester, usersFree);
     }
 
