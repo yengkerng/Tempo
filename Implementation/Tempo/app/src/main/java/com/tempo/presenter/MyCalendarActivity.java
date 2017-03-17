@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -52,16 +53,6 @@ public class MyCalendarActivity extends Activity {
         HOME, GROUPS, SETTINGS
     }
 
-    public class CurrentDay {
-        private long start;
-        private long end;
-
-        public CurrentDay(long start, long end) {
-            this.start = start;
-            this.end = end;
-        }
-    }
-
     private TableRow calendarTab;
     private ViewGroup rootView;
     private ViewGroup tabRootView;
@@ -77,7 +68,6 @@ public class MyCalendarActivity extends Activity {
     private TabType currentTab;
     private CalendarView monthlyCalendar;
 
-    private CurrentDay currentDate;
     private String dateString;
     private ArrayList<String> groupList;
     private EditText newGroupEdit;
@@ -133,7 +123,6 @@ public class MyCalendarActivity extends Activity {
 
         monthlyCalendar = (CalendarView) findViewById(R.id.monthlyCalendar);
         dateInMillis = monthlyCalendar.getDate();
-        currentDate = new CurrentDay(monthlyCalendar.getDate(), monthlyCalendar.getDate() + ONEDAY);
         SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
         dateString = formatter.format(new Date(dateInMillis));
 
@@ -142,7 +131,6 @@ public class MyCalendarActivity extends Activity {
             public void onSelectedDayChange(CalendarView calendarView, int year, int month, int day) {
                 Toast.makeText(getApplicationContext(), (month + 1) + "/" + day + "/" + year, Toast.LENGTH_SHORT).show();
                 setDateString((month + 1) + "/" + day + "/" + year);
-                currentDate = new CurrentDay(monthlyCalendar.getDate(), monthlyCalendar.getDate() + ONEDAY);
                 updateDayView();
             }
         });
@@ -434,7 +422,7 @@ public class MyCalendarActivity extends Activity {
                         .child("events").setValue(calendarEvents);
             }
             catch (Exception e) {
-                e.printStackTrace();
+                Log.getStackTraceString(e);
             }
             return null;
         }
